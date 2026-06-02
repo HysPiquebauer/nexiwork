@@ -1,0 +1,1280 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nexiwork — Mise en relation professionnelle B2B</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+/* ── CONFIGURATION MANQUANTE ── */
+.setup-banner { background: linear-gradient(135deg,#1e3a8a,#7C3AED); color: white; padding: 14px 24px; text-align: center; font-size: 14px; font-weight: 600; display: none; }
+.setup-banner a { color: #93C5FD; text-decoration: underline; cursor: pointer; }
+
+:root {
+  --blue:#2563EB; --blue-hover:#1D4ED8; --blue-light:#EFF6FF; --blue-mid:#BFDBFE; --blue-dark:#1E3A8A;
+  --teal:#059669; --teal-light:#ECFDF5;
+  --amber:#D97706; --amber-light:#FFFBEB;
+  --red:#DC2626;
+  --text:#111827; --text-2:#374151; --text-3:#6B7280; --text-4:#9CA3AF;
+  --border:#E5E7EB; --border-2:#D1D5DB;
+  --bg:#F9FAFB; --bg-2:#F3F4F6; --white:#FFFFFF;
+  --radius-sm:8px; --radius:12px; --radius-lg:16px; --radius-xl:24px;
+  --shadow-sm:0 1px 2px rgba(0,0,0,0.05);
+  --shadow:0 1px 3px rgba(0,0,0,0.07),0 1px 2px rgba(0,0,0,0.04);
+  --shadow-md:0 4px 6px rgba(0,0,0,0.05),0 2px 4px rgba(0,0,0,0.04);
+  --shadow-lg:0 10px 30px rgba(0,0,0,0.08),0 4px 8px rgba(0,0,0,0.04);
+  --shadow-blue:0 8px 24px rgba(37,99,235,0.18);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',-apple-system,sans-serif;background:var(--bg);color:var(--text);font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased}
+a{text-decoration:none;color:inherit}
+button{cursor:pointer;font-family:'Inter',sans-serif}
+input,textarea,select{font-family:'Inter',sans-serif}
+
+/* NAV */
+.nav{background:rgba(255,255,255,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}
+.nav-inner{max-width:1120px;margin:0 auto;padding:0 28px;height:62px;display:flex;align-items:center;justify-content:space-between}
+.logo{display:flex;align-items:center;gap:10px;cursor:pointer;user-select:none}
+.logo-mark{width:34px;height:34px;background:linear-gradient(135deg,var(--blue) 0%,#7C3AED 100%);border-radius:10px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(37,99,235,0.35)}
+.logo-mark i{color:white;font-size:18px}
+.logo-text{font-size:19px;font-weight:800;letter-spacing:-0.5px;color:var(--text)}
+.logo-text span{color:var(--blue)}
+.nav-links{display:flex;gap:2px;align-items:center}
+.nav-link{padding:7px 14px;border-radius:var(--radius-sm);color:var(--text-3);font-size:14px;font-weight:500;cursor:pointer;transition:all .15s;border:none;background:none}
+.nav-link:hover{background:var(--bg);color:var(--text)}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;gap:7px;padding:9px 20px;border-radius:var(--radius-sm);font-size:14px;font-weight:600;border:none;cursor:pointer;transition:all .18s;white-space:nowrap}
+.btn-primary{background:linear-gradient(135deg,var(--blue) 0%,#3B82F6 100%);color:white;box-shadow:var(--shadow-blue)}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:0 12px 28px rgba(37,99,235,0.28)}
+.btn-primary:active{transform:translateY(0)}
+.btn-outline{background:var(--white);border:1.5px solid var(--border-2);color:var(--text-2);box-shadow:var(--shadow-sm)}
+.btn-outline:hover{border-color:var(--blue);color:var(--blue);background:var(--blue-light)}
+.btn-ghost{background:transparent;border:none;color:var(--text-3)}
+.btn-ghost:hover{color:var(--text);background:var(--bg-2)}
+.btn-success{background:var(--teal);color:white}
+.btn-success:hover{transform:translateY(-1px)}
+.btn-danger{background:var(--red);color:white}
+.btn-premium{background:linear-gradient(135deg,#D97706 0%,#F59E0B 100%);color:white;box-shadow:0 4px 14px rgba(217,119,6,0.3)}
+.btn-premium:hover{transform:translateY(-1px)}
+.btn-sm{padding:6px 14px;font-size:13px}
+.btn-lg{padding:13px 28px;font-size:16px;border-radius:var(--radius)}
+.btn:disabled{opacity:.55;cursor:not-allowed;transform:none!important}
+
+/* LAYOUT */
+.page{display:none}.page.active{display:block}
+.container{max-width:1120px;margin:0 auto;padding:0 28px}
+
+/* HERO */
+.hero{background:linear-gradient(160deg,#EFF6FF 0%,#F0F4FF 40%,#F9FAFB 100%);padding:80px 28px 72px;text-align:center;position:relative;overflow:hidden;border-bottom:1px solid var(--border)}
+.hero::before{content:'';position:absolute;top:-120px;right:-120px;width:500px;height:500px;background:radial-gradient(circle,rgba(37,99,235,0.08) 0%,transparent 70%);pointer-events:none}
+.hero-badge{display:inline-flex;align-items:center;gap:6px;background:white;border:1px solid var(--blue-mid);color:var(--blue);font-size:12px;font-weight:600;padding:5px 14px;border-radius:20px;margin-bottom:24px;box-shadow:0 2px 8px rgba(37,99,235,0.1)}
+.hero h1{font-size:52px;font-weight:800;color:var(--text);line-height:1.15;letter-spacing:-1.5px;max-width:700px;margin:0 auto 20px}
+.gradient-text{background:linear-gradient(135deg,var(--blue) 0%,#7C3AED 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-sub{font-size:18px;color:var(--text-3);max-width:480px;margin:0 auto 36px;line-height:1.65}
+.hero-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.hero-trust{display:flex;align-items:center;justify-content:center;gap:20px;margin-top:36px;flex-wrap:wrap}
+.trust-item{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--text-3);font-weight:500}
+.trust-item i{color:var(--teal);font-size:15px}
+.search-hero{max-width:560px;margin:40px auto 0;display:flex;background:var(--white);border:1.5px solid var(--border-2);border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow-lg);transition:box-shadow .2s,border-color .2s}
+.search-hero:focus-within{border-color:var(--blue);box-shadow:0 0 0 4px rgba(37,99,235,0.1),var(--shadow-lg)}
+.search-hero input{flex:1;border:none;padding:15px 20px;font-size:15px;outline:none;color:var(--text);background:transparent}
+.search-hero input::placeholder{color:var(--text-4)}
+.search-hero button{background:linear-gradient(135deg,var(--blue) 0%,#3B82F6 100%);color:white;border:none;padding:15px 24px;font-size:14px;font-weight:600;display:flex;align-items:center;gap:6px}
+
+/* STATS */
+.stats-bar{background:var(--white);border-bottom:1px solid var(--border);padding:28px}
+.stats-inner{max-width:1120px;margin:0 auto;display:flex;justify-content:center}
+.stat{text-align:center;padding:0 48px;border-right:1px solid var(--border)}
+.stat:last-child{border-right:none}
+.stat-num{font-size:28px;font-weight:800;letter-spacing:-0.5px;background:linear-gradient(135deg,var(--blue),#7C3AED);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.stat-lbl{font-size:13px;color:var(--text-3);margin-top:2px;font-weight:500}
+
+/* SECTIONS */
+.section{padding:80px 28px}
+.section-alt{background:var(--white);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.section-header{text-align:center;margin-bottom:52px}
+.section-eyebrow{display:inline-block;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--blue);background:var(--blue-light);padding:4px 12px;border-radius:20px;margin-bottom:14px}
+.section-header h2{font-size:32px;font-weight:800;letter-spacing:-0.5px;margin-bottom:10px}
+.section-header p{font-size:17px;color:var(--text-3);max-width:420px;margin:0 auto}
+
+/* STEPS */
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:24px;max-width:960px;margin:0 auto}
+.step{background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);padding:28px 24px;text-align:center;transition:all .2s}
+.step:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg);border-color:var(--blue-mid)}
+.step-num{width:44px;height:44px;background:linear-gradient(135deg,var(--blue),#7C3AED);color:white;font-weight:800;font-size:16px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;box-shadow:0 4px 12px rgba(37,99,235,0.3)}
+.step h3{font-size:15px;font-weight:700;margin-bottom:8px}
+.step p{font-size:13px;color:var(--text-3);line-height:1.6}
+
+/* CARDS */
+.cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:18px}
+.profile-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);padding:22px;cursor:pointer;transition:all .22s cubic-bezier(.4,0,.2,1)}
+.profile-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg);border-color:var(--blue-mid)}
+.profile-card-header{display:flex;align-items:center;gap:14px;margin-bottom:14px}
+.avatar{width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:800;flex-shrink:0;letter-spacing:-0.5px}
+.avatar-lg{width:68px;height:68px;font-size:22px;border-radius:18px}
+.company-name{font-size:15px;font-weight:700;letter-spacing:-0.2px}
+.company-type{font-size:12px;color:var(--text-3);margin-top:1px;font-weight:500}
+.tags{display:flex;flex-wrap:wrap;gap:5px;margin:10px 0}
+.tag{font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;background:var(--bg-2);color:var(--text-3);border:1px solid var(--border)}
+.tag-blue{background:var(--blue-light);color:var(--blue);border-color:var(--blue-mid)}
+.card-desc{font-size:13px;color:var(--text-3);line-height:1.6;margin:10px 0}
+.card-footer{display:flex;align-items:center;justify-content:space-between;margin-top:14px;padding-top:14px;border-top:1px solid var(--border)}
+.stars{display:flex;align-items:center;gap:2px;font-size:13px}
+.star{color:#E5E7EB;font-size:14px}.star.on{color:#F59E0B}
+.stars-score{font-weight:700;font-size:13px;margin-left:4px}
+.stars-count{color:var(--text-3);font-size:12px;margin-left:2px}
+.tarif-badge{font-size:12px;font-weight:600;color:var(--text-2);background:var(--bg-2);padding:3px 10px;border-radius:20px;border:1px solid var(--border)}
+.verified-badge{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;color:var(--teal);background:var(--teal-light);padding:3px 9px;border-radius:20px}
+.premium-badge{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;color:var(--amber);background:var(--amber-light);padding:3px 9px;border-radius:20px}
+
+/* AUTH */
+.auth-page{min-height:calc(100vh - 62px);display:flex;align-items:center;justify-content:center;padding:48px 24px;background:linear-gradient(160deg,#EFF6FF,#F9FAFB)}
+.auth-box{background:var(--white);border:1px solid var(--border);border-radius:var(--radius-xl);padding:40px;width:100%;max-width:440px;box-shadow:var(--shadow-lg)}
+.auth-logo{display:flex;align-items:center;gap:10px;margin-bottom:28px}
+.auth-box h2{font-size:24px;font-weight:800;letter-spacing:-0.5px;margin-bottom:6px}
+.auth-box .sub{color:var(--text-3);font-size:14px;margin-bottom:28px}
+.form-group{margin-bottom:18px}
+.form-group label{display:block;font-size:13px;font-weight:600;color:var(--text-2);margin-bottom:6px}
+.form-group input,.form-group select,.form-group textarea{width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-size:14px;outline:none;color:var(--text);background:var(--white);transition:border-color .15s,box-shadow .15s}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(37,99,235,0.1)}
+.form-group textarea{resize:vertical;min-height:88px;line-height:1.6}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.form-error{color:var(--red);font-size:13px;margin-top:4px;font-weight:500}
+.auth-switch{text-align:center;font-size:14px;color:var(--text-3);margin-top:20px}
+.auth-switch a{color:var(--blue);cursor:pointer;font-weight:600}
+.demo-hint{background:var(--blue-light);border:1px solid var(--blue-mid);border-radius:var(--radius-sm);padding:10px 14px;font-size:13px;color:var(--blue);margin-top:16px;text-align:center}
+
+/* DASHBOARD */
+.dash-layout{max-width:1120px;margin:0 auto;padding:36px 28px;display:grid;grid-template-columns:256px 1fr;gap:28px;align-items:start}
+.sidebar{background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px;box-shadow:var(--shadow-sm)}
+.sidebar-user{padding:16px;text-align:center;border-bottom:1px solid var(--border);margin-bottom:10px}
+.s-name{font-size:14px;font-weight:700;margin-top:10px}
+.s-type{font-size:12px;color:var(--text-3);margin-top:2px}
+.sidebar-item{width:100%;display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:var(--radius-sm);font-size:14px;font-weight:500;color:var(--text-3);border:none;background:none;cursor:pointer;text-align:left;transition:all .15s}
+.sidebar-item i{font-size:18px;width:20px}
+.sidebar-item:hover{background:var(--bg);color:var(--text)}
+.sidebar-item.active{background:var(--blue-light);color:var(--blue);font-weight:600}
+.sidebar-item.danger{color:#EF4444}
+.sidebar-item.danger:hover{background:#FEF2F2}
+.dash-content{background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);padding:28px;box-shadow:var(--shadow-sm);min-height:500px}
+.dash-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;padding-bottom:20px;border-bottom:1px solid var(--border)}
+.dash-title{font-size:20px;font-weight:800;letter-spacing:-0.3px}
+.metric-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-bottom:28px}
+.metric-card{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:18px}
+.metric-card .m-icon{font-size:22px;color:var(--blue);margin-bottom:10px}
+.metric-card .m-val{font-size:26px;font-weight:800;letter-spacing:-0.5px}
+.metric-card .m-lbl{font-size:12px;color:var(--text-3);margin-top:2px;font-weight:500}
+
+/* PROFILE VIEW */
+.profile-view{max-width:920px;margin:0 auto;padding:36px 28px}
+.profile-view-header{background:var(--white);border:1px solid var(--border);border-radius:var(--radius-xl);padding:32px;margin-bottom:20px;box-shadow:var(--shadow-md)}
+.profile-top{display:flex;align-items:flex-start;gap:22px;margin-bottom:20px}
+.profile-info h1{font-size:24px;font-weight:800;letter-spacing:-0.5px;margin-bottom:6px}
+.profile-meta{display:flex;gap:16px;flex-wrap:wrap;font-size:14px;color:var(--text-3);font-weight:500}
+.profile-meta span{display:flex;align-items:center;gap:5px}
+.profile-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+.back-btn{display:inline-flex;align-items:center;gap:6px;font-size:14px;font-weight:600;color:var(--text-3);background:var(--white);border:1px solid var(--border);padding:8px 16px;border-radius:var(--radius-sm);cursor:pointer;margin-bottom:24px;transition:all .15s}
+.back-btn:hover{color:var(--blue);border-color:var(--blue);background:var(--blue-light)}
+
+/* MESSAGES */
+.messages-wrap{background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;display:grid;grid-template-columns:290px 1fr;height:620px}
+.msg-list{border-right:1px solid var(--border);overflow-y:auto}
+.msg-list-header{padding:16px;font-size:13px;font-weight:700;color:var(--text-3);text-transform:uppercase;letter-spacing:.06em;border-bottom:1px solid var(--border)}
+.msg-list-item{padding:14px 16px;border-bottom:1px solid var(--border);cursor:pointer;transition:background .15s}
+.msg-list-item:hover{background:var(--bg)}
+.msg-list-item.active{background:var(--blue-light)}
+.msg-list-item .m-name{font-size:14px;font-weight:700;margin-bottom:2px;display:flex;align-items:center;gap:6px}
+.msg-list-item .m-preview{font-size:12px;color:var(--text-3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.msg-list-item .m-time{font-size:11px;color:var(--text-4);float:right}
+.unread-dot{width:8px;height:8px;background:var(--blue);border-radius:50%;flex-shrink:0}
+.msg-thread{display:flex;flex-direction:column}
+.msg-thread-header{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;background:var(--white)}
+.msg-thread-name{font-weight:700;font-size:15px}
+.msg-thread-sub{font-size:12px;color:var(--text-3);margin-top:1px}
+.msg-body{flex:1;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:10px;background:var(--bg)}
+.msg-row{display:flex}.msg-row.me{justify-content:flex-end}
+.bubble{max-width:68%;padding:11px 15px;border-radius:14px;font-size:14px;line-height:1.55}
+.bubble.them{background:var(--white);border:1px solid var(--border);color:var(--text);border-bottom-left-radius:4px}
+.bubble.me{background:linear-gradient(135deg,var(--blue),#3B82F6);color:white;border-bottom-right-radius:4px;box-shadow:0 4px 12px rgba(37,99,235,0.25)}
+.bubble-time{font-size:11px;color:var(--text-4);margin-top:3px}
+.bubble-time.me{text-align:right}
+.msg-input-row{padding:14px 16px;border-top:1px solid var(--border);display:flex;gap:10px;background:var(--white)}
+.msg-input-row input{flex:1;padding:11px 16px;border:1.5px solid var(--border);border-radius:var(--radius-sm);outline:none;font-size:14px;color:var(--text)}
+.msg-input-row input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(37,99,235,0.1)}
+.msg-placeholder{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;color:var(--text-3);background:var(--bg)}
+.msg-placeholder i{font-size:36px;color:var(--border-2)}
+
+/* QUOTES */
+.quote-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:14px;transition:box-shadow .15s}
+.quote-card:hover{box-shadow:var(--shadow-md)}
+.quote-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px}
+.q-status{font-size:12px;font-weight:700;padding:4px 12px;border-radius:20px}
+.s-pending{background:var(--amber-light);color:var(--amber)}
+.s-accepted{background:var(--teal-light);color:var(--teal)}
+.s-declined{background:#FEF2F2;color:var(--red)}
+
+/* PRICING */
+.pricing-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:22px;max-width:920px;margin:0 auto}
+.pricing-card{background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius-xl);padding:32px;transition:all .2s;position:relative}
+.pricing-card:hover{box-shadow:var(--shadow-lg)}
+.pricing-card.featured{border-color:var(--blue);box-shadow:var(--shadow-blue)}
+.pricing-popular{position:absolute;top:-14px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,var(--blue),#7C3AED);color:white;font-size:12px;font-weight:700;padding:4px 16px;border-radius:20px;white-space:nowrap}
+.p-tier{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text-3);margin-bottom:8px}
+.p-tier.blue{color:var(--blue)}
+.price-num{font-size:38px;font-weight:800;letter-spacing:-1px;margin:10px 0 2px}
+.price-period{font-size:13px;color:var(--text-3);margin-bottom:24px}
+.price-features{list-style:none;display:flex;flex-direction:column;gap:12px;margin-bottom:28px}
+.price-features li{font-size:14px;display:flex;align-items:center;gap:10px;font-weight:500}
+.price-features li .fi{color:var(--teal);font-size:16px}
+.price-features li.off{color:var(--text-3);font-weight:400}
+.price-features li.off .fi{color:var(--border-2)}
+
+/* DIRECTORY */
+.dir-top{max-width:1120px;margin:0 auto;padding:36px 28px 0}
+.dir-filters{background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);padding:18px 20px;display:flex;gap:12px;flex-wrap:wrap;align-items:center;box-shadow:var(--shadow-sm);margin-bottom:28px}
+.dir-filters input{flex:1;min-width:220px;padding:10px 14px;border:1.5px solid var(--border);border-radius:var(--radius-sm);outline:none;font-size:14px;color:var(--text)}
+.dir-filters input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(37,99,235,0.08)}
+.dir-filters select{padding:10px 14px;border:1.5px solid var(--border);border-radius:var(--radius-sm);outline:none;font-size:14px;background:var(--white);color:var(--text);font-weight:500}
+.dir-count{font-size:13px;color:var(--text-3);font-weight:600;margin-bottom:16px}
+.dir-grid-wrap{max-width:1120px;margin:0 auto;padding:0 28px 48px}
+
+/* MODAL */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(17,24,39,0.5);backdrop-filter:blur(4px);z-index:200;align-items:center;justify-content:center;padding:24px}
+.modal-overlay.open{display:flex}
+.modal{background:var(--white);border-radius:var(--radius-xl);padding:36px;width:100%;max-width:500px;max-height:90vh;overflow-y:auto;box-shadow:0 24px 64px rgba(0,0,0,0.18)}
+.modal h3{font-size:20px;font-weight:800;letter-spacing:-0.3px;margin-bottom:4px}
+.modal-sub{font-size:14px;color:var(--text-3);margin-bottom:24px}
+.modal-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:24px;padding-top:20px;border-top:1px solid var(--border)}
+.star-picker{display:flex;gap:6px;font-size:32px;cursor:pointer;margin-bottom:4px}
+
+/* TOAST */
+.toast{position:fixed;bottom:28px;right:28px;padding:13px 20px;border-radius:var(--radius);font-size:14px;font-weight:600;z-index:999;opacity:0;transform:translateY(12px);transition:all .28s cubic-bezier(.4,0,.2,1);pointer-events:none;display:flex;align-items:center;gap:8px;box-shadow:0 8px 24px rgba(0,0,0,0.15)}
+.toast.show{opacity:1;transform:translateY(0)}
+.toast-default{background:var(--text);color:white}
+.toast-success{background:linear-gradient(135deg,#059669,#10B981);color:white}
+.toast-error{background:linear-gradient(135deg,#DC2626,#EF4444);color:white}
+
+/* LOADING */
+.loading{display:flex;align-items:center;justify-content:center;padding:60px;gap:10px;color:var(--text-3)}
+.spinner{width:20px;height:20px;border:2px solid var(--border);border-top-color:var(--blue);border-radius:50%;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* EMPTY */
+.empty{text-align:center;padding:64px 20px}
+.empty-icon{width:64px;height:64px;background:var(--bg-2);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px}
+.empty-icon i{font-size:28px;color:var(--border-2)}
+.empty h3{font-size:16px;font-weight:700;margin-bottom:6px}
+.empty p{font-size:14px;color:var(--text-3)}
+
+/* MISC */
+.divider{border:none;border-top:1px solid var(--border);margin:22px 0}
+.flex{display:flex;align-items:center}
+.gap-2{gap:8px}
+
+/* FOOTER */
+.footer{background:var(--white);border-top:1px solid var(--border);padding:32px 28px}
+.footer-inner{max-width:1120px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px}
+.footer-links{display:flex;gap:24px;font-size:13px;color:var(--text-3);font-weight:500}
+.footer-links span{cursor:pointer}.footer-links span:hover{color:var(--blue)}
+
+@media(max-width:768px){
+  .hero h1{font-size:34px}
+  .dash-layout{grid-template-columns:1fr}
+  .messages-wrap{grid-template-columns:1fr;height:auto}
+  .form-row{grid-template-columns:1fr}
+  .stats-inner{flex-wrap:wrap}
+  .stat{padding:16px 24px;border-right:none;border-bottom:1px solid var(--border)}
+  .stat:last-child{border-bottom:none}
+}
+</style>
+</head>
+<body>
+
+<!-- BANNER CONFIG MANQUANTE -->
+<div class="setup-banner" id="setup-banner">
+  ⚠️ Nexiwork tourne en mode local. Pour activer la base de données, configure tes clés Supabase dans le fichier.
+</div>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="logo" onclick="navigate('home')">
+      <div class="logo-mark"><i class="ti ti-topology-star-3"></i></div>
+      <span class="logo-text">Nexi<span>work</span></span>
+    </div>
+    <div class="nav-links">
+      <button class="nav-link" onclick="navigate('directory')"><i class="ti ti-search" style="font-size:15px;vertical-align:-2px"></i> Explorer</button>
+      <button class="nav-link" onclick="navigate('pricing')">Tarifs</button>
+      <span id="nav-auth" style="display:flex;align-items:center;gap:8px;margin-left:8px"></span>
+    </div>
+  </div>
+</nav>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- MODAL DEVIS -->
+<div class="modal-overlay" id="modal-devis">
+  <div class="modal">
+    <h3>Demande de devis</h3>
+    <p class="modal-sub" id="modal-devis-target"></p>
+    <div class="form-group"><label>Description du projet</label><textarea id="devis-desc" rows="4" placeholder="Décrivez votre besoin en détail..."></textarea></div>
+    <div class="form-row">
+      <div class="form-group"><label>Budget estimé (CHF)</label><input type="number" id="devis-budget" placeholder="ex. 2500"></div>
+      <div class="form-group"><label>Délai souhaité</label><select id="devis-delai"><option>Dès que possible</option><option>Dans 2 semaines</option><option>Dans 1 mois</option><option>Dans 3 mois</option><option>Flexible</option></select></div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal('modal-devis')">Annuler</button>
+      <button class="btn btn-primary" id="btn-send-devis" onclick="submitDevis()"><i class="ti ti-send"></i> Envoyer</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL REVIEW -->
+<div class="modal-overlay" id="modal-review">
+  <div class="modal">
+    <h3>Laisser un avis</h3>
+    <p class="modal-sub" id="modal-review-target"></p>
+    <div class="form-group"><label>Votre note</label><div class="star-picker" id="star-picker"></div><input type="hidden" id="review-stars" value="5"></div>
+    <div class="form-group"><label>Votre commentaire</label><textarea id="review-comment" rows="3" placeholder="Partagez votre expérience..."></textarea></div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal('modal-review')">Annuler</button>
+      <button class="btn btn-primary" id="btn-send-review" onclick="submitReview()"><i class="ti ti-check"></i> Publier</button>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE HOME -->
+<div id="page-home" class="page">
+  <div class="hero">
+    <div class="hero-badge"><i class="ti ti-map-pin" style="font-size:13px"></i> Suisse romande — Genève &amp; Vaud</div>
+    <h1>Le réseau B2B de<br><span class="gradient-text">confiance en Suisse</span></h1>
+    <p class="hero-sub">Connectez votre entreprise aux meilleurs partenaires locaux. Sous-traitance, collaboration, devis — en quelques clics.</p>
+    <div class="hero-btns">
+      <button class="btn btn-primary btn-lg" onclick="navigate('register')"><i class="ti ti-building-store"></i> Créer mon profil gratuitement</button>
+      <button class="btn btn-outline btn-lg" onclick="navigate('directory')"><i class="ti ti-search"></i> Explorer l'annuaire</button>
+    </div>
+    <div class="search-hero">
+      <input type="text" id="hero-search" placeholder="Plombier, électricien, comptable, développeur web..." onkeydown="if(event.key==='Enter')heroSearch()">
+      <button onclick="heroSearch()"><i class="ti ti-search"></i> Rechercher</button>
+    </div>
+    <div class="hero-trust">
+      <div class="trust-item"><i class="ti ti-circle-check"></i> Profils vérifiés</div>
+      <div class="trust-item"><i class="ti ti-circle-check"></i> Avis authentiques</div>
+      <div class="trust-item"><i class="ti ti-circle-check"></i> 100% B2B Suisse</div>
+      <div class="trust-item"><i class="ti ti-circle-check"></i> Gratuit pour démarrer</div>
+    </div>
+  </div>
+  <div class="stats-bar">
+    <div class="stats-inner">
+      <div class="stat"><div class="stat-num" id="stat-companies">–</div><div class="stat-lbl">Entreprises inscrites</div></div>
+      <div class="stat"><div class="stat-num">12</div><div class="stat-lbl">Secteurs couverts</div></div>
+      <div class="stat"><div class="stat-num" id="stat-reviews">–</div><div class="stat-lbl">Avis vérifiés</div></div>
+      <div class="stat"><div class="stat-num">Genève</div><div class="stat-lbl">Lancement initial</div></div>
+    </div>
+  </div>
+  <div class="section section-alt">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-eyebrow">Comment ça marche</div>
+        <h2>De l'inscription à la collaboration<br>en 4 étapes simples</h2>
+      </div>
+      <div class="steps">
+        <div class="step"><div class="step-num">1</div><h3>Créez votre profil</h3><p>Secteur, services, tarifs indicatifs, certifications. Votre vitrine professionnelle validée.</p></div>
+        <div class="step"><div class="step-num">2</div><h3>Matching intelligent</h3><p>Notre algorithme vous propose des partenaires adaptés à vos besoins.</p></div>
+        <div class="step"><div class="step-num">3</div><h3>Demandez un devis</h3><p>Envoyez une demande directe et échangez via la messagerie intégrée.</p></div>
+        <div class="step"><div class="step-num">4</div><h3>Notez &amp; fidélisez</h3><p>Avis vérifiés après chaque collaboration pour construire votre réputation.</p></div>
+      </div>
+    </div>
+  </div>
+  <div class="section">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-eyebrow">Annuaire</div>
+        <h2>Derniers profils vérifiés</h2>
+        <p>Entreprises récemment inscrites dans votre région</p>
+      </div>
+      <div class="cards-grid" id="home-profiles"><div class="loading"><div class="spinner"></div>Chargement...</div></div>
+      <div style="text-align:center;margin-top:36px">
+        <button class="btn btn-outline btn-lg" onclick="navigate('directory')">Voir tous les profils <i class="ti ti-arrow-right"></i></button>
+      </div>
+    </div>
+  </div>
+  <div class="footer">
+    <div class="footer-inner">
+      <div class="logo">
+        <div class="logo-mark" style="width:28px;height:28px"><i class="ti ti-topology-star-3" style="font-size:15px"></i></div>
+        <span class="logo-text" style="font-size:16px">Nexi<span>work</span></span>
+      </div>
+      <div class="footer-links">
+        <span onclick="navigate('pricing')">Tarifs</span>
+        <span>Contact</span>
+        <span>Confidentialité</span>
+        <span>© 2026 Nexiwork SA</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE LOGIN -->
+<div id="page-login" class="page">
+  <div class="auth-page">
+    <div class="auth-box">
+      <div class="auth-logo">
+        <div class="logo-mark"><i class="ti ti-topology-star-3"></i></div>
+        <span class="logo-text">Nexi<span>work</span></span>
+      </div>
+      <h2>Bon retour 👋</h2>
+      <p class="sub">Connectez-vous à votre espace Nexiwork</p>
+      <div class="form-group"><label>Email professionnel</label><input type="email" id="login-email" placeholder="vous@entreprise.ch"></div>
+      <div class="form-group"><label>Mot de passe</label><input type="password" id="login-pass" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()"></div>
+      <div id="login-error" class="form-error" style="margin-bottom:12px"></div>
+      <button class="btn btn-primary" id="btn-login" style="width:100%;justify-content:center;padding:12px" onclick="doLogin()">Se connecter <i class="ti ti-arrow-right"></i></button>
+      <p class="auth-switch" style="margin-top:16px">Pas encore de compte ? <a onclick="navigate('register')">Créer un profil</a></p>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE REGISTER -->
+<div id="page-register" class="page">
+  <div class="auth-page" style="align-items:flex-start;padding-top:48px">
+    <div class="auth-box" style="max-width:520px">
+      <div class="auth-logo">
+        <div class="logo-mark"><i class="ti ti-topology-star-3"></i></div>
+        <span class="logo-text">Nexi<span>work</span></span>
+      </div>
+      <h2>Créez votre profil entreprise</h2>
+      <p class="sub">Rejoignez le réseau B2B de confiance en Suisse romande</p>
+      <div class="form-row">
+        <div class="form-group"><label>Nom de l'entreprise *</label><input type="text" id="reg-company" placeholder="Ex. Maçonnerie Dupont"></div>
+        <div class="form-group"><label>Type *</label><select id="reg-type"><option value="">Choisir...</option><option>PME</option><option>Artisan</option><option>Indépendant</option><option>Profession libérale</option><option>SA / Sàrl</option></select></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>Secteur *</label><select id="reg-sector"><option value="">Choisir...</option><option>Construction & Rénovation</option><option>Électricité & Domotique</option><option>Plomberie & Chauffage</option><option>Informatique & Tech</option><option>Finance & Comptabilité</option><option>Droit & Juridique</option><option>Marketing & Communication</option><option>Architecture & Design</option><option>Transport & Logistique</option><option>Nettoyage & Entretien</option><option>Sécurité</option><option>Autre</option></select></div>
+        <div class="form-group"><label>Région *</label><select id="reg-region"><option value="">Choisir...</option><option>Genève</option><option>Vaud</option><option>Fribourg</option><option>Valais</option><option>Neuchâtel</option><option>Jura</option></select></div>
+      </div>
+      <div class="form-group"><label>Description de vos services *</label><textarea id="reg-desc" rows="3" placeholder="Décrivez ce que vous faites, vos spécialités..."></textarea></div>
+      <div class="form-row">
+        <div class="form-group"><label>Tarif horaire (CHF)</label><input type="number" id="reg-tarif" placeholder="ex. 120"></div>
+        <div class="form-group"><label>Téléphone</label><input type="tel" id="reg-phone" placeholder="+41 79 000 00 00"></div>
+      </div>
+      <hr class="divider">
+      <div class="form-row">
+        <div class="form-group"><label>Email *</label><input type="email" id="reg-email" placeholder="vous@entreprise.ch"></div>
+        <div class="form-group"><label>Mot de passe *</label><input type="password" id="reg-pass" placeholder="Min. 6 caractères"></div>
+      </div>
+      <div id="reg-error" class="form-error" style="margin-bottom:12px"></div>
+      <button class="btn btn-primary" id="btn-register" style="width:100%;justify-content:center;padding:12px" onclick="doRegister()"><i class="ti ti-rocket"></i> Créer mon profil gratuitement</button>
+      <p class="auth-switch" style="margin-top:16px">Déjà inscrit ? <a onclick="navigate('login')">Se connecter</a></p>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE DIRECTORY -->
+<div id="page-directory" class="page">
+  <div class="dir-top">
+    <div style="margin-bottom:20px">
+      <h1 style="font-size:26px;font-weight:800;letter-spacing:-0.5px;margin-bottom:4px">Annuaire des entreprises</h1>
+      <p style="font-size:15px;color:var(--text-3)">Trouvez le partenaire idéal parmi les profils vérifiés en Suisse romande</p>
+    </div>
+    <div class="dir-filters">
+      <i class="ti ti-search" style="color:var(--text-3);font-size:18px;flex-shrink:0"></i>
+      <input type="text" id="dir-search" placeholder="Rechercher par nom, secteur, service..." oninput="filterDirectory()" style="border:none;box-shadow:none;padding:0;font-size:15px">
+      <div style="width:1px;height:24px;background:var(--border);margin:0 4px"></div>
+      <select id="dir-sector" onchange="filterDirectory()"><option value="">Tous les secteurs</option><option>Construction & Rénovation</option><option>Électricité & Domotique</option><option>Plomberie & Chauffage</option><option>Informatique & Tech</option><option>Finance & Comptabilité</option><option>Droit & Juridique</option><option>Marketing & Communication</option><option>Architecture & Design</option><option>Transport & Logistique</option><option>Nettoyage & Entretien</option><option>Sécurité</option></select>
+      <select id="dir-region" onchange="filterDirectory()"><option value="">Toutes les régions</option><option>Genève</option><option>Vaud</option><option>Fribourg</option><option>Valais</option><option>Neuchâtel</option><option>Jura</option></select>
+      <select id="dir-sort" onchange="filterDirectory()"><option value="rating">Mieux notés</option><option value="newest">Plus récents</option></select>
+    </div>
+    <div class="dir-count" id="dir-results-count"></div>
+  </div>
+  <div class="dir-grid-wrap"><div class="cards-grid" id="dir-grid"><div class="loading"><div class="spinner"></div>Chargement...</div></div></div>
+</div>
+
+<!-- PAGE PROFILE -->
+<div id="page-profile" class="page"><div class="profile-view" id="profile-view-content"></div></div>
+
+<!-- PAGE DASHBOARD -->
+<div id="page-dashboard" class="page">
+  <div class="dash-layout">
+    <div>
+      <div class="sidebar">
+        <div class="sidebar-user" id="dash-sidebar-user"><div class="loading" style="padding:16px"><div class="spinner"></div></div></div>
+        <button class="sidebar-item active" onclick="showDashTab('overview')" id="tab-overview"><i class="ti ti-layout-dashboard"></i> Vue d'ensemble</button>
+        <button class="sidebar-item" onclick="showDashTab('profile')" id="tab-profile"><i class="ti ti-user-circle"></i> Mon profil</button>
+        <button class="sidebar-item" onclick="showDashTab('messages')" id="tab-messages"><i class="ti ti-message-circle"></i> Messages <span id="msg-badge"></span></button>
+        <button class="sidebar-item" onclick="showDashTab('quotes')" id="tab-quotes"><i class="ti ti-file-invoice"></i> Devis</button>
+        <button class="sidebar-item" onclick="showDashTab('reviews')" id="tab-reviews"><i class="ti ti-star"></i> Avis reçus</button>
+        <button class="sidebar-item" onclick="showDashTab('premium')" id="tab-premium"><i class="ti ti-crown"></i> Premium</button>
+        <hr class="divider">
+        <button class="sidebar-item danger" onclick="doLogout()"><i class="ti ti-logout"></i> Déconnexion</button>
+      </div>
+    </div>
+    <div class="dash-content" id="dash-content"><div class="loading"><div class="spinner"></div>Chargement...</div></div>
+  </div>
+</div>
+
+<!-- PAGE PRICING -->
+<div id="page-pricing" class="page">
+  <div class="section">
+    <div class="section-header">
+      <div class="section-eyebrow">Tarifs</div>
+      <h2>Simple, transparent, sans surprise</h2>
+      <p>Commencez gratuitement et évoluez selon vos besoins</p>
+    </div>
+    <div class="pricing-grid">
+      <div class="pricing-card">
+        <div class="p-tier">Freemium</div>
+        <div class="price-num">CHF 0</div>
+        <div class="price-period">Pour démarrer — sans carte de crédit</div>
+        <ul class="price-features">
+          <li><i class="ti ti-check fi"></i>Profil entreprise visible</li>
+          <li><i class="ti ti-check fi"></i>Apparaître dans les recherches</li>
+          <li><i class="ti ti-check fi"></i>Recevoir des demandes de devis</li>
+          <li><i class="ti ti-check fi"></i>3 messages / mois</li>
+          <li class="off"><i class="ti ti-x fi"></i>Mise en avant dans les résultats</li>
+          <li class="off"><i class="ti ti-x fi"></i>Leads vérifiés illimités</li>
+          <li class="off"><i class="ti ti-x fi"></i>Badge Premium</li>
+          <li class="off"><i class="ti ti-x fi"></i>Statistiques de profil</li>
+        </ul>
+        <button class="btn btn-outline" style="width:100%;justify-content:center" onclick="navigate('register')">Commencer gratuitement</button>
+      </div>
+      <div class="pricing-card featured">
+        <div class="pricing-popular">Le plus populaire</div>
+        <div class="p-tier blue">Premium</div>
+        <div class="price-num" style="background:linear-gradient(135deg,var(--blue),#7C3AED);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">CHF 35</div>
+        <div class="price-period">Par mois — Sans engagement</div>
+        <ul class="price-features">
+          <li><i class="ti ti-check fi"></i>Tout ce qui est inclus en Freemium</li>
+          <li><i class="ti ti-check fi"></i>Mise en avant dans les recherches</li>
+          <li><i class="ti ti-check fi"></i>Messages illimités</li>
+          <li><i class="ti ti-check fi"></i>Badge Premium vérifié</li>
+          <li><i class="ti ti-check fi"></i>Leads vérifiés illimités</li>
+          <li><i class="ti ti-check fi"></i>Statistiques détaillées</li>
+          <li><i class="ti ti-check fi"></i>Support prioritaire</li>
+          <li><i class="ti ti-check fi"></i>Export des contacts</li>
+        </ul>
+        <button class="btn btn-primary" style="width:100%;justify-content:center" onclick="upgradePremium()"><i class="ti ti-crown"></i>Activer Premium</button>
+      </div>
+      <div class="pricing-card">
+        <div class="p-tier">Entreprise</div>
+        <div class="price-num" style="font-size:28px">Sur devis</div>
+        <div class="price-period">Pour les grandes structures</div>
+        <ul class="price-features">
+          <li><i class="ti ti-check fi"></i>Tout ce qui est inclus en Premium</li>
+          <li><i class="ti ti-check fi"></i>Plusieurs utilisateurs</li>
+          <li><i class="ti ti-check fi"></i>CRM intégré</li>
+          <li><i class="ti ti-check fi"></i>Facturation sécurisée</li>
+          <li><i class="ti ti-check fi"></i>API & intégrations</li>
+          <li><i class="ti ti-check fi"></i>Account manager dédié</li>
+          <li><i class="ti ti-check fi"></i>SLA garanti</li>
+          <li><i class="ti ti-check fi"></i>Formation équipe</li>
+        </ul>
+        <button class="btn btn-outline" style="width:100%;justify-content:center">Nous contacter</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════════════════════════
+//  ⚙️  CONFIGURATION — REMPLIS CES 2 VALEURS
+// ══════════════════════════════════════════════════════════
+const SUPABASE_URL  = 'https://zdojvyrunvcodgeyoziu.supabase.co';
+const SUPABASE_KEY  = 'sb_publishable_17Qt5OGI_N-ReFW_iRGfYA_AWUXZT6W';
+// ══════════════════════════════════════════════════════════
+
+// Init Supabase
+let sb = null;
+const configured = SUPABASE_URL !== 'COLLE_TON_URL_ICI';
+if (configured) {
+  sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+} else {
+  document.getElementById('setup-banner').style.display = 'block';
+}
+
+// ── STATE ──
+let currentUser = null;
+let currentProfile = null;
+let allProfiles = [];
+let activeMsgThread = null;
+let activeDevisTarget = null;
+let activeReviewTarget = null;
+let realtimeChannel = null;
+
+// ── COULEURS POUR LES AVATARS ──
+const COLORS = ['#2563EB','#059669','#7C3AED','#DC2626','#D97706','#DB2777','#0891B2','#65A30D'];
+function randomColor() { return COLORS[Math.floor(Math.random() * COLORS.length)]; }
+
+// ══════════════════════════════════════════════════════════
+//  AUTH
+// ══════════════════════════════════════════════════════════
+async function doLogin() {
+  if (!configured) { toast('Configure Supabase d\'abord.', 'error'); return; }
+  const email = document.getElementById('login-email').value.trim();
+  const pass  = document.getElementById('login-pass').value;
+  const btn   = document.getElementById('btn-login');
+  const err   = document.getElementById('login-error');
+  err.textContent = '';
+  btn.disabled = true;
+  btn.innerHTML = '<div class="spinner" style="border-color:rgba(255,255,255,.3);border-top-color:white;width:16px;height:16px"></div> Connexion...';
+  const { data, error } = await sb.auth.signInWithPassword({ email, password: pass });
+  if (error) { err.textContent = 'Email ou mot de passe incorrect.'; btn.disabled = false; btn.innerHTML = 'Se connecter <i class="ti ti-arrow-right"></i>'; return; }
+  currentUser = data.user;
+  await loadCurrentProfile();
+  updateNav();
+  navigate('dashboard');
+  toast('Bienvenue sur Nexiwork !', 'success');
+}
+
+async function doRegister() {
+  if (!configured) { toast('Configure Supabase d\'abord.', 'error'); return; }
+  const company = document.getElementById('reg-company').value.trim();
+  const type    = document.getElementById('reg-type').value;
+  const sector  = document.getElementById('reg-sector').value;
+  const region  = document.getElementById('reg-region').value;
+  const desc    = document.getElementById('reg-desc').value.trim();
+  const email   = document.getElementById('reg-email').value.trim();
+  const pass    = document.getElementById('reg-pass').value;
+  const tarif   = parseInt(document.getElementById('reg-tarif').value) || null;
+  const phone   = document.getElementById('reg-phone').value.trim();
+  const err     = document.getElementById('reg-error');
+  const btn     = document.getElementById('btn-register');
+
+  err.textContent = '';
+  if (!company||!type||!sector||!region||!desc||!email||!pass) { err.textContent = 'Veuillez remplir tous les champs obligatoires.'; return; }
+  if (pass.length < 6) { err.textContent = 'Le mot de passe doit faire au moins 6 caractères.'; return; }
+
+  btn.disabled = true;
+  btn.innerHTML = '<div class="spinner" style="border-color:rgba(255,255,255,.3);border-top-color:white;width:16px;height:16px"></div> Création...';
+
+  const initials = company.split(' ').slice(0,2).map(w=>w[0]).join('').toUpperCase();
+  const color    = randomColor();
+  const tags     = [sector.split(' ')[0]];
+
+  const { data, error } = await sb.auth.signUp({
+    email, password: pass,
+    options: { data: { company, type, sector, region, description: desc, tags: tags.join(','), tarif, phone, color, initials } }
+  });
+
+  if (error) { err.textContent = error.message; btn.disabled = false; btn.innerHTML = '<i class="ti ti-rocket"></i> Créer mon profil gratuitement'; return; }
+
+  currentUser = data.user;
+  await loadCurrentProfile();
+  updateNav();
+  navigate('dashboard');
+  toast('Profil créé avec succès ! Bienvenue sur Nexiwork.', 'success');
+}
+
+async function doLogout() {
+  if (sb) await sb.auth.signOut();
+  currentUser = null; currentProfile = null;
+  if (realtimeChannel) { sb.removeChannel(realtimeChannel); realtimeChannel = null; }
+  updateNav();
+  navigate('home');
+  toast('Déconnexion réussie.');
+}
+
+async function loadCurrentProfile() {
+  if (!currentUser || !sb) return;
+  const { data } = await sb.from('profiles').select('*').eq('id', currentUser.id).single();
+  currentProfile = data;
+}
+
+async function initAuth() {
+  if (!sb) return;
+  const { data: { session } } = await sb.auth.getSession();
+  if (session) {
+    currentUser = session.user;
+    await loadCurrentProfile();
+  }
+  updateNav();
+}
+
+// ── NAV ──
+function updateNav() {
+  const el = document.getElementById('nav-auth');
+  if (currentUser) {
+    el.innerHTML = `<button class="btn btn-ghost btn-sm" onclick="navigate('dashboard')"><i class="ti ti-layout-dashboard"></i> Dashboard</button><button class="btn btn-outline btn-sm" onclick="doLogout()">Déconnexion</button>`;
+  } else {
+    el.innerHTML = `<button class="btn btn-ghost btn-sm" onclick="navigate('login')">Connexion</button><button class="btn btn-primary btn-sm" onclick="navigate('register')">Créer un profil</button>`;
+  }
+}
+
+// ══════════════════════════════════════════════════════════
+//  NAVIGATION
+// ══════════════════════════════════════════════════════════
+function navigate(page, param) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  const el = document.getElementById('page-' + page);
+  if (el) { el.classList.add('active'); window.scrollTo(0, 0); }
+  if (page === 'home')      renderHome();
+  if (page === 'directory') renderDirectory();
+  if (page === 'profile')   renderProfileView(param);
+  if (page === 'dashboard') { if (!currentUser) { navigate('login'); return; } renderDashboard(); }
+  updateNav();
+}
+
+// ══════════════════════════════════════════════════════════
+//  HOME
+// ══════════════════════════════════════════════════════════
+async function renderHome() {
+  if (!sb) { document.getElementById('home-profiles').innerHTML = '<div class="empty"><div class="empty-icon"><i class="ti ti-database-off"></i></div><h3>Base de données non configurée</h3><p>Configure tes clés Supabase pour voir les profils.</p></div>'; return; }
+  const [{ count: cCount }, { count: rCount }, { data: profiles }] = await Promise.all([
+    sb.from('profiles').select('*', { count: 'exact', head: true }),
+    sb.from('reviews').select('*', { count: 'exact', head: true }),
+    sb.from('profiles').select('*').order('created_at', { ascending: false }).limit(6)
+  ]);
+  document.getElementById('stat-companies').textContent = cCount ?? 0;
+  document.getElementById('stat-reviews').textContent   = rCount ?? 0;
+  allProfiles = profiles || [];
+  document.getElementById('home-profiles').innerHTML = allProfiles.length
+    ? allProfiles.map(c => companyCard(c)).join('')
+    : '<div class="empty" style="grid-column:1/-1"><div class="empty-icon"><i class="ti ti-building-store"></i></div><h3>Soyez le premier !</h3><p>Aucun profil encore. Créez le vôtre maintenant.</p></div>';
+}
+
+function heroSearch() {
+  const q = document.getElementById('hero-search').value;
+  navigate('directory');
+  setTimeout(() => { const s = document.getElementById('dir-search'); if (s) { s.value = q; filterDirectory(); } }, 80);
+}
+
+// ══════════════════════════════════════════════════════════
+//  DIRECTORY
+// ══════════════════════════════════════════════════════════
+async function renderDirectory() {
+  if (!sb) { document.getElementById('dir-grid').innerHTML = '<div class="empty" style="grid-column:1/-1"><div class="empty-icon"><i class="ti ti-database-off"></i></div><h3>Base de données non configurée</h3></div>'; return; }
+  document.getElementById('dir-grid').innerHTML = '<div class="loading" style="grid-column:1/-1"><div class="spinner"></div>Chargement...</div>';
+  const { data } = await sb.from('profiles').select('*');
+  allProfiles = data || [];
+  filterDirectory();
+}
+
+function filterDirectory() {
+  const q      = (document.getElementById('dir-search')?.value || '').toLowerCase();
+  const sector = document.getElementById('dir-sector')?.value || '';
+  const region = document.getElementById('dir-region')?.value || '';
+  const sort   = document.getElementById('dir-sort')?.value || 'rating';
+  let results  = allProfiles.filter(c => {
+    const mq = !q || c.company.toLowerCase().includes(q) || c.sector.toLowerCase().includes(q) || c.description?.toLowerCase().includes(q) || (c.tags||[]).some(t=>t.toLowerCase().includes(q));
+    return mq && (!sector || c.sector === sector) && (!region || c.region === region);
+  });
+  if (sort === 'rating')  results.sort((a,b) => b.rating - a.rating);
+  if (sort === 'newest')  results.sort((a,b) => new Date(b.created_at) - new Date(a.created_at));
+  document.getElementById('dir-results-count').textContent = `${results.length} résultat${results.length !== 1 ? 's' : ''}`;
+  const grid = document.getElementById('dir-grid');
+  grid.innerHTML = results.length
+    ? results.map(c => companyCard(c)).join('')
+    : '<div class="empty" style="grid-column:1/-1"><div class="empty-icon"><i class="ti ti-search"></i></div><h3>Aucun résultat</h3><p>Essayez d\'autres mots-clés.</p></div>';
+}
+
+// ── CARTE ENTREPRISE ──
+function companyCard(c) {
+  const tags   = (c.tags||[]).slice(0,3).map(t=>`<span class="tag">${t}</span>`).join('');
+  const badges = [
+    c.verified ? '<span class="verified-badge"><i class="ti ti-circle-check"></i>Vérifié</span>' : '',
+    c.premium  ? '<span class="premium-badge"><i class="ti ti-crown"></i>Premium</span>'  : ''
+  ].filter(Boolean).join('');
+  return `<div class="profile-card" onclick="navigate('profile','${c.id}')">
+    <div class="profile-card-header">
+      <div class="avatar" style="background:${c.color}18;color:${c.color}">${c.initials||'?'}</div>
+      <div><div class="company-name">${c.company}</div><div class="company-type">${c.type} · ${c.region}</div></div>
+    </div>
+    <div class="tags">${tags}</div>
+    <div class="card-desc">${(c.description||'').substring(0,110)}...</div>
+    <div class="card-footer">
+      <div class="stars">${starsHtml(c.rating||0)}<span class="stars-count">(${c.reviews_count||0})</span></div>
+      ${c.tarif ? `<span class="tarif-badge">CHF ${c.tarif}/h</span>` : ''}
+    </div>
+    ${badges ? `<div style="display:flex;gap:5px;margin-top:12px;flex-wrap:wrap">${badges}</div>` : ''}
+  </div>`;
+}
+
+function starsHtml(r) {
+  const full = Math.floor(r), half = r % 1 >= 0.5;
+  let h = '';
+  for (let i = 1; i <= 5; i++) {
+    if (i <= full) h += '<i class="ti ti-star-filled star on"></i>';
+    else if (i === full+1 && half) h += '<i class="ti ti-star-half-filled star on"></i>';
+    else h += '<i class="ti ti-star star"></i>';
+  }
+  return h + `<span class="stars-score">${r > 0 ? r.toFixed(1) : '–'}</span>`;
+}
+
+// ══════════════════════════════════════════════════════════
+//  PROFILE VIEW
+// ══════════════════════════════════════════════════════════
+async function renderProfileView(id) {
+  const el = document.getElementById('profile-view-content');
+  el.innerHTML = '<div class="loading"><div class="spinner"></div>Chargement du profil...</div>';
+  if (!sb) { el.innerHTML = '<div class="empty"><div class="empty-icon"><i class="ti ti-database-off"></i></div><h3>Base de données non configurée</h3></div>'; return; }
+  const [{ data: c }, { data: reviews }] = await Promise.all([
+    sb.from('profiles').select('*').eq('id', id).single(),
+    sb.from('reviews').select('*, from:from_id(id,company,initials,color,type,region)').eq('to_id', id).order('created_at', { ascending: false })
+  ]);
+  if (!c) { el.innerHTML = '<div class="empty"><div class="empty-icon"><i class="ti ti-alert-circle"></i></div><h3>Profil introuvable</h3></div>'; return; }
+  const isOwn = currentProfile?.id === id;
+  const actions = isOwn
+    ? `<button class="btn btn-outline" onclick="navigate('dashboard');showDashTab('profile')"><i class="ti ti-edit"></i>Modifier</button>`
+    : currentUser
+      ? `<button class="btn btn-primary" onclick="openDevis('${c.id}')"><i class="ti ti-file-invoice"></i>Demander un devis</button>
+         <button class="btn btn-outline" onclick="openMessage('${c.id}')"><i class="ti ti-message-circle"></i>Message</button>
+         <button class="btn btn-ghost" onclick="openReview('${c.id}')"><i class="ti ti-star"></i>Laisser un avis</button>`
+      : `<button class="btn btn-primary" onclick="navigate('register')"><i class="ti ti-file-invoice"></i>Demander un devis</button>`;
+  const reviewsHtml = (reviews||[]).length
+    ? reviews.map(r => `<div style="padding:16px 0;border-bottom:1px solid var(--border)">
+        <div class="flex gap-2" style="margin-bottom:8px">
+          <div class="avatar" style="width:34px;height:34px;font-size:11px;font-weight:800;border-radius:10px;background:${r.from?.color||'#ddd'}18;color:${r.from?.color||'#888'}">${r.from?.initials||'?'}</div>
+          <div><div style="font-size:14px;font-weight:700">${r.from?.company||'Anonyme'}</div><div class="stars" style="font-size:12px">${starsHtml(r.stars)}</div></div>
+          <span style="margin-left:auto;font-size:12px;color:var(--text-4)">${timeAgo(r.created_at)}</span>
+        </div>
+        <p style="font-size:14px;color:var(--text-2);line-height:1.6">${r.comment}</p>
+      </div>`).join('')
+    : '<div class="empty"><div class="empty-icon"><i class="ti ti-star"></i></div><h3>Aucun avis</h3><p>Soyez le premier à laisser un avis.</p></div>';
+  el.innerHTML = `
+    <button class="back-btn" onclick="navigate('directory')"><i class="ti ti-arrow-left"></i>Retour à l'annuaire</button>
+    <div class="profile-view-header">
+      <div class="profile-top">
+        <div class="avatar avatar-lg" style="background:${c.color}18;color:${c.color};flex-shrink:0">${c.initials||'?'}</div>
+        <div class="profile-info" style="flex:1">
+          <h1>${c.company}</h1>
+          <div class="profile-meta">
+            <span><i class="ti ti-briefcase"></i>${c.type}</span>
+            <span><i class="ti ti-map-pin"></i>${c.region}</span>
+            <span><i class="ti ti-tag"></i>${c.sector}</span>
+            ${c.tarif ? `<span><i class="ti ti-coin"></i>CHF ${c.tarif}/h</span>` : ''}
+          </div>
+          <div class="flex gap-2" style="margin-top:12px;flex-wrap:wrap">
+            ${starsHtml(c.rating||0)}<span style="font-size:13px;color:var(--text-3)">(${c.reviews_count||0} avis)</span>
+            ${c.verified ? '<span class="verified-badge"><i class="ti ti-circle-check"></i>Vérifié</span>' : ''}
+            ${c.premium  ? '<span class="premium-badge"><i class="ti ti-crown"></i>Premium</span>'  : ''}
+          </div>
+        </div>
+      </div>
+      <div class="tags" style="margin:16px 0">${(c.tags||[]).map(t=>`<span class="tag tag-blue">${t}</span>`).join('')}</div>
+      <p style="font-size:15px;line-height:1.75;color:var(--text-2)">${c.description||''}</p>
+      ${c.phone ? `<div class="flex gap-2" style="margin-top:14px;font-size:14px;color:var(--text-3)"><i class="ti ti-phone"></i>${c.phone}</div>` : ''}
+      <div class="profile-actions">${actions}</div>
+    </div>
+    <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--radius-xl);padding:28px;box-shadow:var(--shadow-md)">
+      <h3 style="font-size:17px;font-weight:800;margin-bottom:20px">Avis clients <span style="color:var(--text-3);font-weight:400;font-size:14px">(${(reviews||[]).length})</span></h3>
+      ${reviewsHtml}
+    </div>`;
+}
+
+// ══════════════════════════════════════════════════════════
+//  DASHBOARD
+// ══════════════════════════════════════════════════════════
+async function renderDashboard() {
+  if (!currentProfile) await loadCurrentProfile();
+  if (!currentProfile) return;
+  const c = currentProfile;
+  document.getElementById('dash-sidebar-user').innerHTML = `
+    <div class="avatar" style="width:52px;height:52px;font-size:17px;border-radius:14px;background:${c.color}18;color:${c.color};margin:0 auto">${c.initials||'?'}</div>
+    <div class="s-name">${c.company}</div>
+    <div class="s-type">${c.type} · ${c.region}</div>
+    ${c.premium ? '<span class="premium-badge" style="margin-top:8px;justify-content:center"><i class="ti ti-crown"></i>Premium</span>' : ''}`;
+  showDashTab('overview');
+}
+
+async function showDashTab(tab) {
+  document.querySelectorAll('.sidebar-item').forEach(b => b.classList.remove('active'));
+  const btn = document.getElementById('tab-' + tab);
+  if (btn) btn.classList.add('active');
+  const content = document.getElementById('dash-content');
+  content.innerHTML = '<div class="loading"><div class="spinner"></div>Chargement...</div>';
+  if (tab === 'overview') await renderOverview();
+  else if (tab === 'profile')  renderEditProfile();
+  else if (tab === 'messages') await renderMessages();
+  else if (tab === 'quotes')   await renderQuotes();
+  else if (tab === 'reviews')  await renderMyReviews();
+  else if (tab === 'premium')  renderPremiumTab();
+}
+
+async function renderOverview() {
+  const myId = currentProfile.id;
+  const [{ data: messages }, { data: quotes }, { data: reviews }] = await Promise.all([
+    sb.from('messages').select('id,read').eq('to_id', myId).eq('read', false),
+    sb.from('quotes').select('id,status').eq('to_id', myId).eq('status','pending'),
+    sb.from('reviews').select('id,stars').eq('to_id', myId)
+  ]);
+  const unread   = (messages||[]).length;
+  const pendingQ = (quotes||[]).length;
+  const myRvws   = reviews||[];
+  const avg      = myRvws.length ? (myRvws.reduce((s,r)=>s+r.stars,0)/myRvws.length).toFixed(1) : '–';
+  const { data: suggested } = await sb.from('profiles').select('*').neq('id', myId).limit(3);
+  document.getElementById('dash-content').innerHTML = `
+    <div class="dash-header"><div class="dash-title">Bonjour, ${currentProfile.company} 👋</div></div>
+    <div class="metric-grid">
+      <div class="metric-card"><i class="ti ti-message-circle m-icon" style="color:${unread>0?'var(--blue)':'var(--text-4)'}"></i><div class="m-val" style="color:${unread>0?'var(--blue)':'var(--text)'}">${unread}</div><div class="m-lbl">Messages non lus</div></div>
+      <div class="metric-card"><i class="ti ti-file-invoice m-icon" style="color:${pendingQ>0?'var(--amber)':'var(--text-4)'}"></i><div class="m-val" style="color:${pendingQ>0?'var(--amber)':'var(--text)'}">${pendingQ}</div><div class="m-lbl">Devis en attente</div></div>
+      <div class="metric-card"><i class="ti ti-star m-icon" style="color:var(--amber)"></i><div class="m-val">${avg}</div><div class="m-lbl">Note moyenne</div></div>
+      <div class="metric-card"><i class="ti ti-users m-icon"></i><div class="m-val">${myRvws.length}</div><div class="m-lbl">Avis reçus</div></div>
+    </div>
+    <div style="background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:20px">
+      <div style="font-size:14px;font-weight:700;margin-bottom:14px">Actions rapides</div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <button class="btn btn-primary btn-sm" onclick="navigate('directory')"><i class="ti ti-search"></i>Explorer l'annuaire</button>
+        <button class="btn btn-outline btn-sm" onclick="showDashTab('profile')"><i class="ti ti-edit"></i>Modifier mon profil</button>
+        <button class="btn btn-outline btn-sm" onclick="showDashTab('messages')"><i class="ti ti-message-circle"></i>Messages</button>
+        ${!currentProfile.premium?`<button class="btn btn-premium btn-sm" onclick="showDashTab('premium')"><i class="ti ti-crown"></i>Passer Premium</button>`:''}
+      </div>
+    </div>
+    <div>
+      <div style="font-size:14px;font-weight:700;margin-bottom:14px">Profils suggérés</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px">
+        ${(suggested||[]).map(c=>`<div class="profile-card" style="padding:16px" onclick="navigate('profile','${c.id}')">
+          <div class="profile-card-header" style="margin-bottom:8px">
+            <div class="avatar" style="width:38px;height:38px;font-size:12px;border-radius:10px;background:${c.color}18;color:${c.color}">${c.initials||'?'}</div>
+            <div><div style="font-size:13px;font-weight:700">${c.company}</div><div style="font-size:11px;color:var(--text-3)">${c.region}</div></div>
+          </div>
+          <div class="stars" style="font-size:12px">${starsHtml(c.rating||0)}</div>
+        </div>`).join('')}
+      </div>
+    </div>`;
+}
+
+function renderEditProfile() {
+  const c = currentProfile;
+  document.getElementById('dash-content').innerHTML = `
+    <div class="dash-header"><div class="dash-title">Mon profil</div><button class="btn btn-primary btn-sm" onclick="saveProfile()"><i class="ti ti-check"></i>Enregistrer</button></div>
+    <div class="form-row">
+      <div class="form-group"><label>Nom de l'entreprise</label><input id="ep-company" value="${c.company}"></div>
+      <div class="form-group"><label>Type</label><select id="ep-type">${['PME','Artisan','Indépendant','Profession libérale','SA / Sàrl'].map(t=>`<option${c.type===t?' selected':''}>${t}</option>`).join('')}</select></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Secteur</label><select id="ep-sector">${['Construction & Rénovation','Électricité & Domotique','Plomberie & Chauffage','Informatique & Tech','Finance & Comptabilité','Droit & Juridique','Marketing & Communication','Architecture & Design','Transport & Logistique','Nettoyage & Entretien','Sécurité','Autre'].map(s=>`<option${c.sector===s?' selected':''}>${s}</option>`).join('')}</select></div>
+      <div class="form-group"><label>Région</label><select id="ep-region">${['Genève','Vaud','Fribourg','Valais','Neuchâtel','Jura'].map(r=>`<option${c.region===r?' selected':''}>${r}</option>`).join('')}</select></div>
+    </div>
+    <div class="form-group"><label>Description</label><textarea id="ep-desc" rows="4">${c.description||''}</textarea></div>
+    <div class="form-row">
+      <div class="form-group"><label>Tarif horaire (CHF)</label><input type="number" id="ep-tarif" value="${c.tarif||''}"></div>
+      <div class="form-group"><label>Téléphone</label><input id="ep-phone" value="${c.phone||''}"></div>
+    </div>
+    <div class="form-group"><label>Tags (séparés par virgule)</label><input id="ep-tags" value="${(c.tags||[]).join(', ')}"></div>`;
+}
+
+async function saveProfile() {
+  const updates = {
+    company:     document.getElementById('ep-company').value.trim(),
+    type:        document.getElementById('ep-type').value,
+    sector:      document.getElementById('ep-sector').value,
+    region:      document.getElementById('ep-region').value,
+    description: document.getElementById('ep-desc').value.trim(),
+    tarif:       parseInt(document.getElementById('ep-tarif').value) || null,
+    phone:       document.getElementById('ep-phone').value.trim(),
+    tags:        document.getElementById('ep-tags').value.split(',').map(t=>t.trim()).filter(Boolean),
+    initials:    document.getElementById('ep-company').value.trim().split(' ').slice(0,2).map(w=>w[0]).join('').toUpperCase()
+  };
+  const { error } = await sb.from('profiles').update(updates).eq('id', currentProfile.id);
+  if (error) { toast('Erreur lors de la sauvegarde.', 'error'); return; }
+  currentProfile = { ...currentProfile, ...updates };
+  document.querySelector('.s-name').textContent = updates.company;
+  toast('Profil mis à jour !', 'success');
+}
+
+// ══════════════════════════════════════════════════════════
+//  MESSAGES (avec realtime)
+// ══════════════════════════════════════════════════════════
+async function renderMessages() {
+  const myId = currentProfile.id;
+  const { data: msgs } = await sb.from('messages')
+    .select('*, from:from_id(id,company,initials,color,type,region), to:to_id(id,company,initials,color,type,region)')
+    .or(`from_id.eq.${myId},to_id.eq.${myId}`)
+    .order('created_at', { ascending: true });
+  const threads = {};
+  (msgs||[]).forEach(m => {
+    const other = m.from_id === myId ? m.to : m.from;
+    const oid   = m.from_id === myId ? m.to_id : m.from_id;
+    if (!threads[oid] || new Date(m.created_at) > new Date(threads[oid].time)) {
+      threads[oid] = { msg: m, other, time: m.created_at };
+    }
+  });
+  const threadList = Object.entries(threads).sort((a,b) => new Date(b[1].time) - new Date(a[1].time));
+  const listHtml = threadList.length
+    ? threadList.map(([oid,{msg,other}]) => {
+        const unread = (msgs||[]).filter(m=>m.from_id===oid&&m.to_id===myId&&!m.read).length;
+        return `<div class="msg-list-item${activeMsgThread===oid?' active':''}" onclick="selectThread('${oid}')">
+          <span class="m-time">${timeAgo(msg.created_at)}</span>
+          <div class="m-name">${other?.company||'Inconnu'}${unread>0?'<span class="unread-dot"></span>':''}</div>
+          <div class="m-preview">${msg.text}</div>
+        </div>`;
+      }).join('')
+    : '<div class="empty" style="padding:32px 16px"><div class="empty-icon"><i class="ti ti-message-circle"></i></div><p style="font-size:13px">Aucune conversation</p></div>';
+  const threadHtml = activeMsgThread
+    ? await buildThread(activeMsgThread, msgs||[])
+    : `<div class="msg-placeholder"><i class="ti ti-messages"></i><p style="font-size:14px">Sélectionnez une conversation</p></div>`;
+  document.getElementById('dash-content').innerHTML = `
+    <div class="dash-header"><div class="dash-title">Messages</div></div>
+    <div class="messages-wrap"><div class="msg-list"><div class="msg-list-header">Conversations</div>${listHtml}</div><div class="msg-thread" id="msg-thread-panel">${threadHtml}</div></div>`;
+  scrollMsgBody();
+  setupRealtime();
+}
+
+async function buildThread(oid, allMsgs) {
+  const myId = currentProfile.id;
+  const { data: profiles } = await sb.from('profiles').select('id,company,initials,color,type,region').eq('id', oid).single();
+  const other = profiles;
+  const msgs  = allMsgs.filter(m=>(m.from_id===myId&&m.to_id===oid)||(m.from_id===oid&&m.to_id===myId));
+  return `<div class="msg-thread-header">
+    <div class="avatar" style="width:36px;height:36px;font-size:12px;font-weight:800;border-radius:10px;flex-shrink:0;background:${other?.color||'#ddd'}18;color:${other?.color||'#888'}">${other?.initials||'?'}</div>
+    <div><div class="msg-thread-name">${other?.company||'Inconnu'}</div><div class="msg-thread-sub">${other?.type||''} · ${other?.region||''}</div></div>
+    <button class="btn btn-outline btn-sm" style="margin-left:auto" onclick="navigate('profile','${oid}')">Voir profil</button>
+  </div>
+  <div class="msg-body" id="msg-body">
+    ${msgs.map(m=>`<div class="msg-row${m.from_id===myId?' me':''}"><div class="bubble${m.from_id===myId?' me':' them'}">${m.text}</div></div><div class="bubble-time${m.from_id===myId?' me':''}">${timeAgo(m.created_at)}</div>`).join('')}
+  </div>
+  <div class="msg-input-row">
+    <input id="msg-input" placeholder="Écrire un message..." onkeydown="if(event.key==='Enter')sendMessage('${oid}')">
+    <button class="btn btn-primary" onclick="sendMessage('${oid}')"><i class="ti ti-send"></i></button>
+  </div>`;
+}
+
+function scrollMsgBody() {
+  setTimeout(() => { const b = document.getElementById('msg-body'); if (b) b.scrollTop = b.scrollHeight; }, 60);
+}
+
+function setupRealtime() {
+  if (!sb || !currentProfile) return;
+  if (realtimeChannel) sb.removeChannel(realtimeChannel);
+  realtimeChannel = sb.channel('messages-realtime')
+    .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'messages', filter: `to_id=eq.${currentProfile.id}` },
+      async () => { await renderMessages(); })
+    .subscribe();
+}
+
+async function selectThread(oid) {
+  activeMsgThread = oid;
+  await sb.from('messages').update({ read: true }).eq('from_id', oid).eq('to_id', currentProfile.id);
+  await renderMessages();
+}
+
+async function sendMessage(toId) {
+  const input = document.getElementById('msg-input');
+  const text  = input?.value.trim();
+  if (!text) return;
+  input.value = '';
+  await sb.from('messages').insert({ from_id: currentProfile.id, to_id: toId, text });
+  await renderMessages();
+}
+
+function openMessage(toId) {
+  if (!currentUser) { navigate('login'); return; }
+  activeMsgThread = toId;
+  navigate('dashboard');
+  setTimeout(() => showDashTab('messages'), 100);
+}
+
+// ══════════════════════════════════════════════════════════
+//  DEVIS
+// ══════════════════════════════════════════════════════════
+async function renderQuotes() {
+  const myId = currentProfile.id;
+  const { data: quotes } = await sb.from('quotes')
+    .select('*, from:from_id(id,company,initials,color), to:to_id(id,company,initials,color)')
+    .or(`from_id.eq.${myId},to_id.eq.${myId}`)
+    .order('created_at', { ascending: false });
+  const received = (quotes||[]).filter(q=>q.to_id===myId);
+  const sent     = (quotes||[]).filter(q=>q.from_id===myId);
+  const qCard = (q, isMine) => {
+    const other = isMine ? q.to : q.from;
+    return `<div class="quote-card">
+      <div class="quote-header">
+        <div><div style="font-size:14px;font-weight:700">${isMine?'À':'De'} : ${other?.company||'Inconnu'}</div><div style="font-size:12px;color:var(--text-3);margin-top:2px">${timeAgo(q.created_at)}</div></div>
+        <span class="q-status s-${q.status}">${q.status==='pending'?'En attente':q.status==='accepted'?'Accepté':'Refusé'}</span>
+      </div>
+      <p style="font-size:14px;margin:10px 0;color:var(--text-2)">${q.description}</p>
+      <div class="flex gap-2" style="font-size:13px;color:var(--text-3)">
+        ${q.budget?`<span><i class="ti ti-coin"></i> CHF ${q.budget}</span>`:''}
+        <span><i class="ti ti-clock"></i> ${q.delai||'–'}</span>
+      </div>
+      ${!isMine&&q.status==='pending'?`<div style="display:flex;gap:8px;margin-top:14px">
+        <button class="btn btn-success btn-sm" onclick="updateQuote('${q.id}','accepted')"><i class="ti ti-check"></i>Accepter</button>
+        <button class="btn btn-danger btn-sm" onclick="updateQuote('${q.id}','declined')"><i class="ti ti-x"></i>Refuser</button>
+        <button class="btn btn-ghost btn-sm" onclick="openMessage('${q.from_id}')"><i class="ti ti-message-circle"></i>Répondre</button>
+      </div>`:''}
+    </div>`;
+  };
+  document.getElementById('dash-content').innerHTML = `
+    <div class="dash-header"><div class="dash-title">Devis</div></div>
+    <div style="margin-bottom:24px"><div style="font-size:15px;font-weight:700;margin-bottom:12px">Reçus (${received.length})</div>
+      ${received.length?received.map(q=>qCard(q,false)).join(''):'<div class="empty"><div class="empty-icon"><i class="ti ti-file-invoice"></i></div><h3>Aucun devis reçu</h3></div>'}
+    </div>
+    <div><div style="font-size:15px;font-weight:700;margin-bottom:12px">Envoyés (${sent.length})</div>
+      ${sent.length?sent.map(q=>qCard(q,true)).join(''):'<div class="empty"><div class="empty-icon"><i class="ti ti-send"></i></div><h3>Aucun devis envoyé</h3></div>'}
+    </div>`;
+}
+
+async function updateQuote(id, status) {
+  await sb.from('quotes').update({ status }).eq('id', id);
+  await renderQuotes();
+  toast(status==='accepted'?'Devis accepté !':'Devis refusé.', status==='accepted'?'success':'');
+}
+
+function openDevis(toId) {
+  if (!currentUser) { navigate('register'); return; }
+  activeDevisTarget = toId;
+  const c = allProfiles.find(x=>x.id===toId) || { company: '...' };
+  document.getElementById('modal-devis-target').textContent = `Destinataire : ${c.company}`;
+  document.getElementById('devis-desc').value = '';
+  document.getElementById('devis-budget').value = '';
+  openModal('modal-devis');
+}
+
+async function submitDevis() {
+  const desc = document.getElementById('devis-desc').value.trim();
+  if (!desc) { toast('Veuillez décrire votre projet.', 'error'); return; }
+  const btn = document.getElementById('btn-send-devis');
+  btn.disabled = true;
+  const { error } = await sb.from('quotes').insert({
+    from_id: currentProfile.id, to_id: activeDevisTarget,
+    description: desc,
+    budget: parseInt(document.getElementById('devis-budget').value) || null,
+    delai: document.getElementById('devis-delai').value
+  });
+  btn.disabled = false;
+  if (error) { toast('Erreur lors de l\'envoi.', 'error'); return; }
+  closeModal('modal-devis');
+  toast('Demande de devis envoyée !', 'success');
+}
+
+// ══════════════════════════════════════════════════════════
+//  REVIEWS
+// ══════════════════════════════════════════════════════════
+async function renderMyReviews() {
+  const { data: reviews } = await sb.from('reviews')
+    .select('*, from:from_id(id,company,initials,color)')
+    .eq('to_id', currentProfile.id)
+    .order('created_at', { ascending: false });
+  const r    = reviews || [];
+  const avg  = r.length ? (r.reduce((s,x)=>s+x.stars,0)/r.length).toFixed(1) : '–';
+  document.getElementById('dash-content').innerHTML = `
+    <div class="dash-header"><div class="dash-title">Avis reçus</div></div>
+    <div style="background:linear-gradient(135deg,var(--blue-light),#F0F4FF);border:1px solid var(--blue-mid);border-radius:var(--radius-lg);padding:28px;text-align:center;margin-bottom:24px">
+      <div style="font-size:52px;font-weight:800;letter-spacing:-2px;background:linear-gradient(135deg,var(--blue),#7C3AED);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">${avg}</div>
+      <div class="stars" style="justify-content:center;font-size:20px;margin:8px 0">${starsHtml(parseFloat(avg)||0)}</div>
+      <div style="font-size:14px;color:var(--text-3);font-weight:500">${r.length} avis vérifiés</div>
+    </div>
+    ${r.length ? r.map(rv=>`<div style="background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:18px;margin-bottom:12px">
+      <div class="flex gap-2" style="margin-bottom:10px">
+        <div class="avatar" style="width:36px;height:36px;font-size:12px;font-weight:800;border-radius:10px;background:${rv.from?.color||'#ddd'}18;color:${rv.from?.color||'#888'}">${rv.from?.initials||'?'}</div>
+        <div><div style="font-size:14px;font-weight:700">${rv.from?.company||'Anonyme'}</div><div class="stars" style="font-size:12px">${starsHtml(rv.stars)}</div></div>
+        <span style="margin-left:auto;font-size:12px;color:var(--text-4)">${timeAgo(rv.created_at)}</span>
+      </div>
+      <p style="font-size:14px;color:var(--text-2)">${rv.comment}</p>
+    </div>`).join('') : '<div class="empty"><div class="empty-icon"><i class="ti ti-star"></i></div><h3>Aucun avis reçu</h3></div>'}`;
+}
+
+function openReview(toId) {
+  if (!currentUser) { navigate('register'); return; }
+  activeReviewTarget = toId;
+  const c = allProfiles.find(x=>x.id===toId) || { company: '...' };
+  document.getElementById('modal-review-target').textContent = `Avis pour : ${c.company}`;
+  document.getElementById('review-comment').value = '';
+  renderStarPicker(5);
+  openModal('modal-review');
+}
+
+function renderStarPicker(selected) {
+  document.getElementById('review-stars').value = selected;
+  const picker = document.getElementById('star-picker');
+  picker.innerHTML = '';
+  for (let i = 1; i <= 5; i++) {
+    const s = document.createElement('span');
+    s.textContent = i <= selected ? '★' : '☆';
+    s.style.color  = i <= selected ? '#F59E0B' : '#D1D5DB';
+    s.style.cursor = 'pointer';
+    s.onclick = () => renderStarPicker(i);
+    s.onmouseover = () => picker.querySelectorAll('span').forEach((x,j)=>{ x.textContent=j<i?'★':'☆'; x.style.color=j<i?'#F59E0B':'#D1D5DB'; });
+    s.onmouseleave = () => renderStarPicker(parseInt(document.getElementById('review-stars').value));
+    picker.appendChild(s);
+  }
+}
+
+async function submitReview() {
+  const comment = document.getElementById('review-comment').value.trim();
+  const stars   = parseInt(document.getElementById('review-stars').value);
+  if (!comment) { toast('Veuillez écrire un commentaire.', 'error'); return; }
+  const btn = document.getElementById('btn-send-review');
+  btn.disabled = true;
+  const { error } = await sb.from('reviews').insert({
+    from_id: currentProfile.id, to_id: activeReviewTarget, stars, comment
+  });
+  btn.disabled = false;
+  if (error?.code === '23505') { toast('Vous avez déjà laissé un avis.', 'error'); closeModal('modal-review'); return; }
+  if (error) { toast('Erreur lors de la publication.', 'error'); return; }
+  closeModal('modal-review');
+  toast('Avis publié avec succès !', 'success');
+  navigate('profile', activeReviewTarget);
+}
+
+// ══════════════════════════════════════════════════════════
+//  PREMIUM
+// ══════════════════════════════════════════════════════════
+function renderPremiumTab() {
+  const isPremium = currentProfile?.premium;
+  document.getElementById('dash-content').innerHTML = isPremium
+    ? `<div class="dash-header"><div class="dash-title">Premium</div></div>
+       <div style="text-align:center;padding:48px 20px">
+         <div style="width:80px;height:80px;background:var(--amber-light);border-radius:24px;display:flex;align-items:center;justify-content:center;margin:0 auto 20px"><i class="ti ti-crown" style="font-size:36px;color:var(--amber)"></i></div>
+         <h2 style="font-size:22px;font-weight:800;margin-bottom:8px">Vous êtes Premium !</h2>
+         <p style="color:var(--text-3)">Profitez de toutes les fonctionnalités avancées Nexiwork.</p>
+         <span class="premium-badge" style="margin-top:16px;font-size:14px;padding:8px 20px"><i class="ti ti-crown"></i>Compte Premium actif</span>
+       </div>`
+    : `<div class="dash-header"><div class="dash-title">Passer Premium</div></div>
+       <div style="text-align:center;padding:40px 20px">
+         <div style="width:72px;height:72px;background:linear-gradient(135deg,#D97706,#F59E0B);border-radius:22px;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;box-shadow:0 8px 24px rgba(217,119,6,0.3)"><i class="ti ti-crown" style="font-size:32px;color:white"></i></div>
+         <h2 style="font-size:22px;font-weight:800;margin-bottom:8px">Boostez votre visibilité</h2>
+         <p style="color:var(--text-3);max-width:380px;margin:0 auto 28px">Accédez aux fonctionnalités avancées pour développer vos collaborations B2B.</p>
+         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;max-width:580px;margin:0 auto 32px;text-align:left">
+           ${['Mise en avant dans les recherches','Messages illimités','Badge Premium vérifié','Leads vérifiés illimités','Statistiques du profil','Support prioritaire'].map(f=>`<div class="flex gap-2"><i class="ti ti-check" style="color:var(--teal);font-size:15px;flex-shrink:0"></i><span style="font-size:14px;font-weight:500">${f}</span></div>`).join('')}
+         </div>
+         <div style="font-size:36px;font-weight:800;letter-spacing:-1px;margin-bottom:4px">CHF 35 <span style="font-size:18px;font-weight:400;color:var(--text-3)">/ mois</span></div>
+         <p style="font-size:13px;color:var(--text-3);margin-bottom:24px">Sans engagement — résiliation à tout moment</p>
+         <button class="btn btn-premium btn-lg" onclick="upgradePremium()"><i class="ti ti-crown"></i>Activer Premium maintenant</button>
+       </div>`;
+}
+
+async function upgradePremium() {
+  if (!currentUser) { navigate('register'); return; }
+  await sb.from('profiles').update({ premium: true }).eq('id', currentProfile.id);
+  currentProfile = { ...currentProfile, premium: true };
+  renderDashboard();
+  toast('Félicitations ! Vous êtes maintenant Premium 🎉', 'success');
+}
+
+// ══════════════════════════════════════════════════════════
+//  UTILS
+// ══════════════════════════════════════════════════════════
+function openModal(id)  { document.getElementById(id).classList.add('open'); }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+document.querySelectorAll('.modal-overlay').forEach(o => o.addEventListener('click', e => { if(e.target===o) o.classList.remove('open'); }));
+
+function toast(msg, type='') {
+  const t = document.getElementById('toast');
+  t.className = `toast toast-${type||'default'} show`;
+  t.innerHTML = `<i class="ti ti-${type==='success'?'circle-check':type==='error'?'alert-circle':'bell'}"></i>${msg}`;
+  setTimeout(() => t.classList.remove('show'), 3200);
+}
+
+function timeAgo(ts) {
+  const d = Date.now() - new Date(ts).getTime();
+  if (d < 60000)   return 'À l\'instant';
+  if (d < 3600000) return Math.floor(d/60000)+'min';
+  if (d < 86400000)return Math.floor(d/3600000)+'h';
+  return Math.floor(d/86400000)+'j';
+}
+
+// ── INIT ──
+(async () => {
+  await initAuth();
+  navigate('home');
+})();
+</script>
+</body>
+</html>
