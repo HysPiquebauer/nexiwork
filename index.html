@@ -844,7 +844,7 @@ const SUPABASE_KEY  = 'sb_publishable_17Qt5OGI_N-ReFW_iRGfYA_AWUXZT6W';
 
 // Init Supabase
 let sb = null;
-const configured = SUPABASE_URL !== 'COLLE_TON_URL_ICI';
+const configured = SUPABASE_URL !== 'COLLE_TON_URL_ICI'; 
 if (configured) {
   sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 } else {
