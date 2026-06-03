@@ -348,6 +348,41 @@ input,textarea,select{font-family:'Inter',sans-serif}
 .flex{display:flex;align-items:center}
 .gap-2{gap:8px}
 
+/* ARTISAN DE LA SEMAINE */
+.artisan-week-section{padding:60px 28px;background:linear-gradient(135deg,#FFFBEB,#FEF3C7)}
+.artisan-week-inner{max-width:760px;margin:0 auto;text-align:center}
+.artisan-week-badge{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,#F59E0B,#D97706);color:white;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;padding:6px 16px;border-radius:20px;margin-bottom:20px}
+.artisan-week-card{background:white;border-radius:20px;padding:36px;box-shadow:0 8px 40px rgba(245,158,11,0.15);border:2px solid #FDE68A;margin-top:8px;position:relative;overflow:hidden}
+.artisan-week-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,#F59E0B,#D97706,#F59E0B)}
+.artisan-week-avatar{width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,#FDE68A,#F59E0B);display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:800;color:white;margin:0 auto 16px;border:3px solid white;box-shadow:0 4px 16px rgba(245,158,11,0.3)}
+.artisan-week-name{font-size:22px;font-weight:800;color:var(--text);margin-bottom:4px}
+.artisan-week-sector{font-size:14px;color:var(--text-3);margin-bottom:16px}
+.artisan-week-stars{display:flex;align-items:center;justify-content:center;gap:6px;margin-bottom:16px}
+.artisan-week-stars .stars{color:#F59E0B;font-size:20px;letter-spacing:2px}
+.artisan-week-stars .rating-num{font-size:24px;font-weight:800;color:var(--text)}
+.artisan-week-stars .review-count{font-size:14px;color:var(--text-3)}
+.artisan-week-loading{padding:40px;color:var(--text-3);font-size:14px}
+
+/* SYSTÈME DE PARRAINAGE */
+.referral-hero{background:linear-gradient(135deg,#4F46E5,#7C3AED);border-radius:var(--radius-lg);padding:32px;color:white;margin-bottom:24px;text-align:center}
+.referral-hero h3{font-size:22px;font-weight:800;margin-bottom:8px}
+.referral-hero p{font-size:14px;opacity:.85;margin-bottom:24px}
+.referral-link-box{background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);border-radius:var(--radius-sm);padding:12px 16px;display:flex;align-items:center;gap:10px;max-width:480px;margin:0 auto}
+.referral-link-box span{flex:1;font-size:13px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.referral-link-box button{background:white;color:#4F46E5;border:none;border-radius:6px;padding:7px 14px;font-size:13px;font-weight:700;cursor:pointer;flex-shrink:0}
+.referral-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:24px}
+.referral-stat{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:20px;text-align:center}
+.referral-stat-num{font-size:28px;font-weight:800;color:#4F46E5;margin-bottom:4px}
+.referral-stat-label{font-size:13px;color:var(--text-3)}
+.referral-rules{background:var(--bg);border-radius:var(--radius);padding:24px}
+.referral-rules h4{font-size:15px;font-weight:700;margin-bottom:16px;color:var(--text)}
+.referral-rule{display:flex;align-items:flex-start;gap:12px;margin-bottom:14px;font-size:14px;color:var(--text-2)}
+.referral-rule-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:16px}
+.referral-progress{margin-top:24px;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:20px}
+.referral-progress-bar{background:var(--border);border-radius:20px;height:10px;margin:10px 0;overflow:hidden}
+.referral-progress-fill{height:100%;background:linear-gradient(90deg,#4F46E5,#7C3AED);border-radius:20px;transition:width .5s}
+@media(max-width:600px){.referral-stats{grid-template-columns:1fr}}
+
 /* FOOTER */
 .footer{background:var(--white);border-top:1px solid var(--border);padding:32px 28px}
 .footer-inner{max-width:1120px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px}
@@ -376,7 +411,7 @@ input,textarea,select{font-family:'Inter',sans-serif}
 <nav class="nav">
   <div class="nav-inner">
     <div class="logo" onclick="navigate('home')">
-      <div class="logo-mark"><i class="ti ti-topology-star-3"></i></div>
+      <div class="logo-mark"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><line x1="4" y1="4" x2="4" y2="16" stroke="white" stroke-width="2.2" stroke-linecap="round"/><line x1="4" y1="4" x2="16" y2="16" stroke="white" stroke-width="2.2" stroke-linecap="round"/><line x1="16" y1="4" x2="16" y2="16" stroke="white" stroke-width="2.2" stroke-linecap="round"/><circle cx="4" cy="4" r="2" fill="white"/><circle cx="16" cy="4" r="2" fill="white"/><circle cx="4" cy="16" r="2" fill="white"/><circle cx="16" cy="16" r="2" fill="white"/></svg></div>
       <span class="logo-text">Nexi<span>work</span></span>
     </div>
     <div class="nav-links">
@@ -614,6 +649,18 @@ input,textarea,select{font-family:'Inter',sans-serif}
     </div>
   </div>
 
+  <!-- ARTISAN DE LA SEMAINE -->
+  <div class="artisan-week-section">
+    <div class="artisan-week-inner">
+      <div class="artisan-week-badge">⭐ Artisan de la semaine</div>
+      <p style="font-size:15px;color:#92400E;margin-bottom:24px">Chaque semaine, la communauté Nexiwork élit le professionnel le mieux noté. C'est votre tour la semaine prochaine ?</p>
+      <div id="artisan-week-content" class="artisan-week-loading">
+        <div class="spinner" style="margin:0 auto 12px;border-color:#F59E0B;border-top-color:transparent"></div>
+        Chargement de l'artisan de la semaine...
+      </div>
+    </div>
+  </div>
+
   <!-- DERNIERS PROFILS -->
   <div class="section section-alt">
     <div class="container">
@@ -645,7 +692,7 @@ input,textarea,select{font-family:'Inter',sans-serif}
       <div class="footer-new-top">
         <div class="footer-col footer-col-brand">
           <div class="logo">
-            <div class="logo-mark" style="width:32px;height:32px;background:linear-gradient(135deg,#4F46E5,#7C3AED)"><i class="ti ti-topology-star-3" style="font-size:16px"></i></div>
+            <div class="logo-mark" style="width:32px;height:32px;background:linear-gradient(135deg,#4F46E5,#7C3AED)"><svg width="18" height="18" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><line x1="4" y1="4" x2="4" y2="16" stroke="white" stroke-width="2.2" stroke-linecap="round"/><line x1="4" y1="4" x2="16" y2="16" stroke="white" stroke-width="2.2" stroke-linecap="round"/><line x1="16" y1="4" x2="16" y2="16" stroke="white" stroke-width="2.2" stroke-linecap="round"/><circle cx="4" cy="4" r="2" fill="white"/><circle cx="16" cy="4" r="2" fill="white"/><circle cx="4" cy="16" r="2" fill="white"/><circle cx="16" cy="16" r="2" fill="white"/></svg></div>
             <span class="logo-text">Nexi<span>work</span></span>
           </div>
           <p>Le réseau B2B de confiance en Suisse romande.</p>
@@ -681,7 +728,7 @@ input,textarea,select{font-family:'Inter',sans-serif}
   <div class="auth-page">
     <div class="auth-box">
       <div class="auth-logo">
-        <div class="logo-mark"><i class="ti ti-topology-star-3"></i></div>
+        <div class="logo-mark"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><line x1="4" y1="4" x2="4" y2="16" stroke="white" stroke-width="2.2" stroke-linecap="round"/><line x1="4" y1="4" x2="16" y2="16" stroke="white" stroke-width="2.2" stroke-linecap="round"/><line x1="16" y1="4" x2="16" y2="16" stroke="white" stroke-width="2.2" stroke-linecap="round"/><circle cx="4" cy="4" r="2" fill="white"/><circle cx="16" cy="4" r="2" fill="white"/><circle cx="4" cy="16" r="2" fill="white"/><circle cx="16" cy="16" r="2" fill="white"/></svg></div>
         <span class="logo-text">Nexi<span>work</span></span>
       </div>
       <h2>Bon retour 👋</h2>
@@ -700,7 +747,7 @@ input,textarea,select{font-family:'Inter',sans-serif}
   <div class="auth-page" style="align-items:flex-start;padding-top:48px">
     <div class="auth-box" style="max-width:520px">
       <div class="auth-logo">
-        <div class="logo-mark"><i class="ti ti-topology-star-3"></i></div>
+        <div class="logo-mark"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><line x1="4" y1="4" x2="4" y2="16" stroke="white" stroke-width="2.2" stroke-linecap="round"/><line x1="4" y1="4" x2="16" y2="16" stroke="white" stroke-width="2.2" stroke-linecap="round"/><line x1="16" y1="4" x2="16" y2="16" stroke="white" stroke-width="2.2" stroke-linecap="round"/><circle cx="4" cy="4" r="2" fill="white"/><circle cx="16" cy="4" r="2" fill="white"/><circle cx="4" cy="16" r="2" fill="white"/><circle cx="16" cy="16" r="2" fill="white"/></svg></div>
         <span class="logo-text">Nexi<span>work</span></span>
       </div>
       <h2>Créez votre profil entreprise</h2>
@@ -765,6 +812,7 @@ input,textarea,select{font-family:'Inter',sans-serif}
         <button class="sidebar-item" onclick="showDashTab('quotes')" id="tab-quotes"><i class="ti ti-file-invoice"></i> Devis</button>
         <button class="sidebar-item" onclick="showDashTab('reviews')" id="tab-reviews"><i class="ti ti-star"></i> Avis reçus</button>
         <button class="sidebar-item" onclick="showDashTab('premium')" id="tab-premium"><i class="ti ti-crown"></i> Premium</button>
+        <button class="sidebar-item" onclick="showDashTab('referral')" id="tab-referral"><i class="ti ti-gift"></i> Parrainage <span style="background:#4F46E5;color:white;font-size:10px;font-weight:700;padding:2px 6px;border-radius:10px;margin-left:4px">CHF</span></button>
         <hr class="divider">
         <button class="sidebar-item danger" onclick="doLogout()"><i class="ti ti-logout"></i> Déconnexion</button>
       </div>
@@ -994,7 +1042,7 @@ function navigate(page, param) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   const el = document.getElementById('page-' + page);
   if (el) { el.classList.add('active'); window.scrollTo(0, 0); }
-  if (page === 'home')      renderHome();
+  if (page === 'home')      { renderHome(); loadArtisanDeLaSemaine(); }
   if (page === 'directory') renderDirectory();
   if (page === 'profile')   renderProfileView(param);
   if (page === 'dashboard') { if (!currentUser) { navigate('login'); return; } renderDashboard(); }
@@ -1175,6 +1223,7 @@ async function showDashTab(tab) {
   else if (tab === 'quotes')   await renderQuotes();
   else if (tab === 'reviews')  await renderMyReviews();
   else if (tab === 'premium')  renderPremiumTab();
+  else if (tab === 'referral') renderReferralTab();
 }
 
 async function renderOverview() {
@@ -1527,6 +1576,143 @@ async function upgradePremium() {
   currentProfile = { ...currentProfile, premium: true };
   renderDashboard();
   toast('Félicitations ! Vous êtes maintenant Premium 🎉', 'success');
+}
+
+// ══════════════════════════════════════════════════════════
+//  PARRAINAGE
+// ══════════════════════════════════════════════════════════
+function renderReferralTab() {
+  const code = currentProfile?.id?.slice(0,8).toUpperCase() || 'XXXXXXXX';
+  const link = `https://nexiwork.ch?ref=${code}`;
+  // Simulate referral stats (future: load from DB)
+  const referrals = 0;
+  const credits   = 0;
+  const progress  = Math.min((referrals / 5) * 100, 100);
+
+  document.getElementById('dash-content').innerHTML = `
+    <div class="dash-header"><div class="dash-title">💰 Parrainage & Récompenses</div></div>
+
+    <div class="referral-hero">
+      <h3>Parrainez, gagnez du cash.</h3>
+      <p>Chaque PME que vous amenez sur Nexiwork vous rapporte <strong>CHF 10</strong>.<br>5 parrainages payants = <strong>CHF 50 versés</strong> directement sur votre compte.</p>
+      <div class="referral-link-box">
+        <span id="ref-link-text">${link}</span>
+        <button onclick="copyReferralLink('${link}')"><i class="ti ti-copy"></i> Copier</button>
+      </div>
+    </div>
+
+    <div class="referral-stats">
+      <div class="referral-stat">
+        <div class="referral-stat-num">${referrals}</div>
+        <div class="referral-stat-label">Parrainages actifs</div>
+      </div>
+      <div class="referral-stat">
+        <div class="referral-stat-num">CHF ${credits}</div>
+        <div class="referral-stat-label">Crédits gagnés</div>
+      </div>
+      <div class="referral-stat">
+        <div class="referral-stat-num">${5 - referrals > 0 ? 5 - referrals : 0}</div>
+        <div class="referral-stat-label">Jusqu'au prochain versement</div>
+      </div>
+    </div>
+
+    <div class="referral-progress">
+      <div style="display:flex;justify-content:space-between;font-size:13px;font-weight:600;color:var(--text-2)">
+        <span>Progression vers CHF 50</span>
+        <span>${referrals}/5 parrainages</span>
+      </div>
+      <div class="referral-progress-bar"><div class="referral-progress-fill" style="width:${progress}%"></div></div>
+      <p style="font-size:12px;color:var(--text-3);margin-top:4px">Le versement est déclenché dès que 5 de vos filleuls souscrivent à un plan payant.</p>
+    </div>
+
+    <div class="referral-rules" style="margin-top:20px">
+      <h4>🎯 Comment ça marche</h4>
+      <div class="referral-rule">
+        <div class="referral-rule-icon" style="background:#EEF2FF">1️⃣</div>
+        <div><strong>Partagez votre lien</strong> avec des PME, artisans ou indépendants de votre réseau. Par WhatsApp, email, ou en personne.</div>
+      </div>
+      <div class="referral-rule">
+        <div class="referral-rule-icon" style="background:#ECFDF5">2️⃣</div>
+        <div>Votre filleul <strong>s'inscrit gratuitement</strong> via votre lien. Il reçoit <strong>1 mois offert</strong> sur son premier abonnement payant.</div>
+      </div>
+      <div class="referral-rule">
+        <div class="referral-rule-icon" style="background:#FFFBEB">3️⃣</div>
+        <div>Dès qu'il souscrit à Basic, Medium ou Premium, vous recevez <strong>CHF 10 créditésً</strong> sur votre compte.</div>
+      </div>
+      <div class="referral-rule">
+        <div class="referral-rule-icon" style="background:#FFF7ED">4️⃣</div>
+        <div>Après <strong>5 parrainages payants</strong>, vous recevez <strong>CHF 50 en cash</strong> — par Twint ou virement bancaire.</div>
+      </div>
+
+      <div style="margin-top:20px;padding:16px;background:linear-gradient(135deg,#FFF7ED,#FFFBEB);border-radius:12px;border:1px solid #FDE68A">
+        <div style="font-size:13px;font-weight:700;color:#92400E;margin-bottom:6px">🏆 Bonus exceptionnel</div>
+        <div style="font-size:13px;color:#92400E">Parrainez <strong>10 PME dans votre région</strong> → <strong>1 an de Premium offert</strong> (valeur CHF 948)</div>
+      </div>
+    </div>`;
+}
+
+function copyReferralLink(link) {
+  navigator.clipboard.writeText(link).then(() => {
+    toast('Lien copié ! Partagez-le avec vos contacts.', 'success');
+  });
+}
+
+// ══════════════════════════════════════════════════════════
+//  ARTISAN DE LA SEMAINE
+// ══════════════════════════════════════════════════════════
+async function loadArtisanDeLaSemaine() {
+  const el = document.getElementById('artisan-week-content');
+  if (!el || !sb) return;
+
+  try {
+    const oneWeekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
+    // Get reviews from the last 7 days
+    const { data: recentReviews } = await sb.from('reviews')
+      .select('target_id, stars')
+      .gte('created_at', oneWeekAgo);
+
+    if (!recentReviews || recentReviews.length === 0) {
+      el.innerHTML = `<div style="color:#92400E;font-size:14px;padding:20px">Aucun avis cette semaine encore. Soyez le premier à noter un partenaire !</div>`;
+      return;
+    }
+
+    // Calculate average per profile
+    const scores = {};
+    recentReviews.forEach(r => {
+      if (!scores[r.target_id]) scores[r.target_id] = { total: 0, count: 0 };
+      scores[r.target_id].total += r.stars;
+      scores[r.target_id].count++;
+    });
+
+    // Get best (weighted: avg * log(count+1))
+    const bestId = Object.entries(scores)
+      .sort((a,b) => (b[1].total/b[1].count * Math.log(b[1].count+1)) - (a[1].total/a[1].count * Math.log(a[1].count+1)))[0][0];
+
+    const { data: winner } = await sb.from('profiles').select('*').eq('id', bestId).single();
+    if (!winner) return;
+
+    const avg = (scores[bestId].total / scores[bestId].count).toFixed(1);
+    const count = scores[bestId].count;
+    const stars = '★'.repeat(Math.round(avg)) + '☆'.repeat(5 - Math.round(avg));
+    const initials = winner.company.split(' ').map(w=>w[0]).slice(0,2).join('').toUpperCase();
+
+    el.innerHTML = `
+      <div class="artisan-week-card">
+        <div class="artisan-week-avatar">${initials}</div>
+        <div class="artisan-week-name">${winner.company}</div>
+        <div class="artisan-week-sector">${winner.sector} · ${winner.region}</div>
+        <div class="artisan-week-stars">
+          <span class="stars">${stars}</span>
+          <span class="rating-num">${avg}</span>
+          <span class="review-count">(${count} avis cette semaine)</span>
+        </div>
+        <button class="btn btn-outline" style="border-color:#F59E0B;color:#D97706" onclick="viewProfile('${winner.id}')">
+          <i class="ti ti-user-circle"></i> Voir le profil
+        </button>
+      </div>`;
+  } catch(e) {
+    el.innerHTML = '';
+  }
 }
 
 // ══════════════════════════════════════════════════════════
