@@ -780,56 +780,83 @@ input,textarea,select{font-family:'Inter',sans-serif}
       <h2>Simple, transparent, sans surprise</h2>
       <p>Commencez gratuitement et évoluez selon vos besoins</p>
     </div>
-    <div class="pricing-grid">
+    <div class="pricing-grid" style="grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px">
+
+      <!-- FREE -->
       <div class="pricing-card">
-        <div class="p-tier">Freemium</div>
+        <div class="p-tier">Free</div>
         <div class="price-num">CHF 0</div>
-        <div class="price-period">Pour démarrer — sans carte de crédit</div>
+        <div class="price-period">Pour toujours — sans carte de crédit</div>
         <ul class="price-features">
-          <li><i class="ti ti-check fi"></i>Profil entreprise visible</li>
-          <li><i class="ti ti-check fi"></i>Apparaître dans les recherches</li>
-          <li><i class="ti ti-check fi"></i>Recevoir des demandes de devis</li>
-          <li><i class="ti ti-check fi"></i>3 messages / mois</li>
-          <li class="off"><i class="ti ti-x fi"></i>Mise en avant dans les résultats</li>
-          <li class="off"><i class="ti ti-x fi"></i>Leads vérifiés illimités</li>
-          <li class="off"><i class="ti ti-x fi"></i>Badge Premium</li>
+          <li><i class="ti ti-check fi"></i>Profil complet avec logo</li>
+          <li><i class="ti ti-check fi"></i>Visible dans l'annuaire</li>
+          <li><i class="ti ti-check fi"></i>Devis reçus illimités</li>
+          <li><i class="ti ti-check fi"></i>5 messages initiés / semaine</li>
+          <li><i class="ti ti-check fi"></i>Consulter tous les profils</li>
+          <li><i class="ti ti-check fi"></i>Recevoir & répondre aux avis</li>
+          <li class="off"><i class="ti ti-x fi"></i>Badge vérifié</li>
           <li class="off"><i class="ti ti-x fi"></i>Statistiques de profil</li>
         </ul>
         <button class="btn btn-outline" style="width:100%;justify-content:center" onclick="navigate('register')">Commencer gratuitement</button>
       </div>
-      <div class="pricing-card featured">
-        <div class="pricing-popular">Le plus populaire</div>
-        <div class="p-tier blue">Premium</div>
-        <div class="price-num" style="background:linear-gradient(135deg,var(--blue),#7C3AED);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">CHF 35</div>
+
+      <!-- BASIC -->
+      <div class="pricing-card">
+        <div class="p-tier">Basic</div>
+        <div class="price-num">CHF 19</div>
         <div class="price-period">Par mois — Sans engagement</div>
         <ul class="price-features">
-          <li><i class="ti ti-check fi"></i>Tout ce qui est inclus en Freemium</li>
-          <li><i class="ti ti-check fi"></i>Mise en avant dans les recherches</li>
+          <li><i class="ti ti-check fi"></i>Tout ce qui est inclus en Free</li>
           <li><i class="ti ti-check fi"></i>Messages illimités</li>
-          <li><i class="ti ti-check fi"></i>Badge Premium vérifié</li>
-          <li><i class="ti ti-check fi"></i>Leads vérifiés illimités</li>
-          <li><i class="ti ti-check fi"></i>Statistiques détaillées</li>
-          <li><i class="ti ti-check fi"></i>Support prioritaire</li>
-          <li><i class="ti ti-check fi"></i>Export des contacts</li>
+          <li><i class="ti ti-check fi"></i>Badge "Membre actif"</li>
+          <li><i class="ti ti-check fi"></i>Bannière photo sur le profil</li>
+          <li><i class="ti ti-check fi"></i>Portfolio de projets réalisés</li>
+          <li><i class="ti ti-check fi"></i>Certifications & labels affichés</li>
+          <li><i class="ti ti-check fi"></i>Historique complet devis & messages</li>
+          <li><i class="ti ti-check fi"></i>Statistiques simples (vues du profil)</li>
         </ul>
-        <button class="btn btn-primary" style="width:100%;justify-content:center" onclick="upgradePremium()"><i class="ti ti-crown"></i>Activer Premium</button>
+        <button class="btn btn-outline" style="width:100%;justify-content:center" onclick="upgradePremium()">Activer Basic</button>
       </div>
-      <div class="pricing-card">
-        <div class="p-tier">Entreprise</div>
-        <div class="price-num" style="font-size:28px">Sur devis</div>
-        <div class="price-period">Pour les grandes structures</div>
+
+      <!-- MEDIUM -->
+      <div class="pricing-card featured">
+        <div class="pricing-popular">Le plus populaire</div>
+        <div class="p-tier blue">Medium</div>
+        <div class="price-num" style="background:linear-gradient(135deg,var(--blue),#7C3AED);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">CHF 39</div>
+        <div class="price-period">Par mois — Sans engagement</div>
         <ul class="price-features">
-          <li><i class="ti ti-check fi"></i>Tout ce qui est inclus en Premium</li>
-          <li><i class="ti ti-check fi"></i>Plusieurs utilisateurs</li>
-          <li><i class="ti ti-check fi"></i>CRM intégré</li>
-          <li><i class="ti ti-check fi"></i>Facturation sécurisée</li>
-          <li><i class="ti ti-check fi"></i>API & intégrations</li>
-          <li><i class="ti ti-check fi"></i>Account manager dédié</li>
-          <li><i class="ti ti-check fi"></i>SLA garanti</li>
-          <li><i class="ti ti-check fi"></i>Formation équipe</li>
+          <li><i class="ti ti-check fi"></i>Tout ce qui est inclus en Basic</li>
+          <li><i class="ti ti-check fi"></i>Badge vérifié (vérification manuelle)</li>
+          <li><i class="ti ti-check fi"></i>Priorité dans les résultats de recherche</li>
+          <li><i class="ti ti-check fi"></i>Créer des offres & promotions visibles</li>
+          <li><i class="ti ti-check fi"></i>Demandes de devis en masse</li>
+          <li><i class="ti ti-check fi"></i>Voir qui a visité ton profil</li>
+          <li><i class="ti ti-check fi"></i>Statistiques de performance détaillées</li>
+          <li><i class="ti ti-check fi"></i>Accès aux groupes sectoriels privés</li>
         </ul>
-        <button class="btn btn-outline" style="width:100%;justify-content:center">Nous contacter</button>
+        <button class="btn btn-primary" style="width:100%;justify-content:center" onclick="upgradePremium()"><i class="ti ti-crown"></i>Activer Medium</button>
       </div>
+
+      <!-- PREMIUM -->
+      <div class="pricing-card">
+        <div class="p-tier" style="color:#7C3AED">Premium</div>
+        <div class="price-num" style="background:linear-gradient(135deg,#7C3AED,#4F46E5);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">CHF 79</div>
+        <div class="price-period">Par mois — Sans engagement</div>
+        <ul class="price-features">
+          <li><i class="ti ti-check fi"></i>Tout ce qui est inclus en Medium</li>
+          <li><i class="ti ti-check fi"></i>Placement en tête de l'annuaire</li>
+          <li><i class="ti ti-check fi"></i>Profil optimisé SEO (visible sur Google)</li>
+          <li><i class="ti ti-check fi"></i>Newsletter mensuelle Nexiwork</li>
+          <li><i class="ti ti-check fi"></i>Rapport mensuel par email</li>
+          <li><i class="ti ti-check fi"></i>3 comptes utilisateurs</li>
+          <li><i class="ti ti-check fi"></i>Export des contacts</li>
+          <li><i class="ti ti-check fi"></i>Profil mis en avant sur la homepage</li>
+          <li><i class="ti ti-check fi"></i>Support prioritaire</li>
+          <li><i class="ti ti-check fi"></i>Invitations aux événements networking</li>
+        </ul>
+        <button class="btn btn-outline" style="width:100%;justify-content:center;border-color:#7C3AED;color:#7C3AED" onclick="upgradePremium()"><i class="ti ti-rocket"></i>Activer Premium</button>
+      </div>
+
     </div>
   </div>
 </div>
@@ -844,7 +871,7 @@ const SUPABASE_KEY  = 'sb_publishable_17Qt5OGI_N-ReFW_iRGfYA_AWUXZT6W';
 
 // Init Supabase
 let sb = null;
-const configured = SUPABASE_URL !== 'COLLE_TON_URL_ICI'; 
+const configured = SUPABASE_URL !== 'COLLE_TON_URL_ICI';
 if (configured) {
   sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 } else {
