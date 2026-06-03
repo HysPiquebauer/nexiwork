@@ -383,6 +383,19 @@ input,textarea,select{font-family:'Inter',sans-serif}
 .referral-progress-fill{height:100%;background:linear-gradient(90deg,#4F46E5,#7C3AED);border-radius:20px;transition:width .5s}
 @media(max-width:600px){.referral-stats{grid-template-columns:1fr}}
 
+/* TICKER PUBLICITAIRE */
+.company-ticker{position:fixed;left:0;top:50%;transform:translateY(-50%);width:72px;z-index:50;display:flex;flex-direction:column;align-items:center;gap:0;pointer-events:none}
+.ticker-label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text-4);margin-bottom:8px;writing-mode:vertical-rl;transform:rotate(180deg)}
+.ticker-track-wrap{height:340px;overflow:hidden;width:52px}
+.ticker-track{display:flex;flex-direction:column;gap:10px;animation:tickerScroll 20s linear infinite}
+.ticker-track:hover{animation-play-state:paused}
+.ticker-item{display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;pointer-events:all;transition:transform .15s}
+.ticker-item:hover{transform:scale(1.1)}
+.ticker-avatar{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;color:white;box-shadow:0 2px 8px rgba(0,0,0,0.12);flex-shrink:0}
+.ticker-name{font-size:8px;font-weight:600;color:var(--text-3);text-align:center;max-width:52px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;line-height:1.2}
+@keyframes tickerScroll{0%{transform:translateY(0)}100%{transform:translateY(-50%)}}
+@media(max-width:1300px){.company-ticker{display:none}}
+
 /* FOOTER */
 .footer{background:var(--white);border-top:1px solid var(--border);padding:32px 28px}
 .footer-inner{max-width:1120px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px}
@@ -401,6 +414,16 @@ input,textarea,select{font-family:'Inter',sans-serif}
 </style>
 </head>
 <body>
+
+<!-- TICKER PUBLICITAIRE -->
+<div class="company-ticker" id="company-ticker">
+  <div class="ticker-label">Membres</div>
+  <div class="ticker-track-wrap">
+    <div class="ticker-track" id="ticker-track">
+      <!-- Rempli dynamiquement par JS -->
+    </div>
+  </div>
+</div>
 
 <!-- BANNER CONFIG MANQUANTE -->
 <div class="setup-banner" id="setup-banner">
@@ -1042,7 +1065,7 @@ function navigate(page, param) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   const el = document.getElementById('page-' + page);
   if (el) { el.classList.add('active'); window.scrollTo(0, 0); }
-  if (page === 'home')      { renderHome(); loadArtisanDeLaSemaine(); }
+  if (page === 'home')      { renderHome(); loadArtisanDeLaSemaine(); loadTicker(); }
   if (page === 'directory') renderDirectory();
   if (page === 'profile')   renderProfileView(param);
   if (page === 'dashboard') { if (!currentUser) { navigate('login'); return; } renderDashboard(); }
@@ -1655,6 +1678,44 @@ function copyReferralLink(link) {
   navigator.clipboard.writeText(link).then(() => {
     toast('Lien copié ! Partagez-le avec vos contacts.', 'success');
   });
+}
+
+// ══════════════════════════════════════════════════════════
+//  TICKER PUBLICITAIRE
+// ══════════════════════════════════════════════════════════
+const TICKER_COLORS = [
+  'linear-gradient(135deg,#4F46E5,#7C3AED)',
+  'linear-gradient(135deg,#059669,#10B981)',
+  'linear-gradient(135deg,#D97706,#F59E0B)',
+  'linear-gradient(135deg,#DC2626,#F87171)',
+  'linear-gradient(135deg,#0284C7,#38BDF8)',
+  'linear-gradient(135deg,#7C3AED,#A78BFA)',
+  'linear-gradient(135deg,#065F46,#34D399)',
+  'linear-gradient(135deg,#92400E,#F59E0B)',
+];
+
+async function loadTicker() {
+  const track = document.getElementById('ticker-track');
+  if (!track || !sb) return;
+  const { data } = await sb.from('profiles').select('id,company,sector').order('created_at', { ascending: false }).limit(40);
+  if (!data || data.length === 0) { document.getElementById('company-ticker').style.display = 'none'; return; }
+
+  const makeItem = (p, i) => {
+    const initials = p.company.split(' ').map(w=>w[0]).slice(0,2).join('').toUpperCase();
+    const color = TICKER_COLORS[i % TICKER_COLORS.length];
+    return `<div class="ticker-item" onclick="viewProfile('${p.id}')" title="${p.company}">
+      <div class="ticker-avatar" style="background:${color}">${initials}</div>
+      <div class="ticker-name">${p.company}</div>
+    </div>`;
+  };
+
+  // Duplicate items for seamless loop
+  const items = data.map((p,i) => makeItem(p,i)).join('');
+  track.innerHTML = items + items;
+
+  // Adjust animation speed based on number of items
+  const duration = Math.max(15, data.length * 1.5);
+  track.style.animationDuration = duration + 's';
 }
 
 // ══════════════════════════════════════════════════════════
