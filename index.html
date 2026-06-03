@@ -1593,8 +1593,8 @@ function renderReferralTab() {
     <div class="dash-header"><div class="dash-title">💰 Parrainage & Récompenses</div></div>
 
     <div class="referral-hero">
-      <h3>Parrainez, gagnez du cash.</h3>
-      <p>Chaque PME que vous amenez sur Nexiwork vous rapporte <strong>CHF 10</strong>.<br>5 parrainages payants = <strong>CHF 50 versés</strong> directement sur votre compte.</p>
+      <h3>Parrainez, et profitez du Premium gratuit.</h3>
+      <p>Chaque PME que vous amenez sur Nexiwork et qui prend un abonnement payant vous offre <strong>1 mois de Premium</strong> (valeur CHF 79).<br>Plus vous parrainez, plus vous profitez — sans rien payer.</p>
       <div class="referral-link-box">
         <span id="ref-link-text">${link}</span>
         <button onclick="copyReferralLink('${link}')"><i class="ti ti-copy"></i> Copier</button>
@@ -1607,12 +1607,12 @@ function renderReferralTab() {
         <div class="referral-stat-label">Parrainages actifs</div>
       </div>
       <div class="referral-stat">
-        <div class="referral-stat-num">CHF ${credits}</div>
-        <div class="referral-stat-label">Crédits gagnés</div>
+        <div class="referral-stat-num">${referrals} mois</div>
+        <div class="referral-stat-label">Premium offerts gagnés</div>
       </div>
       <div class="referral-stat">
         <div class="referral-stat-num">${5 - referrals > 0 ? 5 - referrals : 0}</div>
-        <div class="referral-stat-label">Jusqu'au prochain versement</div>
+        <div class="referral-stat-label">Jusqu'au bonus cash CHF 50</div>
       </div>
     </div>
 
@@ -1633,20 +1633,20 @@ function renderReferralTab() {
       </div>
       <div class="referral-rule">
         <div class="referral-rule-icon" style="background:#ECFDF5">2️⃣</div>
-        <div>Votre filleul <strong>s'inscrit gratuitement</strong> via votre lien. Il reçoit <strong>1 mois offert</strong> sur son premier abonnement payant.</div>
+        <div>Votre filleul <strong>s'inscrit gratuitement</strong> via votre lien et reçoit <strong>1 mois offert</strong> sur son premier abonnement payant.</div>
       </div>
       <div class="referral-rule">
         <div class="referral-rule-icon" style="background:#FFFBEB">3️⃣</div>
-        <div>Dès qu'il souscrit à Basic, Medium ou Premium, vous recevez <strong>CHF 10 créditésً</strong> sur votre compte.</div>
+        <div>Dès qu'il souscrit à Basic, Medium ou Premium, vous recevez <strong>1 mois de Premium offert</strong> (valeur CHF 79) — automatiquement.</div>
       </div>
       <div class="referral-rule">
         <div class="referral-rule-icon" style="background:#FFF7ED">4️⃣</div>
-        <div>Après <strong>5 parrainages payants</strong>, vous recevez <strong>CHF 50 en cash</strong> — par Twint ou virement bancaire.</div>
+        <div>Après <strong>5 parrainages payants</strong>, vous recevez en plus <strong>CHF 50 en cash</strong> — par Twint ou virement bancaire.</div>
       </div>
 
       <div style="margin-top:20px;padding:16px;background:linear-gradient(135deg,#FFF7ED,#FFFBEB);border-radius:12px;border:1px solid #FDE68A">
         <div style="font-size:13px;font-weight:700;color:#92400E;margin-bottom:6px">🏆 Bonus exceptionnel</div>
-        <div style="font-size:13px;color:#92400E">Parrainez <strong>10 PME dans votre région</strong> → <strong>1 an de Premium offert</strong> (valeur CHF 948)</div>
+        <div style="font-size:13px;color:#92400E">Parrainez <strong>10 PME dans votre région</strong> → <strong>1 an de Premium offert</strong> (valeur CHF 948) + <strong>CHF 100 cash</strong></div>
       </div>
     </div>`;
 }
