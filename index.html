@@ -3,12 +3,62 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Nexiwork — Mise en relation professionnelle B2B</title>
+
+<!-- ══ SEO PRINCIPAL ══ -->
+<title>Nexiwork — Réseau B2B des PME de Suisse romande</title>
+<meta name="description" content="Nexiwork connecte les PME, artisans et indépendants de Suisse romande. Trouvez des partenaires, envoyez des devis et développez votre réseau professionnel. Inscription gratuite.">
+<meta name="keywords" content="réseau B2B Suisse, PME Suisse romande, mise en relation professionnelle, artisans Genève, partenaires commerciaux, Nexiwork">
+<meta name="author" content="Nexiwork">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://nexiwork.ch">
+
+<!-- ══ OPEN GRAPH (LinkedIn, Facebook, WhatsApp) ══ -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://nexiwork.ch">
+<meta property="og:title" content="Nexiwork — Le réseau B2B des PME de Suisse romande">
+<meta property="og:description" content="Connectez-vous avec des centaines de PME, artisans et indépendants en Suisse romande. Trouvez des partenaires, envoyez des devis, développez votre chiffre d'affaires.">
+<meta property="og:image" content="https://raw.githubusercontent.com/HysPiquebauer/nexiwork/main/1er%20page.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="fr_CH">
+<meta property="og:site_name" content="Nexiwork">
+
+<!-- ══ TWITTER CARD ══ -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Nexiwork — Le réseau B2B des PME de Suisse romande">
+<meta name="twitter:description" content="Connectez-vous avec des PME, artisans et indépendants en Suisse romande. Inscription gratuite.">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/HysPiquebauer/nexiwork/main/1er%20page.jpg">
+
+<!-- ══ JSON-LD ORGANISATION (Google) ══ -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Nexiwork",
+  "url": "https://nexiwork.ch",
+  "logo": "https://nexiwork.ch/nexiwork-logo.svg",
+  "description": "Plateforme de mise en relation B2B pour les PME et artisans de Suisse romande.",
+  "address": {
+    "@type": "PostalAddress",
+    "addressCountry": "CH",
+    "addressRegion": "Suisse romande"
+  },
+  "sameAs": [],
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "contactType": "customer support",
+    "email": "contact@nexiwork.ch",
+    "availableLanguage": "French"
+  }
+}
+</script>
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://js.stripe.com/v3/"></script>
 <style>
 /* ── CONFIGURATION MANQUANTE ── */
 .setup-banner { background: linear-gradient(135deg,#1e3a8a,#7C3AED); color: white; padding: 14px 24px; text-align: center; font-size: 14px; font-weight: 600; display: none; }
@@ -225,6 +275,37 @@ input,textarea,select{font-family:'Inter',sans-serif}
 .launch-banner .btn-launch{background:white;color:#4F46E5;border:none;border-radius:6px;padding:5px 14px;font-size:12px;font-weight:700;cursor:pointer;margin-left:12px}
 /* BADGE PROFIL INCOMPLET */
 .incomplete-badge{display:inline-flex;align-items:center;gap:4px;background:#FFF7ED;color:#D97706;border:1px solid #FDE68A;font-size:10px;font-weight:700;padding:2px 7px;border-radius:8px;margin-top:5px}
+/* ── ADMIN ── */
+.admin-page{min-height:100vh;background:#0F172A;color:#F1F5F9;padding:0}
+.admin-login{display:flex;align-items:center;justify-content:center;min-height:100vh;background:linear-gradient(135deg,#0F172A,#1E293B)}
+.admin-login-box{background:#1E293B;border:1px solid #334155;border-radius:20px;padding:40px;width:100%;max-width:380px;text-align:center}
+.admin-login-box h2{font-size:22px;font-weight:800;margin-bottom:6px;color:#F1F5F9}
+.admin-login-box p{font-size:13px;color:#94A3B8;margin-bottom:28px}
+.admin-login-box input{width:100%;background:#0F172A;border:1.5px solid #334155;border-radius:10px;padding:12px 16px;font-size:15px;color:#F1F5F9;outline:none;margin-bottom:12px;font-family:inherit}
+.admin-login-box input:focus{border-color:#4F46E5}
+.admin-nav{background:#1E293B;border-bottom:1px solid #334155;padding:0 32px;display:flex;align-items:center;justify-content:space-between;height:60px}
+.admin-nav-logo{font-size:16px;font-weight:800;color:#F1F5F9;display:flex;align-items:center;gap:10px}
+.admin-nav-logo span{background:linear-gradient(135deg,#4F46E5,#7C3AED);padding:4px 10px;border-radius:6px;font-size:12px;color:white}
+.admin-body{max-width:1200px;margin:0 auto;padding:32px}
+.admin-kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:32px}
+.admin-kpi{background:#1E293B;border:1px solid #334155;border-radius:14px;padding:22px}
+.admin-kpi .kpi-val{font-size:36px;font-weight:800;letter-spacing:-1px;background:linear-gradient(135deg,#818CF8,#A78BFA);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.admin-kpi .kpi-lbl{font-size:13px;color:#64748B;margin-top:4px;font-weight:500}
+.admin-kpi .kpi-delta{font-size:12px;color:#10B981;font-weight:600;margin-top:6px}
+.admin-section{background:#1E293B;border:1px solid #334155;border-radius:14px;padding:24px;margin-bottom:24px}
+.admin-section h3{font-size:15px;font-weight:700;color:#F1F5F9;margin-bottom:18px;display:flex;align-items:center;gap:8px}
+.admin-table{width:100%;border-collapse:collapse}
+.admin-table th{font-size:11px;font-weight:700;color:#64748B;text-transform:uppercase;letter-spacing:.06em;padding:8px 12px;text-align:left;border-bottom:1px solid #334155}
+.admin-table td{font-size:13px;color:#CBD5E1;padding:10px 12px;border-bottom:1px solid #1E293B}
+.admin-table tr:hover td{background:#0F172A}
+.admin-table .badge-premium{background:#92400E33;color:#F59E0B;font-size:11px;font-weight:700;padding:2px 8px;border-radius:6px}
+.admin-table .badge-free{background:#1E40AF33;color:#93C5FD;font-size:11px;font-weight:700;padding:2px 8px;border-radius:6px}
+.admin-toggle{background:#334155;color:#F1F5F9;border:none;border-radius:6px;padding:4px 10px;font-size:12px;cursor:pointer;font-family:inherit;font-weight:600}
+.admin-toggle:hover{background:#4F46E5}
+.admin-chart-bar{display:flex;align-items:flex-end;gap:6px;height:80px;margin-top:12px}
+.admin-bar{background:linear-gradient(180deg,#818CF8,#4F46E5);border-radius:4px 4px 0 0;min-width:28px;transition:height .4s}
+.admin-bar-label{font-size:10px;color:#64748B;text-align:center;margin-top:4px}
+
 /* COMPTEUR SEMAINE */
 .week-counter{display:inline-flex;align-items:center;gap:6px;background:#ECFDF5;border:1px solid #6EE7B7;color:#065F46;font-size:12px;font-weight:700;padding:5px 14px;border-radius:20px;margin-bottom:12px}
 
@@ -1000,6 +1081,34 @@ input,textarea,select{font-family:'Inter',sans-serif}
   </div>
 </div>
 
+<!-- PAGE ADMIN -->
+<div id="page-admin" class="page admin-page">
+  <div id="admin-login-screen" class="admin-login">
+    <div class="admin-login-box">
+      <div style="width:48px;height:48px;background:linear-gradient(135deg,#4F46E5,#7C3AED);border-radius:14px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px"><i class="ti ti-shield-lock" style="color:white;font-size:22px"></i></div>
+      <h2>Admin Nexiwork</h2>
+      <p>Accès réservé à l'administrateur</p>
+      <input type="password" id="admin-pwd" placeholder="Mot de passe admin" onkeydown="if(event.key==='Enter')checkAdminPwd()">
+      <button class="btn btn-primary" style="width:100%;justify-content:center" onclick="checkAdminPwd()"><i class="ti ti-lock-open"></i> Accéder</button>
+      <div id="admin-pwd-error" style="color:#F87171;font-size:13px;margin-top:12px;display:none">Mot de passe incorrect</div>
+    </div>
+  </div>
+  <div id="admin-dashboard-screen" style="display:none">
+    <div class="admin-nav">
+      <div class="admin-nav-logo">
+        <i class="ti ti-shield-check" style="color:#818CF8"></i> Nexiwork <span>ADMIN</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:16px">
+        <button class="admin-toggle" onclick="loadAdminData()"><i class="ti ti-refresh"></i> Actualiser</button>
+        <button class="admin-toggle" onclick="navigate('home')"><i class="ti ti-home"></i> Retour au site</button>
+      </div>
+    </div>
+    <div class="admin-body">
+      <div id="admin-content"><div style="text-align:center;padding:80px;color:#64748B"><div class="spinner" style="margin:0 auto 16px;border-color:#334155;border-top-color:#818CF8"></div>Chargement...</div></div>
+    </div>
+  </div>
+</div>
+
 <!-- PAGE PRICING -->
 <div id="page-pricing" class="page">
   <div class="section">
@@ -1043,7 +1152,7 @@ input,textarea,select{font-family:'Inter',sans-serif}
           <li><i class="ti ti-check fi"></i>Historique complet devis & messages</li>
           <li><i class="ti ti-check fi"></i>Statistiques simples (vues du profil)</li>
         </ul>
-        <button class="btn btn-outline" style="width:100%;justify-content:center" onclick="upgradePremium()">Activer Basic</button>
+        <button class="btn btn-outline" style="width:100%;justify-content:center" onclick="upgradePremium('basic')">Activer Basic</button>
       </div>
 
       <!-- MEDIUM -->
@@ -1062,7 +1171,7 @@ input,textarea,select{font-family:'Inter',sans-serif}
           <li><i class="ti ti-check fi"></i>Statistiques de performance détaillées</li>
           <li><i class="ti ti-check fi"></i>Accès aux groupes sectoriels privés</li>
         </ul>
-        <button class="btn btn-primary" style="width:100%;justify-content:center" onclick="upgradePremium()"><i class="ti ti-crown"></i>Activer Medium</button>
+        <button class="btn btn-primary" style="width:100%;justify-content:center" onclick="upgradePremium('medium')"><i class="ti ti-crown"></i>Activer Medium</button>
       </div>
 
       <!-- PREMIUM -->
@@ -1082,7 +1191,7 @@ input,textarea,select{font-family:'Inter',sans-serif}
           <li><i class="ti ti-check fi"></i>Support prioritaire</li>
           <li><i class="ti ti-check fi"></i>Invitations aux événements networking</li>
         </ul>
-        <button class="btn btn-outline" style="width:100%;justify-content:center;border-color:#7C3AED;color:#7C3AED" onclick="upgradePremium()"><i class="ti ti-rocket"></i>Activer Premium</button>
+        <button class="btn btn-outline" style="width:100%;justify-content:center;border-color:#7C3AED;color:#7C3AED" onclick="upgradePremium('premium')"><i class="ti ti-rocket"></i>Activer Premium</button>
       </div>
 
     </div>
@@ -1225,6 +1334,7 @@ function navigate(page, param) {
   if (page === 'directory') { renderDirectory(); loadSectorPeers(); }
   if (page === 'profile')   renderProfileView(param);
   if (page === 'dashboard') { if (!currentUser) { navigate('login'); return; } renderDashboard(); }
+  if (page === 'admin')     { renderAdminPage(); }
   updateNav();
 }
 
@@ -1769,16 +1879,78 @@ function renderPremiumTab() {
          </div>
          <div style="font-size:36px;font-weight:800;letter-spacing:-1px;margin-bottom:4px">CHF 35 <span style="font-size:18px;font-weight:400;color:var(--text-3)">/ mois</span></div>
          <p style="font-size:13px;color:var(--text-3);margin-bottom:24px">Sans engagement — résiliation à tout moment</p>
-         <button class="btn btn-premium btn-lg" onclick="upgradePremium()"><i class="ti ti-crown"></i>Activer Premium maintenant</button>
+         <button class="btn btn-premium btn-lg" onclick="upgradePremium('premium')"><i class="ti ti-crown"></i>Activer Premium maintenant</button>
        </div>`;
 }
 
-async function upgradePremium() {
+// ══════════════════════════════════════════════════════════
+//  STRIPE PAIEMENTS
+// ══════════════════════════════════════════════════════════
+// ⚠️ CONFIGURATION STRIPE — À remplir avec tes vraies clés
+const STRIPE_CONFIG = {
+  publishableKey: 'pk_live_XXXXXXXXXXXXXXXXXXXXXXXX', // ← Ta clé Stripe publishable
+  prices: {
+    basic:   'price_XXXXXXXXXXXXXXXXXXXXXXXX',  // ← Price ID Basic CHF 19/mois
+    medium:  'price_XXXXXXXXXXXXXXXXXXXXXXXX',  // ← Price ID Medium CHF 39/mois
+    premium: 'price_XXXXXXXXXXXXXXXXXXXXXXXX',  // ← Price ID Premium CHF 79/mois
+  },
+  successUrl: 'https://nexiwork.ch?payment=success',
+  cancelUrl:  'https://nexiwork.ch?payment=cancel',
+};
+
+const STRIPE_ACTIVE = !STRIPE_CONFIG.publishableKey.includes('XXXX');
+
+async function upgradePremium(plan) {
   if (!currentUser) { navigate('register'); return; }
-  await sb.from('profiles').update({ premium: true }).eq('id', currentProfile.id);
-  currentProfile = { ...currentProfile, premium: true };
-  renderDashboard();
-  toast('Félicitations ! Vous êtes maintenant Premium 🎉', 'success');
+  const planName = plan || 'premium';
+
+  // Si Stripe pas encore configuré → mode démo
+  if (!STRIPE_ACTIVE) {
+    await sb.from('profiles').update({ premium: true }).eq('id', currentProfile.id);
+    currentProfile = { ...currentProfile, premium: true };
+    renderDashboard();
+    toast('Félicitations ! Vous êtes maintenant Premium 🎉', 'success');
+    return;
+  }
+
+  // Mode Stripe réel
+  try {
+    const stripe = Stripe(STRIPE_CONFIG.publishableKey);
+    const priceId = STRIPE_CONFIG.prices[planName];
+    if (!priceId) { toast('Plan introuvable.', 'error'); return; }
+
+    toast('Redirection vers le paiement sécurisé...', '');
+    await stripe.redirectToCheckout({
+      lineItems: [{ price: priceId, quantity: 1 }],
+      mode: 'subscription',
+      successUrl: STRIPE_CONFIG.successUrl + `&plan=${planName}&uid=${currentUser.id}`,
+      cancelUrl:  STRIPE_CONFIG.cancelUrl,
+      customerEmail: currentUser.email,
+    });
+  } catch(e) {
+    toast('Erreur de paiement. Veuillez réessayer.', 'error');
+  }
+}
+
+// Vérifie si retour de Stripe avec succès
+async function checkStripeReturn() {
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('payment') === 'success') {
+    const uid = params.get('uid');
+    const plan = params.get('plan') || 'premium';
+    if (uid && sb) {
+      await sb.from('profiles').update({ premium: true }).eq('id', uid);
+      if (currentProfile && currentProfile.id === uid) {
+        currentProfile = { ...currentProfile, premium: true };
+      }
+      toast(`🎉 Paiement confirmé ! Bienvenue sur le plan ${plan} !`, 'success');
+      window.history.replaceState({}, '', window.location.pathname);
+    }
+  }
+  if (params.get('payment') === 'cancel') {
+    toast('Paiement annulé. Vous pouvez réessayer à tout moment.', '');
+    window.history.replaceState({}, '', window.location.pathname);
+  }
 }
 
 // ══════════════════════════════════════════════════════════
@@ -2286,10 +2458,154 @@ function inactivityBannerHtml(profile) {
   </div>`;
 }
 
+// ══════════════════════════════════════════════════════════
+//  ADMIN
+// ══════════════════════════════════════════════════════════
+const ADMIN_PASSWORD = 'nexiwork2024!'; // ← Change ce mot de passe !
+let adminUnlocked = false;
+
+function renderAdminPage() {
+  const login = document.getElementById('admin-login-screen');
+  const dash  = document.getElementById('admin-dashboard-screen');
+  if (!adminUnlocked) {
+    login.style.display = 'flex';
+    dash.style.display  = 'none';
+  } else {
+    login.style.display = 'none';
+    dash.style.display  = 'block';
+    loadAdminData();
+  }
+}
+
+function checkAdminPwd() {
+  const pwd = document.getElementById('admin-pwd').value;
+  const err = document.getElementById('admin-pwd-error');
+  if (pwd === ADMIN_PASSWORD) {
+    adminUnlocked = true;
+    document.getElementById('admin-login-screen').style.display = 'none';
+    document.getElementById('admin-dashboard-screen').style.display = 'block';
+    loadAdminData();
+  } else {
+    err.style.display = 'block';
+    document.getElementById('admin-pwd').value = '';
+    setTimeout(() => err.style.display = 'none', 3000);
+  }
+}
+
+async function loadAdminData() {
+  if (!sb) return;
+  const el = document.getElementById('admin-content');
+  el.innerHTML = '<div style="text-align:center;padding:40px;color:#64748B"><div class="spinner" style="margin:0 auto 16px;border-color:#334155;border-top-color:#818CF8"></div>Chargement...</div>';
+
+  const oneWeekAgo  = new Date(Date.now() - 7*24*60*60*1000).toISOString();
+  const oneMonthAgo = new Date(Date.now() - 30*24*60*60*1000).toISOString();
+
+  const [
+    { count: totalProfiles },
+    { count: premiumCount },
+    { count: weekSignups },
+    { count: monthSignups },
+    { count: totalMessages },
+    { count: totalReviews },
+    { data: allProfiles }
+  ] = await Promise.all([
+    sb.from('profiles').select('*', { count: 'exact', head: true }),
+    sb.from('profiles').select('*', { count: 'exact', head: true }).eq('premium', true),
+    sb.from('profiles').select('*', { count: 'exact', head: true }).gte('created_at', oneWeekAgo),
+    sb.from('profiles').select('*', { count: 'exact', head: true }).gte('created_at', oneMonthAgo),
+    sb.from('messages').select('*', { count: 'exact', head: true }),
+    sb.from('reviews').select('*', { count: 'exact', head: true }),
+    sb.from('profiles').select('id,company,type,sector,region,premium,created_at,email').order('created_at', { ascending: false }).limit(50),
+  ]);
+
+  const freeCount = (totalProfiles || 0) - (premiumCount || 0);
+  const convRate  = totalProfiles > 0 ? ((premiumCount / totalProfiles) * 100).toFixed(1) : '0';
+  const mrr       = (premiumCount || 0) * 39; // Medium plan average
+
+  // Sector distribution
+  const sectorMap = {};
+  (allProfiles||[]).forEach(p => { if (p.sector) sectorMap[p.sector] = (sectorMap[p.sector]||0)+1; });
+  const topSectors = Object.entries(sectorMap).sort((a,b)=>b[1]-a[1]).slice(0,5);
+  const maxCount   = topSectors[0]?.[1] || 1;
+
+  el.innerHTML = `
+    <!-- KPIs -->
+    <div class="admin-kpi-grid">
+      <div class="admin-kpi">
+        <div class="kpi-val">${totalProfiles||0}</div>
+        <div class="kpi-lbl">Entreprises inscrites</div>
+        <div class="kpi-delta">+${weekSignups||0} cette semaine</div>
+      </div>
+      <div class="admin-kpi">
+        <div class="kpi-val">${premiumCount||0}</div>
+        <div class="kpi-lbl">Comptes Premium</div>
+        <div class="kpi-delta">${convRate}% de conversion</div>
+      </div>
+      <div class="admin-kpi">
+        <div class="kpi-val">CHF ${mrr.toLocaleString('fr-CH')}</div>
+        <div class="kpi-lbl">MRR estimé</div>
+        <div class="kpi-delta">Revenu mensuel récurrent</div>
+      </div>
+      <div class="admin-kpi">
+        <div class="kpi-val">${totalMessages||0}</div>
+        <div class="kpi-lbl">Messages échangés</div>
+        <div class="kpi-delta">${totalReviews||0} avis publiés</div>
+      </div>
+      <div class="admin-kpi">
+        <div class="kpi-val">${monthSignups||0}</div>
+        <div class="kpi-lbl">Inscrits ce mois</div>
+        <div class="kpi-delta">${freeCount} comptes gratuits</div>
+      </div>
+    </div>
+
+    <!-- SECTEURS -->
+    <div class="admin-section">
+      <h3><i class="ti ti-chart-bar" style="color:#818CF8"></i> Top secteurs</h3>
+      ${topSectors.map(([sector, count]) => `
+        <div style="margin-bottom:10px">
+          <div style="display:flex;justify-content:space-between;font-size:13px;color:#CBD5E1;margin-bottom:4px">
+            <span>${sector}</span><span style="color:#818CF8;font-weight:700">${count}</span>
+          </div>
+          <div style="background:#0F172A;border-radius:6px;height:6px;overflow:hidden">
+            <div style="background:linear-gradient(90deg,#4F46E5,#818CF8);height:100%;border-radius:6px;width:${Math.round(count/maxCount*100)}%;transition:width .6s"></div>
+          </div>
+        </div>`).join('')}
+    </div>
+
+    <!-- LISTE MEMBRES -->
+    <div class="admin-section">
+      <h3><i class="ti ti-users" style="color:#818CF8"></i> Derniers inscrits (${(allProfiles||[]).length})</h3>
+      <div style="overflow-x:auto">
+        <table class="admin-table">
+          <thead><tr>
+            <th>Entreprise</th><th>Type</th><th>Secteur</th><th>Région</th><th>Plan</th><th>Inscrit le</th><th>Action</th>
+          </tr></thead>
+          <tbody>
+            ${(allProfiles||[]).map(p => `<tr>
+              <td style="font-weight:600;color:#F1F5F9">${p.company||'–'}</td>
+              <td>${p.type||'–'}</td>
+              <td>${p.sector||'–'}</td>
+              <td>${p.region||'–'}</td>
+              <td><span class="${p.premium?'badge-premium':'badge-free'}">${p.premium?'⭐ Premium':'Free'}</span></td>
+              <td>${new Date(p.created_at).toLocaleDateString('fr-CH')}</td>
+              <td><button class="admin-toggle" onclick="adminTogglePremium('${p.id}',${!p.premium})">${p.premium?'↓ Rétrograder':'↑ Premium'}</button></td>
+            </tr>`).join('')}
+          </tbody>
+        </table>
+      </div>
+    </div>`;
+}
+
+async function adminTogglePremium(id, setPremium) {
+  await sb.from('profiles').update({ premium: setPremium }).eq('id', id);
+  await loadAdminData();
+}
+
 // ── INIT ──
 (async () => {
   await initAuth();
   navigate('home');
+  await checkStripeReturn();
 })();
 </script>
 
