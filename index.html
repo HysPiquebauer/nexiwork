@@ -1105,7 +1105,10 @@ input,textarea,select{font-family:'Inter',sans-serif}
       <h2 style="font-size:22px;font-weight:800;margin-bottom:16px">Notre mission</h2>
       <p style="font-size:15px;color:var(--text-2);line-height:1.8;margin-bottom:16px">Nexiwork est le <strong>réseau B2B exclusivement dédié aux PME de Suisse romande</strong>. Notre mission est simple : permettre à chaque entreprise locale de trouver, contacter et collaborer avec des partenaires de confiance — rapidement, simplement, et sans intermédiaire.</p>
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-top:24px">
-        ${[['🤝','Connexions locales','Des partenaires dans votre région, pas à l\'autre bout du monde'],['⭐','Avis vérifiés','Chaque profil est noté par des professionnels qui ont vraiment travaillé ensemble'],['🔒','Données en Suisse','Vos données sont hébergées en Europe, conformément au droit suisse'],['🚀','Gratuit pour démarrer','Créez votre profil et trouvez vos premiers contacts sans rien payer']].map(([icon,title,desc])=>`<div style="background:var(--bg);border-radius:var(--radius);padding:18px"><div style="font-size:24px;margin-bottom:8px">${icon}</div><div style="font-size:14px;font-weight:700;margin-bottom:4px">${title}</div><div style="font-size:13px;color:var(--text-3)">${desc}</div></div>`).join('')}
+        <div style="background:var(--bg);border-radius:var(--radius);padding:18px"><div style="font-size:24px;margin-bottom:8px">🤝</div><div style="font-size:14px;font-weight:700;margin-bottom:4px">Connexions locales</div><div style="font-size:13px;color:var(--text-3)">Des partenaires dans votre région, pas à l'autre bout du monde</div></div>
+        <div style="background:var(--bg);border-radius:var(--radius);padding:18px"><div style="font-size:24px;margin-bottom:8px">⭐</div><div style="font-size:14px;font-weight:700;margin-bottom:4px">Avis vérifiés</div><div style="font-size:13px;color:var(--text-3)">Chaque profil est noté par des professionnels qui ont vraiment travaillé ensemble</div></div>
+        <div style="background:var(--bg);border-radius:var(--radius);padding:18px"><div style="font-size:24px;margin-bottom:8px">🔒</div><div style="font-size:14px;font-weight:700;margin-bottom:4px">Données en Suisse</div><div style="font-size:13px;color:var(--text-3)">Vos données sont hébergées en Europe, conformément au droit suisse</div></div>
+        <div style="background:var(--bg);border-radius:var(--radius);padding:18px"><div style="font-size:24px;margin-bottom:8px">🚀</div><div style="font-size:14px;font-weight:700;margin-bottom:4px">Gratuit pour démarrer</div><div style="font-size:13px;color:var(--text-3)">Créez votre profil et trouvez vos premiers contacts sans rien payer</div></div>
       </div>
     </div>
     <div style="background:linear-gradient(135deg,#EEF2FF,#F5F3FF);border:1px solid #C7D2FE;border-radius:var(--radius-xl);padding:40px;text-align:center">
@@ -1124,18 +1127,37 @@ input,textarea,select{font-family:'Inter',sans-serif}
       <div class="section-eyebrow">FAQ</div>
       <h1 style="font-size:36px;font-weight:800;letter-spacing:-1px;margin:12px 0">Questions fréquentes</h1>
     </div>
-    ${[
-      ['C\'est quoi la différence avec LinkedIn ?', 'LinkedIn est une plateforme mondiale pensée pour les grandes entreprises et la recherche d\'emploi. Nexiwork est exclusivement dédié aux PME, artisans et indépendants de Suisse romande. Tout le monde parle français, tout le monde est local, et les fonctionnalités (devis, avis, messagerie) sont pensées pour les besoins concrets des petites entreprises.'],
-      ['Est-ce que mes données sont en sécurité ?', 'Oui. Vos données sont stockées sur des serveurs en Europe (Allemagne), conformément au RGPD et à la LPD suisse. Nous ne revendons jamais vos données à des tiers. Vous pouvez demander la suppression de votre compte à tout moment en nous contactant.'],
-      ['Comment fonctionne l\'abonnement ?', 'Nexiwork est gratuit pour créer un profil et entrer en contact. Les plans payants (Basic CHF 19/mois, Medium CHF 39/mois, Premium CHF 79/mois) donnent accès à plus de visibilité, de contacts et de fonctionnalités avancées. Aucun engagement — vous pouvez résilier à tout moment.'],
-      ['Comment sont vérifiés les profils ?', 'Chaque profil est créé par l\'entreprise elle-même avec une adresse email valide. Les avis sont laissés uniquement par des utilisateurs inscrits qui ont réellement eu un échange sur la plateforme. Le badge "Vérifié" est attribué manuellement après vérification de l\'existence légale de l\'entreprise.'],
-      ['Je suis artisan indépendant, est-ce fait pour moi ?', 'Absolument. Nexiwork est conçu aussi bien pour les grandes PME que pour les artisans solo et les indépendants. Plombiers, électriciens, menuisiers, graphistes, comptables — tous ont leur place sur Nexiwork.'],
-      ['Comment contacter le support ?', 'Vous pouvez nous écrire à contact@nexiwork.ch. Nous répondons dans les 24h ouvrées. Les membres Premium bénéficient d\'un support prioritaire avec réponse en moins de 4h.'],
-    ].map(([q,a])=>`
-      <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);padding:24px;margin-bottom:12px;cursor:pointer" onclick="this.querySelector('.faq-answer').style.display=this.querySelector('.faq-answer').style.display==='none'?'block':'none'">
-        <div style="display:flex;align-items:center;justify-content:space-between;font-size:15px;font-weight:700"><span>${q}</span><i class="ti ti-chevron-down" style="color:var(--text-3);flex-shrink:0"></i></div>
-        <div class="faq-answer" style="display:none;margin-top:14px;font-size:14px;color:var(--text-2);line-height:1.75">${a}</div>
-      </div>`).join('')}
+
+    <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);padding:24px;margin-bottom:12px;cursor:pointer" onclick="var a=this.querySelector('.faq-answer');a.style.display=a.style.display==='block'?'none':'block'">
+      <div style="display:flex;align-items:center;justify-content:space-between;font-size:15px;font-weight:700"><span>C'est quoi la différence avec LinkedIn ?</span><i class="ti ti-chevron-down" style="color:var(--text-3)"></i></div>
+      <div class="faq-answer" style="display:none;margin-top:14px;font-size:14px;color:var(--text-2);line-height:1.75">LinkedIn est une plateforme mondiale pensée pour les grandes entreprises et la recherche d'emploi. Nexiwork est exclusivement dédié aux PME, artisans et indépendants de Suisse romande. Tout le monde parle français, tout le monde est local, et les fonctionnalités (devis, avis, messagerie) sont pensées pour les besoins concrets des petites entreprises.</div>
+    </div>
+
+    <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);padding:24px;margin-bottom:12px;cursor:pointer" onclick="var a=this.querySelector('.faq-answer');a.style.display=a.style.display==='block'?'none':'block'">
+      <div style="display:flex;align-items:center;justify-content:space-between;font-size:15px;font-weight:700"><span>Est-ce que mes données sont en sécurité ?</span><i class="ti ti-chevron-down" style="color:var(--text-3)"></i></div>
+      <div class="faq-answer" style="display:none;margin-top:14px;font-size:14px;color:var(--text-2);line-height:1.75">Oui. Vos données sont stockées sur des serveurs en Europe (Allemagne), conformément au RGPD et à la LPD suisse. Nous ne revendons jamais vos données à des tiers. Vous pouvez demander la suppression de votre compte à tout moment en nous contactant.</div>
+    </div>
+
+    <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);padding:24px;margin-bottom:12px;cursor:pointer" onclick="var a=this.querySelector('.faq-answer');a.style.display=a.style.display==='block'?'none':'block'">
+      <div style="display:flex;align-items:center;justify-content:space-between;font-size:15px;font-weight:700"><span>Comment fonctionne l'abonnement ?</span><i class="ti ti-chevron-down" style="color:var(--text-3)"></i></div>
+      <div class="faq-answer" style="display:none;margin-top:14px;font-size:14px;color:var(--text-2);line-height:1.75">Nexiwork est gratuit pour créer un profil et entrer en contact. Les plans payants (Basic CHF 19/mois, Medium CHF 39/mois, Premium CHF 79/mois) donnent accès à plus de visibilité, de contacts et de fonctionnalités avancées. Aucun engagement — vous pouvez résilier à tout moment.</div>
+    </div>
+
+    <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);padding:24px;margin-bottom:12px;cursor:pointer" onclick="var a=this.querySelector('.faq-answer');a.style.display=a.style.display==='block'?'none':'block'">
+      <div style="display:flex;align-items:center;justify-content:space-between;font-size:15px;font-weight:700"><span>Comment sont vérifiés les profils ?</span><i class="ti ti-chevron-down" style="color:var(--text-3)"></i></div>
+      <div class="faq-answer" style="display:none;margin-top:14px;font-size:14px;color:var(--text-2);line-height:1.75">Chaque profil est créé par l'entreprise elle-même avec une adresse email valide. Les avis sont laissés uniquement par des utilisateurs inscrits qui ont réellement eu un échange sur la plateforme. Le badge "Vérifié" est attribué manuellement après vérification de l'existence légale de l'entreprise.</div>
+    </div>
+
+    <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);padding:24px;margin-bottom:12px;cursor:pointer" onclick="var a=this.querySelector('.faq-answer');a.style.display=a.style.display==='block'?'none':'block'">
+      <div style="display:flex;align-items:center;justify-content:space-between;font-size:15px;font-weight:700"><span>Je suis artisan indépendant, est-ce fait pour moi ?</span><i class="ti ti-chevron-down" style="color:var(--text-3)"></i></div>
+      <div class="faq-answer" style="display:none;margin-top:14px;font-size:14px;color:var(--text-2);line-height:1.75">Absolument. Nexiwork est conçu aussi bien pour les grandes PME que pour les artisans solo et les indépendants. Plombiers, électriciens, menuisiers, graphistes, comptables — tous ont leur place sur Nexiwork.</div>
+    </div>
+
+    <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);padding:24px;margin-bottom:12px;cursor:pointer" onclick="var a=this.querySelector('.faq-answer');a.style.display=a.style.display==='block'?'none':'block'">
+      <div style="display:flex;align-items:center;justify-content:space-between;font-size:15px;font-weight:700"><span>Comment contacter le support ?</span><i class="ti ti-chevron-down" style="color:var(--text-3)"></i></div>
+      <div class="faq-answer" style="display:none;margin-top:14px;font-size:14px;color:var(--text-2);line-height:1.75">Vous pouvez nous écrire à contact@nexiwork.ch. Nous répondons dans les 24h ouvrées. Les membres Premium bénéficient d'un support prioritaire avec réponse en moins de 4h.</div>
+    </div>
+
     <div style="background:linear-gradient(135deg,#EEF2FF,#F5F3FF);border-radius:var(--radius-xl);padding:32px;text-align:center;margin-top:32px">
       <p style="font-size:15px;font-weight:600;margin-bottom:16px">Vous n'avez pas trouvé votre réponse ?</p>
       <a href="mailto:contact@nexiwork.ch" class="btn btn-primary"><i class="ti ti-mail"></i> Nous contacter</a>
@@ -1147,22 +1169,43 @@ input,textarea,select{font-family:'Inter',sans-serif}
 <div id="page-legal" class="page">
   <div style="max-width:800px;margin:0 auto;padding:60px 28px">
     <button class="back-btn" onclick="navigate('home')"><i class="ti ti-arrow-left"></i> Retour</button>
-    <h1 style="font-size:32px;font-weight:800;margin-bottom:8px">Mentions légales & Confidentialité</h1>
+    <h1 style="font-size:32px;font-weight:800;margin-bottom:8px">Mentions légales &amp; Confidentialité</h1>
     <p style="color:var(--text-3);margin-bottom:40px">Dernière mise à jour : juin 2026</p>
 
-    ${[
-      ['Éditeur du site', '<strong>Nexiwork</strong><br>Genève, Suisse<br>Email : contact@nexiwork.ch<br>Site web : nexiwork.ch'],
-      ['Hébergement', 'Le site est hébergé par <strong>Vercel Inc.</strong> (San Francisco, USA) avec des serveurs en Europe. La base de données est hébergée par <strong>Supabase</strong> sur AWS eu-central-1 (Francfort, Allemagne).'],
-      ['Données personnelles (LPD / RGPD)', 'Nexiwork collecte les données suivantes lors de l\'inscription : nom de l\'entreprise, adresse email, numéro de téléphone (optionnel), secteur d\'activité et région. Ces données sont utilisées uniquement pour faire fonctionner la plateforme. Elles ne sont jamais revendues à des tiers. Conformément à la Loi fédérale sur la protection des données (LPD) et au RGPD européen, vous disposez d\'un droit d\'accès, de rectification et de suppression de vos données. Pour exercer ces droits, contactez-nous à contact@nexiwork.ch.'],
-      ['Cookies', 'Nexiwork utilise uniquement des cookies techniques nécessaires au fonctionnement de l\'authentification (session Supabase). Aucun cookie publicitaire ou de tracking n\'est utilisé.'],
-      ['Conditions d\'utilisation', 'En utilisant Nexiwork, vous acceptez de : (1) fournir des informations exactes sur votre entreprise, (2) ne pas publier de contenu frauduleux, diffamatoire ou illégal, (3) respecter les autres membres de la communauté. Nexiwork se réserve le droit de supprimer tout profil ne respectant pas ces conditions.'],
-      ['Responsabilité', 'Nexiwork est une plateforme de mise en relation. Nous ne sommes pas responsables des transactions, contrats ou différends qui peuvent survenir entre les membres. Chaque entreprise est responsable de ses propres engagements commerciaux.'],
-      ['Contact', 'Pour toute question concernant ces mentions légales : contact@nexiwork.ch'],
-    ].map(([title, content])=>`
-      <div style="margin-bottom:32px">
-        <h2 style="font-size:18px;font-weight:800;margin-bottom:10px;color:var(--text)">${title}</h2>
-        <p style="font-size:14px;color:var(--text-2);line-height:1.8">${content}</p>
-      </div>`).join('')}
+    <div style="margin-bottom:32px">
+      <h2 style="font-size:18px;font-weight:800;margin-bottom:10px">Éditeur du site</h2>
+      <p style="font-size:14px;color:var(--text-2);line-height:1.8"><strong>Nexiwork</strong><br>Genève, Suisse<br>Email : contact@nexiwork.ch<br>Site web : nexiwork.ch</p>
+    </div>
+
+    <div style="margin-bottom:32px">
+      <h2 style="font-size:18px;font-weight:800;margin-bottom:10px">Hébergement</h2>
+      <p style="font-size:14px;color:var(--text-2);line-height:1.8">Le site est hébergé par <strong>Vercel Inc.</strong> (San Francisco, USA) avec des serveurs en Europe. La base de données est hébergée par <strong>Supabase</strong> sur AWS eu-central-1 (Francfort, Allemagne).</p>
+    </div>
+
+    <div style="margin-bottom:32px">
+      <h2 style="font-size:18px;font-weight:800;margin-bottom:10px">Données personnelles (LPD / RGPD)</h2>
+      <p style="font-size:14px;color:var(--text-2);line-height:1.8">Nexiwork collecte les données suivantes lors de l'inscription : nom de l'entreprise, adresse email, numéro de téléphone (optionnel), secteur d'activité et région. Ces données sont utilisées uniquement pour faire fonctionner la plateforme. Elles ne sont jamais revendues à des tiers. Conformément à la Loi fédérale sur la protection des données (LPD) et au RGPD européen, vous disposez d'un droit d'accès, de rectification et de suppression de vos données. Pour exercer ces droits, contactez-nous à contact@nexiwork.ch.</p>
+    </div>
+
+    <div style="margin-bottom:32px">
+      <h2 style="font-size:18px;font-weight:800;margin-bottom:10px">Cookies</h2>
+      <p style="font-size:14px;color:var(--text-2);line-height:1.8">Nexiwork utilise uniquement des cookies techniques nécessaires au fonctionnement de l'authentification (session Supabase). Aucun cookie publicitaire ou de tracking n'est utilisé.</p>
+    </div>
+
+    <div style="margin-bottom:32px">
+      <h2 style="font-size:18px;font-weight:800;margin-bottom:10px">Conditions d'utilisation</h2>
+      <p style="font-size:14px;color:var(--text-2);line-height:1.8">En utilisant Nexiwork, vous acceptez de : (1) fournir des informations exactes sur votre entreprise, (2) ne pas publier de contenu frauduleux, diffamatoire ou illégal, (3) respecter les autres membres de la communauté. Nexiwork se réserve le droit de supprimer tout profil ne respectant pas ces conditions.</p>
+    </div>
+
+    <div style="margin-bottom:32px">
+      <h2 style="font-size:18px;font-weight:800;margin-bottom:10px">Responsabilité</h2>
+      <p style="font-size:14px;color:var(--text-2);line-height:1.8">Nexiwork est une plateforme de mise en relation. Nous ne sommes pas responsables des transactions, contrats ou différends qui peuvent survenir entre les membres. Chaque entreprise est responsable de ses propres engagements commerciaux.</p>
+    </div>
+
+    <div style="margin-bottom:32px">
+      <h2 style="font-size:18px;font-weight:800;margin-bottom:10px">Contact</h2>
+      <p style="font-size:14px;color:var(--text-2);line-height:1.8">Pour toute question concernant ces mentions légales : <a href="mailto:contact@nexiwork.ch" style="color:var(--blue)">contact@nexiwork.ch</a></p>
+    </div>
   </div>
 </div>
 
