@@ -161,6 +161,43 @@ input,textarea,select{font-family:'Inter',sans-serif}
 .sector-peer-chip:hover{border-color:#4F46E5;background:#EEF2FF;color:#4F46E5}
 .sector-peer-avatar{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;color:white;flex-shrink:0}
 
+/* ── CALCULATEUR ROI ── */
+.roi-section{background:var(--white);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:80px 28px}
+.roi-inner{max-width:900px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
+.roi-controls{display:flex;flex-direction:column;gap:20px}
+.roi-control label{display:block;font-size:13px;font-weight:700;color:var(--text-2);margin-bottom:8px}
+.roi-control select,.roi-control input[type=range]{width:100%}
+.roi-control input[type=range]{-webkit-appearance:none;height:6px;border-radius:4px;background:var(--border);outline:none;cursor:pointer}
+.roi-control input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:linear-gradient(135deg,#4F46E5,#7C3AED);cursor:pointer;box-shadow:0 2px 6px rgba(79,70,229,0.4)}
+.roi-result{background:linear-gradient(135deg,#EEF2FF,#F5F3FF);border:1px solid #C7D2FE;border-radius:var(--radius-xl);padding:36px;text-align:center}
+.roi-result-main{font-size:56px;font-weight:800;letter-spacing:-2px;background:linear-gradient(135deg,#4F46E5,#7C3AED);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;margin-bottom:4px}
+.roi-result-sub{font-size:14px;color:var(--text-3);margin-bottom:28px}
+.roi-metrics{display:grid;grid-template-columns:1fr 1fr;gap:12px;text-align:left}
+.roi-metric{background:white;border-radius:var(--radius);padding:14px 16px}
+.roi-metric-val{font-size:22px;font-weight:800;color:var(--text);letter-spacing:-0.5px}
+.roi-metric-lbl{font-size:12px;color:var(--text-3);margin-top:2px}
+@media(max-width:768px){.roi-inner{grid-template-columns:1fr}}
+
+/* ── PROFILS FLOUTÉS ── */
+.blurred-card{position:relative;overflow:hidden}
+.blurred-card .card-blur-overlay{position:absolute;inset:0;background:rgba(255,255,255,0.6);backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px);z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;border-radius:var(--radius-lg)}
+.blurred-card .card-blur-overlay i{font-size:28px;color:#4F46E5}
+.blurred-card .card-blur-overlay span{font-size:13px;font-weight:700;color:var(--text-2);text-align:center;padding:0 16px}
+.blurred-card .card-blur-overlay button{font-size:12px;padding:7px 16px}
+
+/* ── SCORE VISIBILITÉ ── */
+.visibility-score{background:linear-gradient(135deg,#EEF2FF,#F5F3FF);border:1px solid #C7D2FE;border-radius:var(--radius-lg);padding:24px;margin-bottom:24px}
+.vs-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.vs-title{font-size:15px;font-weight:800;color:var(--text)}
+.vs-score-badge{font-size:22px;font-weight:800;color:#4F46E5}
+.vs-bar-wrap{background:#DDD6FE;border-radius:8px;height:10px;overflow:hidden;margin-bottom:16px}
+.vs-bar{height:100%;border-radius:8px;background:linear-gradient(90deg,#4F46E5,#7C3AED);transition:width .8s cubic-bezier(.4,0,.2,1)}
+.vs-tips{display:flex;flex-direction:column;gap:8px}
+.vs-tip{display:flex;align-items:center;gap:10px;font-size:13px;padding:10px 14px;border-radius:var(--radius-sm);cursor:pointer;transition:background .15s}
+.vs-tip.done{background:#ECFDF5;color:#065F46}
+.vs-tip.todo{background:white;border:1px solid var(--border);color:var(--text-2)}
+.vs-tip.done i{color:#10B981}.vs-tip.todo i{color:#9CA3AF}
+
 /* OFFRE LANCEMENT */
 .launch-banner{background:linear-gradient(135deg,#7C3AED,#4F46E5);color:white;padding:11px 24px;text-align:center;font-size:13px;font-weight:600;position:relative;z-index:99;display:none}
 .launch-banner b{color:#FDE68A}
@@ -734,6 +771,65 @@ input,textarea,select{font-family:'Inter',sans-serif}
     </div>
   </div>
 
+  <!-- CALCULATEUR ROI -->
+  <div class="roi-section">
+    <div class="container" style="margin-bottom:48px">
+      <div class="section-header">
+        <div class="section-eyebrow">Calculateur ROI</div>
+        <h2>Combien peut vous rapporter Nexiwork ?</h2>
+        <p>Estimez votre retour sur investissement en 30 secondes</p>
+      </div>
+    </div>
+    <div class="roi-inner">
+      <div class="roi-controls">
+        <div class="roi-control">
+          <label>Votre secteur d'activité</label>
+          <select id="roi-sector" onchange="updateROI()">
+            <option value="construction">Construction & Rénovation</option>
+            <option value="tech">Informatique & Tech</option>
+            <option value="finance">Finance & Comptabilité</option>
+            <option value="marketing">Marketing & Communication</option>
+            <option value="plomberie">Plomberie & Chauffage</option>
+            <option value="juridique">Droit & Juridique</option>
+            <option value="transport">Transport & Logistique</option>
+            <option value="other">Autre secteur</option>
+          </select>
+        </div>
+        <div class="roi-control">
+          <label>Taille de votre réseau actuel : <strong id="roi-network-val">10</strong> contacts</label>
+          <input type="range" id="roi-network" min="5" max="200" value="10" step="5" oninput="updateROI()">
+        </div>
+        <div class="roi-control">
+          <label>Valeur moyenne d'un nouveau client : <strong id="roi-value-val">CHF 2 000</strong></label>
+          <input type="range" id="roi-value" min="500" max="20000" value="2000" step="500" oninput="updateROI()">
+        </div>
+        <div class="roi-control">
+          <label>Votre plan</label>
+          <select id="roi-plan" onchange="updateROI()">
+            <option value="free">Free (gratuit)</option>
+            <option value="basic">Basic (CHF 19/mois)</option>
+            <option value="medium" selected>Medium (CHF 39/mois)</option>
+            <option value="premium">Premium (CHF 79/mois)</option>
+          </select>
+        </div>
+      </div>
+      <div class="roi-result">
+        <div style="font-size:13px;font-weight:700;color:#4F46E5;text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px">Votre ROI estimé / an</div>
+        <div class="roi-result-main" id="roi-main">CHF 12 000</div>
+        <div class="roi-result-sub" id="roi-sub">soit <span id="roi-multiplier">25x</span> votre investissement annuel</div>
+        <div class="roi-metrics">
+          <div class="roi-metric"><div class="roi-metric-val" id="roi-contacts">+18</div><div class="roi-metric-lbl">Nouveaux contacts/an</div></div>
+          <div class="roi-metric"><div class="roi-metric-val" id="roi-deals">+6</div><div class="roi-metric-lbl">Contrats estimés/an</div></div>
+          <div class="roi-metric"><div class="roi-metric-val" id="roi-cost">CHF 468</div><div class="roi-metric-lbl">Coût annuel</div></div>
+          <div class="roi-metric"><div class="roi-metric-val" id="roi-net">CHF 11 532</div><div class="roi-metric-lbl">Gain net estimé</div></div>
+        </div>
+        <button class="btn btn-primary btn-lg" style="margin-top:24px;width:100%;justify-content:center" onclick="navigate('register')">
+          <i class="ti ti-rocket"></i> Démarrer gratuitement
+        </button>
+      </div>
+    </div>
+  </div>
+
   <!-- CTA FINAL -->
   <div style="padding:80px 28px">
     <div class="cta-section">
@@ -1105,7 +1201,7 @@ function navigate(page, param) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   const el = document.getElementById('page-' + page);
   if (el) { el.classList.add('active'); window.scrollTo(0, 0); }
-  if (page === 'home')      { renderHome(); loadArtisanDeLaSemaine(); loadTicker(); loadUrgenceFeatures(); startLiveNotifications(); }
+  if (page === 'home')      { renderHome(); loadArtisanDeLaSemaine(); loadTicker(); loadUrgenceFeatures(); startLiveNotifications(); setTimeout(updateROI, 100); }
   if (page === 'directory') { renderDirectory(); loadSectorPeers(); }
   if (page === 'profile')   renderProfileView(param);
   if (page === 'dashboard') { if (!currentUser) { navigate('login'); return; } renderDashboard(); }
@@ -1129,7 +1225,7 @@ async function renderHome() {
   setTimeout(animateCounters, 200);
   allProfiles = profiles || [];
   document.getElementById('home-profiles').innerHTML = allProfiles.length
-    ? allProfiles.map(c => companyCard(c)).join('')
+    ? allProfiles.map((c,i) => companyCard(c,i)).join('')
     : '<div class="empty" style="grid-column:1/-1"><div class="empty-icon"><i class="ti ti-building-store"></i></div><h3>Soyez le premier !</h3><p>Aucun profil encore. Créez le vôtre maintenant.</p></div>';
 }
 
@@ -1164,19 +1260,23 @@ function filterDirectory() {
   document.getElementById('dir-results-count').textContent = `${results.length} résultat${results.length !== 1 ? 's' : ''}`;
   const grid = document.getElementById('dir-grid');
   grid.innerHTML = results.length
-    ? results.map(c => companyCard(c)).join('')
+    ? results.map((c,i) => companyCard(c,i)).join('')
     : '<div class="empty" style="grid-column:1/-1"><div class="empty-icon"><i class="ti ti-search"></i></div><h3>Aucun résultat</h3><p>Essayez d\'autres mots-clés.</p></div>';
 }
 
 // ── CARTE ENTREPRISE ──
-function companyCard(c) {
+function companyCard(c, blurIndex) {
   const tags   = (c.tags||[]).slice(0,3).map(t=>`<span class="tag">${t}</span>`).join('');
   const badges = [
     c.verified ? '<span class="verified-badge"><i class="ti ti-circle-check"></i>Vérifié</span>' : '',
     c.premium  ? '<span class="premium-badge"><i class="ti ti-crown"></i>Premium</span>'  : '',
     (!c.premium && (!c.description || !c.phone)) ? '<span class="incomplete-badge"><i class="ti ti-alert-circle" style="font-size:10px"></i> Profil à compléter</span>' : ''
   ].filter(Boolean).join('');
-  return `<div class="profile-card" onclick="navigate('profile','${c.id}')">
+  // Blur cards at index 4+ if user not logged in
+  const shouldBlur = !currentUser && blurIndex >= 4;
+  const blurOverlay = shouldBlur ? `<div class="card-blur-overlay" onclick="event.stopPropagation();navigate('register')"><i class="ti ti-lock"></i><span>Inscrivez-vous gratuitement pour voir ce profil</span><button class="btn btn-primary btn-sm">Créer mon compte</button></div>` : '';
+  return `<div class="profile-card${shouldBlur?' blurred-card':''}" onclick="${shouldBlur?'navigate(\'register\')':'navigate(\'profile\',\''+c.id+'\')'}">
+    ${blurOverlay}
     <div class="profile-card-header">
       <div class="avatar" style="background:${c.color}18;color:${c.color}">${c.initials||'?'}</div>
       <div><div class="company-name">${c.company}</div><div class="company-type">${c.type} · ${c.region}</div></div>
@@ -1313,6 +1413,7 @@ async function renderOverview() {
       <div class="metric-card"><i class="ti ti-star m-icon" style="color:var(--amber)"></i><div class="m-val">${avg}</div><div class="m-lbl">Note moyenne</div></div>
       <div class="metric-card"><i class="ti ti-users m-icon"></i><div class="m-val">${myRvws.length}</div><div class="m-lbl">Avis reçus</div></div>
     </div>
+    ${visibilityScoreHtml(currentProfile)}
     <div style="background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:20px">
       <div style="font-size:14px;font-weight:700;margin-bottom:14px">Actions rapides</div>
       <div style="display:flex;gap:10px;flex-wrap:wrap">
@@ -1875,6 +1976,80 @@ function timeAgo(ts) {
   if (d < 3600000) return Math.floor(d/60000)+'min';
   if (d < 86400000)return Math.floor(d/3600000)+'h';
   return Math.floor(d/86400000)+'j';
+}
+
+// ══════════════════════════════════════════════════════════
+//  CALCULATEUR ROI
+// ══════════════════════════════════════════════════════════
+const ROI_SECTOR_RATES = {
+  construction: { contactRate: 0.18, convRate: 0.35 },
+  tech:         { contactRate: 0.22, convRate: 0.30 },
+  finance:      { contactRate: 0.15, convRate: 0.40 },
+  marketing:    { contactRate: 0.20, convRate: 0.28 },
+  plomberie:    { contactRate: 0.16, convRate: 0.38 },
+  juridique:    { contactRate: 0.12, convRate: 0.45 },
+  transport:    { contactRate: 0.14, convRate: 0.32 },
+  other:        { contactRate: 0.15, convRate: 0.33 },
+};
+const ROI_PLAN_COSTS = { free: 0, basic: 19*12, medium: 39*12, premium: 79*12 };
+const ROI_PLAN_BOOST = { free: 1.0, basic: 1.3, medium: 1.6, premium: 2.0 };
+
+function updateROI() {
+  const sector  = document.getElementById('roi-sector')?.value || 'other';
+  const network = parseInt(document.getElementById('roi-network')?.value || 10);
+  const value   = parseInt(document.getElementById('roi-value')?.value || 2000);
+  const plan    = document.getElementById('roi-plan')?.value || 'medium';
+
+  document.getElementById('roi-network-val').textContent = network;
+  document.getElementById('roi-value-val').textContent = 'CHF ' + value.toLocaleString('fr-CH');
+
+  const { contactRate, convRate } = ROI_SECTOR_RATES[sector];
+  const boost   = ROI_PLAN_BOOST[plan];
+  const cost    = ROI_PLAN_COSTS[plan];
+  const contacts = Math.round(network * contactRate * boost * 12);
+  const deals    = Math.round(contacts * convRate);
+  const revenue  = deals * value;
+  const net      = revenue - cost;
+  const mult     = cost > 0 ? Math.round(revenue / cost) + 'x' : '∞';
+
+  document.getElementById('roi-main').textContent       = 'CHF ' + revenue.toLocaleString('fr-CH');
+  document.getElementById('roi-multiplier').textContent = mult;
+  document.getElementById('roi-contacts').textContent   = '+' + contacts;
+  document.getElementById('roi-deals').textContent      = '+' + deals;
+  document.getElementById('roi-cost').textContent       = cost > 0 ? 'CHF ' + cost.toLocaleString('fr-CH') : 'Gratuit';
+  document.getElementById('roi-net').textContent        = 'CHF ' + Math.max(0, net).toLocaleString('fr-CH');
+  document.getElementById('roi-sub').innerHTML          = `soit <span id="roi-multiplier">${mult}</span> votre investissement annuel`;
+}
+
+// ══════════════════════════════════════════════════════════
+//  SCORE DE VISIBILITÉ
+// ══════════════════════════════════════════════════════════
+function visibilityScoreHtml(p) {
+  const checks = [
+    { done: !!p.company,      label: 'Nom de l\'entreprise renseigné',   action: 'profile' },
+    { done: !!p.description,  label: 'Description ajoutée',              action: 'profile' },
+    { done: !!p.phone,        label: 'Numéro de téléphone renseigné',    action: 'profile' },
+    { done: (p.tags||[]).length > 0, label: 'Au moins 1 tag de service', action: 'profile' },
+    { done: !!p.verified,     label: 'Profil vérifié',                   action: 'profile' },
+    { done: !!p.premium,      label: 'Compte Premium (×2 visibilité)',   action: 'premium' },
+  ];
+  const score = Math.round((checks.filter(c=>c.done).length / checks.length) * 100);
+  const color = score >= 80 ? '#10B981' : score >= 50 ? '#F59E0B' : '#EF4444';
+  const label = score >= 80 ? 'Excellent' : score >= 50 ? 'Moyen' : 'Faible';
+  const tips = checks.map(c => `
+    <div class="vs-tip ${c.done?'done':'todo'}" onclick="${c.done?'':'showDashTab(\''+c.action+'\')'}">
+      <i class="ti ti-${c.done?'circle-check':'circle-x'}"></i>
+      <span>${c.label}</span>
+      ${!c.done ? '<span style="margin-left:auto;font-size:11px;color:var(--blue);font-weight:600">Compléter →</span>' : ''}
+    </div>`).join('');
+  return `<div class="visibility-score" style="margin-bottom:20px">
+    <div class="vs-header">
+      <div class="vs-title"><i class="ti ti-eye" style="color:#4F46E5;margin-right:6px"></i>Score de visibilité</div>
+      <div class="vs-score-badge" style="color:${color}">${score}% — ${label}</div>
+    </div>
+    <div class="vs-bar-wrap"><div class="vs-bar" style="width:${score}%;background:linear-gradient(90deg,${color},${color}aa)"></div></div>
+    <div class="vs-tips">${tips}</div>
+  </div>`;
 }
 
 // ══════════════════════════════════════════════════════════
