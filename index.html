@@ -1454,7 +1454,7 @@ function updateNav() {
 // ══════════════════════════════════════════════════════════
 //  NAVIGATION
 // ══════════════════════════════════════════════════════════
-function navigate(page, param) {
+function navigate(page, param, fromPopState) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   const el = document.getElementById('page-' + page);
   if (el) { el.classList.add('active'); window.scrollTo(0, 0); }
@@ -1463,9 +1463,24 @@ function navigate(page, param) {
   if (page === 'profile')   renderProfileView(param);
   if (page === 'dashboard') { if (!currentUser) { navigate('login'); return; } renderDashboard(); }
   if (page === 'admin')     { renderAdminPage(); }
-  if (page === 'about' || page === 'faq' || page === 'legal') { /* static pages, no JS needed */ }
+  if (page === 'about' || page === 'faq' || page === 'legal') { /* static pages */ }
   updateNav();
+  // Ajoute une entrée dans l'historique du navigateur
+  if (!fromPopState) {
+    const state = { page, param: param || null };
+    const url = param ? `#${page}/${param}` : `#${page}`;
+    window.history.pushState(state, '', url);
+  }
 }
+
+// Gestion du bouton retour navigateur
+window.addEventListener('popstate', (e) => {
+  if (e.state && e.state.page) {
+    navigate(e.state.page, e.state.param, true);
+  } else {
+    navigate('home', null, true);
+  }
+});
 
 // ══════════════════════════════════════════════════════════
 //  HOME
