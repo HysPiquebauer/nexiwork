@@ -185,6 +185,26 @@ input,textarea,select{font-family:'Inter',sans-serif}
 .blurred-card .card-blur-overlay span{font-size:13px;font-weight:700;color:var(--text-2);text-align:center;padding:0 16px}
 .blurred-card .card-blur-overlay button{font-size:12px;padding:7px 16px}
 
+/* ── BADGES & POINTS ── */
+.badge-shelf{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0}
+.earn-badge{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:20px;font-size:12px;font-weight:700;border:1.5px solid transparent;user-select:none}
+.earn-badge.unlocked{background:linear-gradient(135deg,#4F46E5,#7C3AED);color:white;box-shadow:0 2px 8px rgba(79,70,229,0.3)}
+.earn-badge.locked{background:var(--bg-2);color:var(--text-4);border-color:var(--border)}
+.points-bar-wrap{background:var(--bg-2);border-radius:8px;height:8px;overflow:hidden;margin:8px 0}
+.points-bar{height:100%;border-radius:8px;background:linear-gradient(90deg,#4F46E5,#7C3AED);transition:width .8s cubic-bezier(.4,0,.2,1)}
+.points-section{background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);padding:22px;margin-bottom:20px}
+.points-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px}
+.points-total{font-size:28px;font-weight:800;letter-spacing:-1px;background:linear-gradient(135deg,#4F46E5,#7C3AED);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.points-next{font-size:12px;color:var(--text-3);margin-bottom:12px}
+
+/* ── RAPPEL INACTIVITÉ ── */
+.inactivity-banner{background:linear-gradient(135deg,#FFFBEB,#FEF3C7);border:1px solid #FDE68A;border-radius:var(--radius-lg);padding:20px 24px;margin-bottom:20px;display:flex;align-items:center;gap:16px}
+.inactivity-banner .ib-icon{width:44px;height:44px;background:linear-gradient(135deg,#D97706,#F59E0B);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.inactivity-banner .ib-text{flex:1}
+.inactivity-banner .ib-title{font-size:14px;font-weight:800;color:#92400E;margin-bottom:3px}
+.inactivity-banner .ib-sub{font-size:13px;color:#B45309}
+.inactivity-banner .ib-actions{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+
 /* ── SCORE VISIBILITÉ ── */
 .visibility-score{background:linear-gradient(135deg,#EEF2FF,#F5F3FF);border:1px solid #C7D2FE;border-radius:var(--radius-lg);padding:24px;margin-bottom:24px}
 .vs-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
@@ -1353,6 +1373,7 @@ async function renderProfileView(id) {
         </div>
       </div>
       <div class="tags" style="margin:16px 0">${(c.tags||[]).map(t=>`<span class="tag tag-blue">${t}</span>`).join('')}</div>
+      <div id="profile-badges-wrap"></div>
       <p style="font-size:15px;line-height:1.75;color:var(--text-2)">${c.description||''}</p>
       ${c.phone ? `<div class="flex gap-2" style="margin-top:14px;font-size:14px;color:var(--text-3)"><i class="ti ti-phone"></i>${c.phone}</div>` : ''}
       <div class="profile-actions">${actions}</div>
@@ -1361,6 +1382,17 @@ async function renderProfileView(id) {
       <h3 style="font-size:17px;font-weight:800;margin-bottom:20px">Avis clients <span style="color:var(--text-3);font-weight:400;font-size:14px">(${(reviews||[]).length})</span></h3>
       ${reviewsHtml}
     </div>`;
+  // Load badges async for this profile
+  computeBadges(c).then(({ badges, points }) => {
+    const wrap = document.getElementById('profile-badges-wrap');
+    if (!wrap) return;
+    const unlocked = badges.filter(b=>b.unlocked);
+    if (unlocked.length === 0) return;
+    wrap.innerHTML = `<div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px">
+      ${unlocked.map(b=>`<div class="earn-badge unlocked" title="${b.desc}">${b.icon} ${b.label}</div>`).join('')}
+      <span style="font-size:12px;color:var(--text-3);align-self:center;margin-left:4px">${points} pts</span>
+    </div>`;
+  });
 }
 
 // ══════════════════════════════════════════════════════════
@@ -1395,10 +1427,11 @@ async function showDashTab(tab) {
 
 async function renderOverview() {
   const myId = currentProfile.id;
-  const [{ data: messages }, { data: quotes }, { data: reviews }] = await Promise.all([
+  const [{ data: messages }, { data: quotes }, { data: reviews }, badgeData] = await Promise.all([
     sb.from('messages').select('id,read').eq('to_id', myId).eq('read', false),
     sb.from('quotes').select('id,status').eq('to_id', myId).eq('status','pending'),
-    sb.from('reviews').select('id,stars').eq('to_id', myId)
+    sb.from('reviews').select('id,stars').eq('to_id', myId),
+    computeBadges(currentProfile),
   ]);
   const unread   = (messages||[]).length;
   const pendingQ = (quotes||[]).length;
@@ -1413,7 +1446,9 @@ async function renderOverview() {
       <div class="metric-card"><i class="ti ti-star m-icon" style="color:var(--amber)"></i><div class="m-val">${avg}</div><div class="m-lbl">Note moyenne</div></div>
       <div class="metric-card"><i class="ti ti-users m-icon"></i><div class="m-val">${myRvws.length}</div><div class="m-lbl">Avis reçus</div></div>
     </div>
+    ${inactivityBannerHtml(currentProfile)}
     ${visibilityScoreHtml(currentProfile)}
+    ${badgesHtml(badgeData.badges, badgeData.points)}
     <div style="background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:20px">
       <div style="font-size:14px;font-weight:700;margin-bottom:14px">Actions rapides</div>
       <div style="display:flex;gap:10px;flex-wrap:wrap">
@@ -2160,6 +2195,95 @@ async function loadSectorPeers() {
   document.getElementById('sector-peers-title').innerHTML = `<i class="ti ti-building-community"></i> ${peers.length} entreprises dans votre secteur <strong>${sector}</strong> sont déjà sur Nexiwork`;
   document.getElementById('sector-peers-grid').innerHTML = chips;
   container.style.display = 'block';
+}
+
+// ══════════════════════════════════════════════════════════
+//  BADGES & POINTS
+// ══════════════════════════════════════════════════════════
+const BADGES_CONFIG = [
+  { id: 'bienvenue',    icon: '🎉', label: 'Bienvenue',       desc: 'Compte créé',                   points: 10,  check: p => !!p.company },
+  { id: 'profil100',   icon: '✅', label: 'Profil complet',  desc: 'Tous les champs remplis',        points: 30,  check: p => !!(p.company && p.description && p.phone && (p.tags||[]).length > 0) },
+  { id: 'premier_msg', icon: '💬', label: 'Premier contact', desc: '1 message envoyé',               points: 20,  check: (p,s) => s.messages > 0 },
+  { id: 'premier_avis',icon: '⭐', label: 'Bien noté',       desc: '1 avis reçu',                   points: 25,  check: (p,s) => s.reviews > 0 },
+  { id: 'top_note',    icon: '🏆', label: 'Top 4.5+',        desc: 'Note moyenne ≥ 4.5',            points: 50,  check: (p,s) => s.avgRating >= 4.5 },
+  { id: 'networker',   icon: '🤝', label: 'Networker',       desc: '5 messages envoyés',            points: 40,  check: (p,s) => s.messages >= 5 },
+  { id: 'premium',     icon: '👑', label: 'Premium',         desc: 'Abonnement Premium actif',      points: 60,  check: p => !!p.premium },
+  { id: 'parrain',     icon: '💰', label: 'Parrain',         desc: '1 parrainage réalisé',          points: 75,  check: (p,s) => s.referrals > 0 },
+];
+
+async function computeBadges(profile) {
+  if (!sb || !profile) return { badges: [], points: 0, stats: {} };
+  const myId = profile.id;
+  const [{ count: msgCount }, { data: reviews }] = await Promise.all([
+    sb.from('messages').select('*', { count: 'exact', head: true }).eq('from_id', myId),
+    sb.from('reviews').select('stars').eq('to_id', myId),
+  ]);
+  const rvws = reviews || [];
+  const stats = {
+    messages:  msgCount || 0,
+    reviews:   rvws.length,
+    avgRating: rvws.length ? rvws.reduce((s,r)=>s+r.stars,0)/rvws.length : 0,
+    referrals: 0,
+  };
+  const badges = BADGES_CONFIG.map(b => ({
+    ...b,
+    unlocked: b.check(profile, stats)
+  }));
+  const points = badges.filter(b=>b.unlocked).reduce((s,b)=>s+b.points, 0);
+  return { badges, points, stats };
+}
+
+function badgesHtml(badges, points) {
+  const maxPoints = BADGES_CONFIG.reduce((s,b)=>s+b.points, 0);
+  const nextBadge = BADGES_CONFIG.find(b => !badges.find(x=>x.id===b.id&&x.unlocked));
+  const pct = Math.round((points / maxPoints) * 100);
+  return `<div class="points-section">
+    <div class="points-header">
+      <div>
+        <div style="font-size:13px;font-weight:700;color:var(--text-2);margin-bottom:2px"><i class="ti ti-trophy" style="color:#F59E0B;margin-right:4px"></i>Points & Badges</div>
+        <div class="points-total">${points} pts</div>
+      </div>
+      <div style="text-align:right;font-size:12px;color:var(--text-3)">${pct}% complété<br><span style="font-size:11px">${points} / ${maxPoints} pts max</span></div>
+    </div>
+    <div class="points-bar-wrap"><div class="points-bar" style="width:${pct}%"></div></div>
+    ${nextBadge ? `<div class="points-next">Prochain badge : <strong>${nextBadge.icon} ${nextBadge.label}</strong> — ${nextBadge.desc} (+${nextBadge.points} pts)</div>` : '<div class="points-next" style="color:#10B981;font-weight:700">🎉 Tous les badges débloqués !</div>'}
+    <div class="badge-shelf">
+      ${badges.map(b=>`<div class="earn-badge ${b.unlocked?'unlocked':'locked'}" title="${b.desc}">${b.icon} ${b.label}</div>`).join('')}
+    </div>
+  </div>`;
+}
+
+// ══════════════════════════════════════════════════════════
+//  RAPPEL D'INACTIVITÉ
+// ══════════════════════════════════════════════════════════
+function inactivityBannerHtml(profile) {
+  if (!profile?.created_at) return '';
+  const daysSince = Math.floor((Date.now() - new Date(profile.created_at)) / 86400000);
+  if (daysSince < 7) return ''; // trop tôt
+
+  const hasDesc = !!profile.description;
+  const hasPhone = !!profile.phone;
+  const hasTags = (profile.tags||[]).length > 0;
+  const isComplete = hasDesc && hasPhone && hasTags;
+  if (isComplete) return ''; // profil déjà complet, pas de rappel
+
+  const missing = [
+    !hasDesc  && 'une description',
+    !hasPhone && 'un numéro de téléphone',
+    !hasTags  && 'des tags de services',
+  ].filter(Boolean).join(', ');
+
+  return `<div class="inactivity-banner">
+    <div class="ib-icon">💡</div>
+    <div class="ib-text">
+      <div class="ib-title">Votre profil n'est pas encore complet</div>
+      <div class="ib-sub">Il vous manque : ${missing}. Les profils complets reçoivent <strong>3× plus de contacts</strong>.</div>
+      <div class="ib-actions">
+        <button class="btn btn-premium btn-sm" onclick="showDashTab('profile')"><i class="ti ti-edit"></i>Compléter mon profil</button>
+        <button class="btn btn-ghost btn-sm" style="font-size:12px;color:var(--text-3)" onclick="this.closest('.inactivity-banner').remove()">Plus tard</button>
+      </div>
+    </div>
+  </div>`;
 }
 
 // ── INIT ──
