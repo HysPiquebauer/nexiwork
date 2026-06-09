@@ -643,6 +643,20 @@ input,textarea,select{font-family:'Inter',sans-serif}
   /* Search bar */
   .search-hero{flex-direction:column;gap:8px;padding:12px}
   .search-hero button{width:100%;border-radius:var(--radius-sm)}
+  /* Bienfaiteurs mobile */
+  .bienf-hero{padding:40px 18px 32px}
+  .bienf-stats{gap:16px}
+  .bienf-stat strong{font-size:22px}
+  .bienf-info-strip{flex-direction:column;gap:10px;text-align:center;padding:16px 18px}
+  .bienf-info-strip i{font-size:22px}
+  .bienf-grid{padding:16px 18px 0;gap:14px}
+  .bienf-cta-box{margin:24px 18px 36px;padding:28px 18px}
+  .bienf-section-title{padding:20px 18px 0}
+  /* Secteurs dropdown mobile */
+  .sectors-more-wrap{width:100%}
+  .sectors-dropdown{max-height:260px}
+  /* Nav bienfaiteurs — garder le texte visible sur mobile */
+  .nav-link.bienf-nav span{display:inline!important}
 }
 </style>
 </head>
@@ -679,7 +693,7 @@ input,textarea,select{font-family:'Inter',sans-serif}
     </div>
     <div class="nav-links">
       <button class="nav-link" onclick="navigate('directory')"><i class="ti ti-search" style="font-size:15px;vertical-align:-2px"></i> Explorer</button>
-      <button class="nav-link" onclick="navigate('bienfaiteurs')" style="color:#059669"><i class="ti ti-heart-handshake" style="font-size:15px;vertical-align:-2px"></i> <span>Bienfaiteurs</span></button>
+      <button class="nav-link bienf-nav" onclick="navigate('bienfaiteurs')" style="color:#059669"><i class="ti ti-heart-handshake" style="font-size:15px;vertical-align:-2px"></i> <span>Bienfaiteurs</span></button>
       <button class="nav-link" onclick="navigate('pricing')">Tarifs</button>
       <span id="nav-auth" style="display:flex;align-items:center;gap:8px;margin-left:8px"></span>
     </div>
