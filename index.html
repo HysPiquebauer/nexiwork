@@ -150,11 +150,25 @@ input,textarea,select{font-family:'Inter',sans-serif}
 .stat-icon-item{display:flex;flex-direction:column;align-items:center;gap:8px}
 .stat-icon-box{width:52px;height:52px;background:linear-gradient(135deg,#4F46E5,#7C3AED);border-radius:14px;display:flex;align-items:center;justify-content:center;color:white;font-size:22px}
 /* SECTORS */
-.sectors-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px;max-width:900px;margin:0 auto}
-.sector-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:20px 16px;text-align:center;cursor:pointer;transition:all .2s}
+.sectors-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px;max-width:960px;margin:0 auto}
+.sector-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:18px 12px;text-align:center;cursor:pointer;transition:all .2s}
 .sector-card:hover{border-color:#C7D2FE;background:#EEF2FF;transform:translateY(-2px)}
-.sector-card i{font-size:24px;color:#4F46E5;margin-bottom:8px;display:block}
-.sector-card span{font-size:13px;font-weight:600;color:var(--text-2)}
+.sector-card i{font-size:22px;color:#4F46E5;margin-bottom:7px;display:block}
+.sector-card span{font-size:12px;font-weight:600;color:var(--text-2)}
+/* Dropdown "Autres secteurs" */
+.sectors-more-wrap{position:relative;display:inline-block;width:100%}
+.sector-card-more{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:18px 12px;text-align:center;cursor:pointer;transition:all .2s;display:flex;flex-direction:column;align-items:center;gap:7px}
+.sector-card-more:hover{border-color:#C7D2FE;background:#EEF2FF}
+.sector-card-more i{font-size:22px;color:#4F46E5}
+.sector-card-more span{font-size:12px;font-weight:600;color:var(--text-2)}
+.sectors-dropdown{position:absolute;top:calc(100% + 6px);left:0;right:0;background:var(--white);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow-lg);z-index:200;padding:6px 0;max-height:340px;overflow-y:auto;display:none}
+.sectors-dropdown.open{display:block}
+.sectors-dropdown-item{padding:9px 16px;font-size:13px;font-weight:500;color:var(--text-2);cursor:pointer;display:flex;align-items:center;gap:10px;transition:background .12s}
+.sectors-dropdown-item:hover{background:var(--bg);color:#4F46E5}
+.sectors-dropdown-item i{font-size:15px;color:#4F46E5;width:18px;text-align:center;flex-shrink:0}
+/* Sub-sector select row */
+.subsector-row{display:none;margin-top:8px}
+.subsector-row.visible{display:block}
 /* TESTIMONIALS */
 .testimonials-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;max-width:1000px;margin:0 auto}
 .testimonial-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);padding:28px;transition:all .2s}
@@ -286,6 +300,30 @@ input,textarea,select{font-family:'Inter',sans-serif}
 .incomplete-badge{display:inline-flex;align-items:center;gap:4px;background:#FFF7ED;color:#D97706;border:1px solid #FDE68A;font-size:10px;font-weight:700;padding:2px 7px;border-radius:8px;margin-top:5px}
 /* ── ADMIN ── */
 .admin-page{min-height:100vh;background:#0F172A;color:#F1F5F9;padding:0}
+/* BIENFAITEURS */
+.bienf-hero{background:linear-gradient(135deg,#059669 0%,#10B981 50%,#34D399 100%);padding:64px 28px 48px;text-align:center;color:white}
+.bienf-hero h1{font-size:clamp(26px,5vw,44px);font-weight:800;margin:0 0 14px}
+.bienf-hero p{font-size:17px;opacity:.9;max-width:600px;margin:0 auto 28px}
+.bienf-hero .bienf-badges{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:28px}
+.bienf-badge{background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.3);border-radius:20px;padding:5px 14px;font-size:13px;font-weight:600}
+.bienf-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px;padding:32px 28px;max-width:1100px;margin:0 auto}
+.bienf-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);padding:24px;cursor:pointer;transition:all .18s;position:relative}
+.bienf-card:hover{box-shadow:var(--shadow-lg);transform:translateY(-3px)}
+.bienf-card-type{display:inline-block;background:#D1FAE5;color:#065F46;font-size:11px;font-weight:700;padding:3px 10px;border-radius:10px;margin-bottom:12px;text-transform:uppercase;letter-spacing:.5px}
+.bienf-card h3{font-size:16px;font-weight:700;margin:0 0 6px;color:var(--text)}
+.bienf-card p{font-size:13px;color:var(--text-3);margin:0 0 14px;line-height:1.5}
+.bienf-card-footer{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text-3)}
+.bienf-card-footer i{color:#10B981}
+.bienf-section-title{font-size:22px;font-weight:700;padding:32px 28px 0;max-width:1100px;margin:0 auto}
+.bienf-info-strip{background:#ECFDF5;border:1px solid #A7F3D0;border-radius:var(--radius);padding:20px 28px;max-width:1100px;margin:24px auto;display:flex;align-items:center;gap:16px}
+.bienf-info-strip i{font-size:28px;color:#059669;flex-shrink:0}
+.bienf-info-strip p{margin:0;font-size:14px;color:#065F46}
+.bienf-cta-box{background:linear-gradient(135deg,#ECFDF5,#D1FAE5);border:1px solid #6EE7B7;border-radius:var(--radius-lg);padding:36px 28px;text-align:center;max-width:700px;margin:32px auto 48px}
+.bienf-cta-box h2{font-size:22px;font-weight:700;margin:0 0 10px;color:#064E3B}
+.bienf-cta-box p{font-size:14px;color:#065F46;margin:0 0 20px}
+.bienf-stats{display:flex;gap:24px;justify-content:center;flex-wrap:wrap;margin-bottom:28px}
+.bienf-stat{text-align:center}.bienf-stat strong{display:block;font-size:28px;font-weight:800;color:#059669}
+.bienf-stat span{font-size:13px;color:#065F46;font-weight:500}
 .admin-login{display:flex;align-items:center;justify-content:center;min-height:100vh;background:linear-gradient(135deg,#0F172A,#1E293B)}
 .admin-login-box{background:#1E293B;border:1px solid #334155;border-radius:20px;padding:40px;width:100%;max-width:380px;text-align:center}
 .admin-login-box h2{font-size:22px;font-weight:800;margin-bottom:6px;color:#F1F5F9}
@@ -641,6 +679,7 @@ input,textarea,select{font-family:'Inter',sans-serif}
     </div>
     <div class="nav-links">
       <button class="nav-link" onclick="navigate('directory')"><i class="ti ti-search" style="font-size:15px;vertical-align:-2px"></i> Explorer</button>
+      <button class="nav-link" onclick="navigate('bienfaiteurs')" style="color:#059669"><i class="ti ti-heart-handshake" style="font-size:15px;vertical-align:-2px"></i> <span>Bienfaiteurs</span></button>
       <button class="nav-link" onclick="navigate('pricing')">Tarifs</button>
       <span id="nav-auth" style="display:flex;align-items:center;gap:8px;margin-left:8px"></span>
     </div>
@@ -789,21 +828,60 @@ input,textarea,select{font-family:'Inter',sans-serif}
     <div class="container">
       <div class="section-header">
         <h2>Tous les secteurs B2B</h2>
-        <p>12 catégories couvrant les besoins des entreprises romandes</p>
+        <p>30+ catégories couvrant l'ensemble des besoins des entreprises romandes</p>
       </div>
       <div class="sectors-grid">
-        <div class="sector-card" onclick="navigate('directory')"><i class="ti ti-hammer"></i><span>Construction</span></div>
+        <div class="sector-card" onclick="navigate('directory')"><i class="ti ti-hammer"></i><span>Construction & BTP</span></div>
         <div class="sector-card" onclick="navigate('directory')"><i class="ti ti-bolt"></i><span>Électricité</span></div>
-        <div class="sector-card" onclick="navigate('directory')"><i class="ti ti-code"></i><span>Informatique</span></div>
-        <div class="sector-card" onclick="navigate('directory')"><i class="ti ti-calculator"></i><span>Comptabilité</span></div>
-        <div class="sector-card" onclick="navigate('directory')"><i class="ti ti-speakerphone"></i><span>Marketing</span></div>
-        <div class="sector-card" onclick="navigate('directory')"><i class="ti ti-building-arch"></i><span>Architecture</span></div>
-        <div class="sector-card" onclick="navigate('directory')"><i class="ti ti-truck"></i><span>Transport</span></div>
-        <div class="sector-card" onclick="navigate('directory')"><i class="ti ti-first-aid-kit"></i><span>Santé</span></div>
-        <div class="sector-card" onclick="navigate('directory')"><i class="ti ti-scale"></i><span>Juridique</span></div>
-        <div class="sector-card" onclick="navigate('directory')"><i class="ti ti-plant"></i><span>Environnement</span></div>
-        <div class="sector-card" onclick="navigate('directory')"><i class="ti ti-school"></i><span>Formation</span></div>
-        <div class="sector-card" onclick="navigate('directory')"><i class="ti ti-dots"></i><span>Autre</span></div>
+        <div class="sector-card" onclick="navigate('directory')"><i class="ti ti-droplet"></i><span>Plomberie & Chauffage</span></div>
+        <div class="sector-card" onclick="navigate('directory')"><i class="ti ti-code"></i><span>Informatique & Tech</span></div>
+        <div class="sector-card" onclick="navigate('directory')"><i class="ti ti-calculator"></i><span>Finance & Comptabilité</span></div>
+        <div class="sector-card" onclick="navigate('directory')"><i class="ti ti-speakerphone"></i><span>Marketing & Com.</span></div>
+        <div class="sector-card" onclick="navigate('directory')"><i class="ti ti-building-arch"></i><span>Architecture & Design</span></div>
+        <div class="sector-card" onclick="navigate('directory')"><i class="ti ti-truck"></i><span>Transport & Logistique</span></div>
+        <div class="sector-card" onclick="navigate('directory')"><i class="ti ti-first-aid-kit"></i><span>Santé & Bien-être</span></div>
+        <div class="sector-card" onclick="navigate('directory')"><i class="ti ti-scale"></i><span>Droit & Juridique</span></div>
+        <div class="sector-card" onclick="navigate('directory')"><i class="ti ti-school"></i><span>Formation & Coaching</span></div>
+        <div class="sector-card" onclick="navigate('directory')"><i class="ti ti-confetti"></i><span>Événementiel</span></div>
+        <div class="sector-card" onclick="navigate('directory')"><i class="ti ti-building-store"></i><span>Immobilier</span></div>
+        <div class="sector-card" onclick="navigate('directory')"><i class="ti ti-tools"></i><span>Menuiserie & Bois</span></div>
+        <div class="sector-card" onclick="navigate('directory')"><i class="ti ti-paint"></i><span>Peinture & Déco</span></div>
+        <div class="sector-card" onclick="navigate('directory')"><i class="ti ti-plant-2"></i><span>Jardinage & Paysage</span></div>
+        <div class="sector-card" onclick="navigate('directory')"><i class="ti ti-camera"></i><span>Photo & Vidéo</span></div>
+        <div class="sector-card" onclick="navigate('directory')"><i class="ti ti-sparkles"></i><span>Beauté & Soins</span></div>
+        <div class="sector-card" onclick="navigate('directory')"><i class="ti ti-leaf"></i><span>Agriculture & Bio</span></div>
+        <div class="sector-card" onclick="navigate('directory')"><i class="ti ti-soup"></i><span>Restauration & Traiteur</span></div>
+        <div class="sector-card" onclick="navigate('directory')"><i class="ti ti-shield-lock"></i><span>Sécurité</span></div>
+        <div class="sector-card" onclick="navigate('directory')"><i class="ti ti-brush"></i><span>Nettoyage & Entretien</span></div>
+        <div class="sector-card" onclick="navigate('directory')"><i class="ti ti-solar-panel"></i><span>Énergie & Solaire</span></div>
+        <div class="sector-card" onclick="navigate('bienfaiteurs')" style="border-color:#10B981;background:linear-gradient(135deg,#ECFDF5,#D1FAE5)"><i class="ti ti-heart-handshake" style="color:#059669"></i><span style="color:#065F46">Association & ONG</span></div>
+        <!-- Dropdown "Autres secteurs" -->
+        <div class="sectors-more-wrap" id="sectors-more-wrap">
+          <div class="sector-card-more" onclick="toggleSectorsMore()">
+            <i class="ti ti-dots"></i>
+            <span>Autres secteurs ▾</span>
+          </div>
+          <div class="sectors-dropdown" id="sectors-dropdown">
+            <div class="sectors-dropdown-item" onclick="navigate('directory')"><i class="ti ti-hanger"></i>Mode & Textile</div>
+            <div class="sectors-dropdown-item" onclick="navigate('directory')"><i class="ti ti-user-heart"></i>Ressources Humaines</div>
+            <div class="sectors-dropdown-item" onclick="navigate('directory')"><i class="ti ti-printer"></i>Imprimerie & Édition</div>
+            <div class="sectors-dropdown-item" onclick="navigate('directory')"><i class="ti ti-eye"></i>Optique & Lunetterie</div>
+            <div class="sectors-dropdown-item" onclick="navigate('directory')"><i class="ti ti-lock"></i>Serrurerie & Métallerie</div>
+            <div class="sectors-dropdown-item" onclick="navigate('directory')"><i class="ti ti-chess"></i>Carrelage & Pierre</div>
+            <div class="sectors-dropdown-item" onclick="navigate('directory')"><i class="ti ti-home-2"></i>Toiture & Couverture</div>
+            <div class="sectors-dropdown-item" onclick="navigate('directory')"><i class="ti ti-air-conditioning"></i>Climatisation & CVC</div>
+            <div class="sectors-dropdown-item" onclick="navigate('directory')"><i class="ti ti-window"></i>Vitrerie & Miroiterie</div>
+            <div class="sectors-dropdown-item" onclick="navigate('directory')"><i class="ti ti-barrier-block"></i>Échafaudage & Levage</div>
+            <div class="sectors-dropdown-item" onclick="navigate('directory')"><i class="ti ti-swim"></i>Piscines & Spas</div>
+            <div class="sectors-dropdown-item" onclick="navigate('directory')"><i class="ti ti-dog"></i>Animaux & Vétérinaire</div>
+            <div class="sectors-dropdown-item" onclick="navigate('directory')"><i class="ti ti-book"></i>Librairie & Culture</div>
+            <div class="sectors-dropdown-item" onclick="navigate('directory')"><i class="ti ti-coin"></i>Assurance & Prévoyance</div>
+            <div class="sectors-dropdown-item" onclick="navigate('directory')"><i class="ti ti-recycle"></i>Recyclage & Déchets</div>
+            <div class="sectors-dropdown-item" onclick="navigate('directory')"><i class="ti ti-language"></i>Traduction & Interprétation</div>
+            <div class="sectors-dropdown-item" onclick="navigate('directory')"><i class="ti ti-massage"></i>Massage & Thérapies</div>
+            <div class="sectors-dropdown-item" onclick="navigate('directory')"><i class="ti ti-bottle"></i>Épicerie & Alimentation</div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -908,6 +986,30 @@ input,textarea,select{font-family:'Inter',sans-serif}
           </div>
         </div>
 
+      </div>
+    </div>
+  </div>
+
+  <!-- ACTEURS ENGAGÉS -->
+  <div style="padding:40px 28px;background:linear-gradient(135deg,#ECFDF5 0%,#F0FDF4 100%);border-top:1px solid #A7F3D0;border-bottom:1px solid #A7F3D0">
+    <div style="max-width:960px;margin:0 auto">
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:24px">
+        <div>
+          <div style="display:inline-flex;align-items:center;gap:7px;background:#D1FAE5;color:#065F46;font-size:12px;font-weight:700;padding:4px 12px;border-radius:20px;margin-bottom:8px"><i class="ti ti-heart-handshake"></i> ESPACE BIENFAITEURS</div>
+          <h2 style="font-size:22px;font-weight:800;margin:0;color:#064E3B">Associations & ONG partenaires</h2>
+          <p style="font-size:14px;color:#065F46;margin:4px 0 0">Des acteurs engagés qui font avancer la communauté</p>
+        </div>
+        <button class="btn" onclick="navigate('bienfaiteurs')" style="background:#059669;color:white;border:none;gap:6px"><i class="ti ti-arrow-right"></i> Voir tous les bienfaiteurs</button>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px" id="home-bienfaiteurs">
+        <div class="bienf-card" onclick="navigate('bienfaiteurs')"><div class="bienf-card-type">Association</div><h3>Croix-Rouge Genève</h3><p>Aide humanitaire, soutien aux personnes vulnérables et formation aux premiers secours.</p><div class="bienf-card-footer"><i class="ti ti-map-pin"></i>Genève &nbsp;·&nbsp;<i class="ti ti-users"></i>&nbsp;+200 bénévoles</div></div>
+        <div class="bienf-card" onclick="navigate('bienfaiteurs')"><div class="bienf-card-type">ONG</div><h3>Caritas Vaud</h3><p>Lutte contre la pauvreté, aide alimentaire et accompagnement social pour familles en difficulté.</p><div class="bienf-card-footer"><i class="ti ti-map-pin"></i>Lausanne &nbsp;·&nbsp;<i class="ti ti-heart"></i>&nbsp;Solidarité</div></div>
+        <div class="bienf-card" onclick="navigate('bienfaiteurs')"><div class="bienf-card-type">Fondation</div><h3>Fondation Pro Juventute</h3><p>Soutien au développement de l'enfant et de la jeunesse en Suisse romande.</p><div class="bienf-card-footer"><i class="ti ti-map-pin"></i>Suisse romande &nbsp;·&nbsp;<i class="ti ti-star"></i>&nbsp;Certifiée</div></div>
+        <div class="bienf-card" onclick="navigate('bienfaiteurs')" style="background:linear-gradient(135deg,#ECFDF5,#D1FAE5);border-color:#6EE7B7;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;cursor:pointer">
+          <i class="ti ti-plus-circle" style="font-size:28px;color:#059669;margin-bottom:8px"></i>
+          <h3 style="margin:0 0 4px;color:#065F46">Votre association ici ?</h3>
+          <p style="font-size:13px;color:#059669;margin:0">Rejoignez l'espace bienfaiteurs gratuitement</p>
+        </div>
       </div>
     </div>
   </div>
@@ -1111,7 +1213,74 @@ input,textarea,select{font-family:'Inter',sans-serif}
         <div class="form-group"><label>Type *</label><select id="reg-type"><option value="">Choisir...</option><option>PME</option><option>Artisan</option><option>Indépendant</option><option>Profession libérale</option><option>SA / Sàrl</option></select></div>
       </div>
       <div class="form-row">
-        <div class="form-group"><label>Secteur *</label><select id="reg-sector"><option value="">Choisir...</option><option>Construction & Rénovation</option><option>Électricité & Domotique</option><option>Plomberie & Chauffage</option><option>Informatique & Tech</option><option>Finance & Comptabilité</option><option>Droit & Juridique</option><option>Marketing & Communication</option><option>Architecture & Design</option><option>Transport & Logistique</option><option>Nettoyage & Entretien</option><option>Sécurité</option><option>Autre</option></select></div>
+        <div class="form-group">
+          <label>Secteur *</label>
+          <select id="reg-sector" onchange="onSectorChange('reg')">
+            <option value="">Choisir votre secteur...</option>
+            <optgroup label="── Bâtiment & Travaux">
+              <option>Construction & BTP</option>
+              <option>Électricité & Domotique</option>
+              <option>Plomberie & Chauffage</option>
+              <option>Menuiserie & Ébénisterie</option>
+              <option>Peinture & Décoration</option>
+              <option>Carrelage & Pierre</option>
+              <option>Toiture & Couverture</option>
+              <option>Serrurerie & Métallerie</option>
+              <option>Vitrerie & Miroiterie</option>
+              <option>Climatisation & CVC</option>
+              <option>Isolation & Énergie</option>
+              <option>Échafaudage & Levage</option>
+              <option>Piscines & Spas</option>
+            </optgroup>
+            <optgroup label="── Tech & Services">
+              <option>Informatique & Tech</option>
+              <option>Marketing & Communication</option>
+              <option>Finance & Comptabilité</option>
+              <option>Droit & Juridique</option>
+              <option>Architecture & Design</option>
+              <option>Formation & Coaching</option>
+              <option>Ressources Humaines</option>
+              <option>Assurance & Prévoyance</option>
+              <option>Traduction & Interprétation</option>
+            </optgroup>
+            <optgroup label="── Commerce & Services">
+              <option>Transport & Logistique</option>
+              <option>Immobilier</option>
+              <option>Sécurité & Surveillance</option>
+              <option>Nettoyage & Entretien</option>
+              <option>Restauration & Traiteur</option>
+              <option>Événementiel</option>
+              <option>Imprimerie & Édition</option>
+              <option>Épicerie & Alimentation</option>
+              <option>Recyclage & Déchets</option>
+            </optgroup>
+            <optgroup label="── Santé & Bien-être">
+              <option>Santé & Bien-être</option>
+              <option>Beauté & Soins</option>
+              <option>Massage & Thérapies</option>
+              <option>Animaux & Vétérinaire</option>
+            </optgroup>
+            <optgroup label="── Création & Culture">
+              <option>Photographie & Vidéo</option>
+              <option>Mode & Textile</option>
+              <option>Optique & Lunetterie</option>
+              <option>Librairie & Culture</option>
+            </optgroup>
+            <optgroup label="── Nature & Énergie">
+              <option>Jardinage & Paysagisme</option>
+              <option>Agriculture & Bio</option>
+              <option>Énergie & Solaire</option>
+            </optgroup>
+            <optgroup label="── Engagement">
+              <option>Association & ONG</option>
+            </optgroup>
+            <option>Autre</option>
+          </select>
+          <div class="subsector-row" id="reg-subsector-row">
+            <label style="margin-top:8px;display:block">Corps de métier (optionnel)</label>
+            <select id="reg-subsector"><option value="">Préciser le métier...</option></select>
+          </div>
+        </div>
         <div class="form-group"><label>Région *</label><select id="reg-region"><option value="">Choisir...</option><option>Genève</option><option>Vaud</option><option>Fribourg</option><option>Valais</option><option>Neuchâtel</option><option>Jura</option></select></div>
       </div>
       <div class="form-group"><label>Description de vos services *</label><textarea id="reg-desc" rows="3" placeholder="Décrivez ce que vous faites, vos spécialités..."></textarea></div>
@@ -1142,9 +1311,70 @@ input,textarea,select{font-family:'Inter',sans-serif}
       <i class="ti ti-search" style="color:var(--text-3);font-size:18px;flex-shrink:0"></i>
       <input type="text" id="dir-search" placeholder="Rechercher par nom, secteur, service..." oninput="filterDirectory()" style="border:none;box-shadow:none;padding:0;font-size:15px">
       <div style="width:1px;height:24px;background:var(--border);margin:0 4px"></div>
-      <select id="dir-sector" onchange="filterDirectory()"><option value="">Tous les secteurs</option><option>Construction & Rénovation</option><option>Électricité & Domotique</option><option>Plomberie & Chauffage</option><option>Informatique & Tech</option><option>Finance & Comptabilité</option><option>Droit & Juridique</option><option>Marketing & Communication</option><option>Architecture & Design</option><option>Transport & Logistique</option><option>Nettoyage & Entretien</option><option>Sécurité</option></select>
+      <select id="dir-sector" onchange="filterDirectory()">
+        <option value="">Tous les secteurs</option>
+        <optgroup label="Bâtiment & Travaux">
+          <option>Construction & BTP</option>
+          <option>Électricité & Domotique</option>
+          <option>Plomberie & Chauffage</option>
+          <option>Menuiserie & Ébénisterie</option>
+          <option>Peinture & Décoration</option>
+          <option>Carrelage & Pierre</option>
+          <option>Toiture & Couverture</option>
+          <option>Serrurerie & Métallerie</option>
+          <option>Vitrerie & Miroiterie</option>
+          <option>Climatisation & CVC</option>
+          <option>Isolation & Énergie</option>
+          <option>Échafaudage & Levage</option>
+          <option>Piscines & Spas</option>
+        </optgroup>
+        <optgroup label="Tech & Services">
+          <option>Informatique & Tech</option>
+          <option>Marketing & Communication</option>
+          <option>Finance & Comptabilité</option>
+          <option>Droit & Juridique</option>
+          <option>Architecture & Design</option>
+          <option>Formation & Coaching</option>
+          <option>Ressources Humaines</option>
+          <option>Assurance & Prévoyance</option>
+          <option>Traduction & Interprétation</option>
+        </optgroup>
+        <optgroup label="Commerce & Services">
+          <option>Transport & Logistique</option>
+          <option>Immobilier</option>
+          <option>Sécurité & Surveillance</option>
+          <option>Nettoyage & Entretien</option>
+          <option>Restauration & Traiteur</option>
+          <option>Événementiel</option>
+          <option>Imprimerie & Édition</option>
+          <option>Épicerie & Alimentation</option>
+          <option>Recyclage & Déchets</option>
+        </optgroup>
+        <optgroup label="Santé & Bien-être">
+          <option>Santé & Bien-être</option>
+          <option>Beauté & Soins</option>
+          <option>Massage & Thérapies</option>
+          <option>Animaux & Vétérinaire</option>
+        </optgroup>
+        <optgroup label="Création & Culture">
+          <option>Photographie & Vidéo</option>
+          <option>Mode & Textile</option>
+          <option>Optique & Lunetterie</option>
+          <option>Librairie & Culture</option>
+        </optgroup>
+        <optgroup label="Nature & Énergie">
+          <option>Jardinage & Paysagisme</option>
+          <option>Agriculture & Bio</option>
+          <option>Énergie & Solaire</option>
+        </optgroup>
+        <optgroup label="Engagement">
+          <option>Association & ONG</option>
+        </optgroup>
+        <option>Autre</option>
+      </select>
       <select id="dir-region" onchange="filterDirectory()"><option value="">Toutes les régions</option><option>Genève</option><option>Vaud</option><option>Fribourg</option><option>Valais</option><option>Neuchâtel</option><option>Jura</option></select>
       <select id="dir-sort" onchange="filterDirectory()"><option value="rating">Mieux notés</option><option value="newest">Plus récents</option></select>
+      <label style="display:flex;align-items:center;gap:6px;font-size:13px;font-weight:500;color:#059669;cursor:pointer;white-space:nowrap;margin-left:4px"><input type="checkbox" id="dir-bienfaiteur" onchange="filterDirectory()" style="accent-color:#059669"> <i class="ti ti-heart-handshake"></i> Associations</label>
     </div>
     <div class="dir-count" id="dir-results-count"></div>
   </div>
@@ -1351,6 +1581,55 @@ input,textarea,select{font-family:'Inter',sans-serif}
   </div>
 </div>
 
+<!-- PAGE BIENFAITEURS -->
+<div id="page-bienfaiteurs" class="page">
+  <div class="bienf-hero">
+    <div class="bienf-badges">
+      <span class="bienf-badge"><i class="ti ti-heart"></i> Impact social</span>
+      <span class="bienf-badge"><i class="ti ti-shield-check"></i> Profils vérifiés</span>
+      <span class="bienf-badge"><i class="ti ti-gift"></i> Accès gratuit</span>
+    </div>
+    <h1>Espace Bienfaiteurs</h1>
+    <p>Associations, ONG, fondations et acteurs engagés qui font bouger la Suisse romande. Rejoignez-les gratuitement.</p>
+    <div class="bienf-stats">
+      <div class="bienf-stat"><strong id="bienf-count">0</strong><span>Organisations inscrites</span></div>
+      <div class="bienf-stat"><strong>100%</strong><span>Accès gratuit</span></div>
+      <div class="bienf-stat"><strong>6</strong><span>Cantons couverts</span></div>
+    </div>
+    <button class="btn" onclick="navigate('register')" style="background:white;color:#059669;font-weight:700;border:none;padding:12px 28px;font-size:15px"><i class="ti ti-plus"></i> Inscrire mon organisation gratuitement</button>
+  </div>
+
+  <div style="max-width:1100px;margin:0 auto;padding:0 28px">
+    <div class="bienf-info-strip">
+      <i class="ti ti-info-circle"></i>
+      <p><strong>Pourquoi cet espace ?</strong> Nexiwork croit en un écosystème solidaire. Les associations et ONG bénéficient d'un profil gratuit permanent pour gagner en visibilité, trouver des partenaires locaux et recruter des bénévoles.</p>
+    </div>
+
+    <div class="bienf-section-title" style="padding:24px 0 0">Organisations actives</div>
+    <div class="bienf-grid" id="bienf-grid" style="padding:16px 0 0">
+      <!-- Cartes statiques (complétées dynamiquement si Supabase connecté) -->
+      <div class="bienf-card"><div class="bienf-card-type">Association</div><h3>Croix-Rouge Genève</h3><p>Aide humanitaire, soutien aux personnes vulnérables, formation aux premiers secours et collecte de sang.</p><div class="bienf-card-footer"><i class="ti ti-map-pin"></i>&nbsp;Genève &nbsp;·&nbsp;<i class="ti ti-users"></i>&nbsp;+200 bénévoles</div></div>
+      <div class="bienf-card"><div class="bienf-card-type">ONG</div><h3>Caritas Vaud</h3><p>Lutte contre la pauvreté, aide alimentaire, épicerie solidaire et accompagnement social pour les familles en difficulté.</p><div class="bienf-card-footer"><i class="ti ti-map-pin"></i>&nbsp;Lausanne &nbsp;·&nbsp;<i class="ti ti-heart"></i>&nbsp;Solidarité</div></div>
+      <div class="bienf-card"><div class="bienf-card-type">Fondation</div><h3>Pro Juventute Romande</h3><p>Soutien au développement de l'enfant et de la jeunesse, ligne d'aide 147 et ateliers éducatifs.</p><div class="bienf-card-footer"><i class="ti ti-map-pin"></i>&nbsp;Suisse romande &nbsp;·&nbsp;<i class="ti ti-star"></i>&nbsp;Certifiée</div></div>
+      <div class="bienf-card"><div class="bienf-card-type">Association</div><h3>Emmaüs Fribourg</h3><p>Récupération et revente d'objets d'occasion, insertion professionnelle et lutte contre l'exclusion sociale.</p><div class="bienf-card-footer"><i class="ti ti-map-pin"></i>&nbsp;Fribourg &nbsp;·&nbsp;<i class="ti ti-recycle"></i>&nbsp;Économie circulaire</div></div>
+      <div class="bienf-card"><div class="bienf-card-type">ONG</div><h3>Terre des Hommes</h3><p>Protection de l'enfance en Suisse et à l'international, réhabilitation et programme de santé communautaire.</p><div class="bienf-card-footer"><i class="ti ti-map-pin"></i>&nbsp;Lausanne &nbsp;·&nbsp;<i class="ti ti-world"></i>&nbsp;International</div></div>
+      <div class="bienf-card"><div class="bienf-card-type">Fondation</div><h3>Fondation Partage</h3><p>Banque alimentaire genevoise. Distribution de denrées aux associations caritatives et aux personnes dans le besoin.</p><div class="bienf-card-footer"><i class="ti ti-map-pin"></i>&nbsp;Genève &nbsp;·&nbsp;<i class="ti ti-package"></i>&nbsp;Alimentation solidaire</div></div>
+      <div class="bienf-card"><div class="bienf-card-type">Association</div><h3>Espace Femmes Valais</h3><p>Accompagnement des femmes en situation de violence domestique, hébergement d'urgence et suivi juridique.</p><div class="bienf-card-footer"><i class="ti ti-map-pin"></i>&nbsp;Sion &nbsp;·&nbsp;<i class="ti ti-shield"></i>&nbsp;Protection</div></div>
+      <div class="bienf-card"><div class="bienf-card-type">ONG</div><h3>Médecins du Monde Suisse</h3><p>Accès aux soins pour les populations vulnérables, cliniques mobiles et plaidoyer pour le droit à la santé.</p><div class="bienf-card-footer"><i class="ti ti-map-pin"></i>&nbsp;Genève &nbsp;·&nbsp;<i class="ti ti-stethoscope"></i>&nbsp;Santé</div></div>
+    </div>
+
+    <div class="bienf-cta-box">
+      <i class="ti ti-heart-handshake" style="font-size:36px;color:#059669;display:block;margin-bottom:12px"></i>
+      <h2>Votre organisation mérite une vitrine</h2>
+      <p>Inscrivez votre association ou ONG gratuitement sur Nexiwork. Gagnez en visibilité, trouvez des partenaires locaux et développez votre réseau en Suisse romande.</p>
+      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+        <button class="btn" onclick="navigate('register')" style="background:#059669;color:white;border:none;padding:11px 24px"><i class="ti ti-rocket"></i> Créer notre profil gratuit</button>
+        <button class="btn btn-outline" onclick="navigate('directory');setTimeout(()=>{const cb=document.getElementById('dir-bienfaiteur');if(cb){cb.checked=true;filterDirectory();}},200)"><i class="ti ti-search"></i> Explorer l'annuaire</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- PAGE ADMIN -->
 <div id="page-admin" class="page admin-page">
   <div id="admin-login-screen" class="admin-login">
@@ -1472,6 +1751,179 @@ input,textarea,select{font-family:'Inter',sans-serif}
 // ══════════════════════════════════════════════════════════
 //  ⚙️  CONFIGURATION — REMPLIS CES 2 VALEURS
 // ══════════════════════════════════════════════════════════
+// ══ SECTEURS & SOUS-MÉTIERS ══════════════════════════════════════════════════
+const SUB_SECTORS = {
+  'Construction & BTP': [
+    'Maçonnerie & Gros œuvre','Charpenterie & Ossature bois','Terrassement & Fondations',
+    'Béton armé & Ferraillage','Démolition','Rénovation complète','Aménagement intérieur',
+    'Aménagement extérieur','Pose de parquet & sols','Revêtements muraux','Plâtrerie & Staff',
+    'Étanchéité & Imperméabilisation','Ravalement de façade','Construction bois','Autre BTP'
+  ],
+  'Électricité & Domotique': [
+    'Électricité bâtiment','Électricité industrielle','Domotique & Smart Home',
+    'Bornes de recharge VE','Photovoltaïque & Solaire','Réseaux & Câblage',
+    'Éclairage professionnel','Alarmes & Sécurité électronique','Tableaux électriques'
+  ],
+  'Plomberie & Chauffage': [
+    'Plomberie sanitaire','Chauffage central','Pompe à chaleur','Chauffe-eau solaire',
+    'Chauffe-eau thermodynamique','Radiateurs & planchers chauffants','Sprinkleurs & Incendie',
+    'Climatisation réversible','VMC & Ventilation','Robinetterie & Sanitaires'
+  ],
+  'Menuiserie & Ébénisterie': [
+    'Menuiserie intérieure','Menuiserie extérieure','Ébénisterie sur mesure',
+    'Cuisines sur mesure','Escaliers & Rampes','Portes & Fenêtres','Volets & Stores',
+    'Parquet & Revêtements bois','Placards & Dressing','Mobilier sur mesure'
+  ],
+  'Peinture & Décoration': [
+    'Peinture intérieure','Peinture extérieure','Enduits décoratifs','Béton ciré',
+    'Papiers peints & Revêtements','Ravalement','Résine époxy','Trompe-l\'œil & Décoration'
+  ],
+  'Carrelage & Pierre': [
+    'Carrelage sol & mur','Marbre & Pierre naturelle','Faïence & Mosaïque',
+    'Béton ciré & Résine','Terrasse carrelée','Salle de bain complète','Ragréage & Chape'
+  ],
+  'Toiture & Couverture': [
+    'Couverture tuiles & ardoises','Toiture zinc & métallique','Toiture plate & étanchéité',
+    'Zinguerie & Gouttières','Velux & Fenêtres de toit','Isolation toiture','Charpente'
+  ],
+  'Serrurerie & Métallerie': [
+    'Serrurerie & Sécurité','Portails & Clôtures','Rampes & Garde-corps',
+    'Escaliers métalliques','Structures métalliques','Mobilier métallique','Stores & Grilles'
+  ],
+  'Climatisation & CVC': [
+    'Climatisation split','Climatisation centralisée','Ventilation & VMC',
+    'Traitement d\'air','Froid industriel','Chauffage d\'appoint'
+  ],
+  'Isolation & Énergie': [
+    'Isolation thermique extérieure (ITE)','Isolation combles & toitures',
+    'Isolation façades','Isolation phonique','Isolation sous-sol','Audit énergétique',
+    'Minergie & Certifications','Pompes à chaleur','Panneaux solaires thermiques'
+  ],
+  'Informatique & Tech': [
+    'Développement web','Développement mobile','Infrastructure & Cloud',
+    'Cybersécurité','Support & Maintenance IT','Intelligence artificielle & Data',
+    'E-commerce','UI/UX Design','ERP & CRM','Réseaux & WiFi entreprise','SEO technique'
+  ],
+  'Marketing & Communication': [
+    'Publicité & Médias','Graphisme & Design','Rédaction & Copywriting',
+    'Community management','SEO & Référencement','Relations presse & RP',
+    'Création de contenu','Identité visuelle & Branding','Emailing & Automation',
+    'Impression & Print'
+  ],
+  'Finance & Comptabilité': [
+    'Comptabilité générale','Fiduciaire & Bouclement','Gestion TVA & Salaires',
+    'Conseil fiscal','Audit & Révision','Business plan','Gestion de trésorerie',
+    'Finance d\'entreprise'
+  ],
+  'Santé & Bien-être': [
+    'Médecine générale','Physiothérapie & Kiné','Naturopathie','Psychologie & Psychothérapie',
+    'Dentisterie','Podologie','Ostéopathie','Nutrition & Diététique',
+    'Yoga & Méditation','Acupuncture','Homéopathie'
+  ],
+  'Beauté & Soins': [
+    'Coiffure','Esthétique & Beauté','Tatouage & Piercing','Onglerie & Nail art',
+    'Maquillage professionnel','Épilation','Soins du visage','Extensions de cils'
+  ],
+  'Événementiel': [
+    'Organisation d\'événements','Traiteur & Banquet','DJ & Animation musicale',
+    'Photographie événementielle','Décoration & Scénographie','Location de matériel',
+    'Sonorisation & Éclairage','Team building','Mariage & Cérémonie','Conférence & Séminaire'
+  ],
+  'Restauration & Traiteur': [
+    'Restaurant','Traiteur professionnel','Livraison de repas','Food truck',
+    'Catering entreprise','Épicerie fine','Boulangerie & Pâtisserie'
+  ],
+  'Transport & Logistique': [
+    'Déménagement','Transport de marchandises','Livraison express','Coursier',
+    'Transport de personnes','Garde-meubles & Stockage','Logistique e-commerce'
+  ],
+  'Jardinage & Paysagisme': [
+    'Création de jardins','Entretien espaces verts','Taille d\'arbres & Élagage',
+    'Gazon & Engazonnement','Systèmes d\'irrigation','Terrasses & Aménagements',
+    'Paysagisme d\'entreprise','Plantations & Haies'
+  ],
+  'Agriculture & Bio': [
+    'Maraîchage & Légumes','Arboriculture & Fruits','Élevage','Viticulture & Vins',
+    'Apiculture & Miel','Production biologique','Vente directe producteur'
+  ],
+  'Formation & Coaching': [
+    'Coaching professionnel','Coaching de vie','Formation en entreprise',
+    'Formation digitale','Coaching sportif','Mentorat & Conseil',
+    'Formation langues','Soutien scolaire'
+  ],
+  'Photographie & Vidéo': [
+    'Photographie corporate','Photographie événementielle','Photo produit',
+    'Vidéo d\'entreprise','Drone & Aérien','Reportage & Documentaire',
+    'Retouche & Post-production','Motion design'
+  ],
+};
+
+// Structure pour le select d'inscription (optgroups)
+const ALL_SECTORS = [
+  {group:'Bâtiment & Travaux', opts:['Construction & BTP','Électricité & Domotique','Plomberie & Chauffage','Menuiserie & Ébénisterie','Peinture & Décoration','Carrelage & Pierre','Toiture & Couverture','Serrurerie & Métallerie','Vitrerie & Miroiterie','Climatisation & CVC','Isolation & Énergie','Échafaudage & Levage','Piscines & Spas']},
+  {group:'Tech & Services', opts:['Informatique & Tech','Marketing & Communication','Finance & Comptabilité','Droit & Juridique','Architecture & Design','Formation & Coaching','Ressources Humaines','Assurance & Prévoyance','Traduction & Interprétation']},
+  {group:'Commerce & Services', opts:['Transport & Logistique','Immobilier','Sécurité & Surveillance','Nettoyage & Entretien','Restauration & Traiteur','Événementiel','Imprimerie & Édition','Épicerie & Alimentation','Recyclage & Déchets']},
+  {group:'Santé & Bien-être', opts:['Santé & Bien-être','Beauté & Soins','Massage & Thérapies','Animaux & Vétérinaire']},
+  {group:'Création & Culture', opts:['Photographie & Vidéo','Mode & Textile','Optique & Lunetterie','Librairie & Culture']},
+  {group:'Nature & Énergie', opts:['Jardinage & Paysagisme','Agriculture & Bio','Énergie & Solaire']},
+  {group:'Engagement', opts:['Association & ONG']},
+  'Autre'
+];
+
+function onSectorChange(prefix) {
+  const sel = document.getElementById(prefix+'-sector');
+  const row = document.getElementById(prefix+'-subsector-row');
+  const sub = document.getElementById(prefix+'-subsector');
+  if (!sel || !row || !sub) return;
+  const val = sel.value;
+  const opts = SUB_SECTORS[val];
+  if (opts) {
+    sub.innerHTML = '<option value="">Préciser le corps de métier...</option>' +
+      opts.map(o=>`<option>${o}</option>`).join('');
+    row.classList.add('visible');
+  } else {
+    row.classList.remove('visible');
+  }
+}
+
+async function renderBienfaiteurs() {
+  if (!sb) return;
+  const { data, count } = await sb.from('profiles')
+    .select('*', { count: 'exact' })
+    .eq('sector', 'Association & ONG')
+    .order('rating', { ascending: false });
+  const el = document.getElementById('bienf-count');
+  if (el) el.textContent = count ?? 0;
+  if (!data || data.length === 0) return;
+  const grid = document.getElementById('bienf-grid');
+  if (!grid) return;
+  const TYPES = { 'Association & ONG': 'Association' };
+  grid.innerHTML = data.map(c => `
+    <div class="bienf-card" onclick="navigate('profile','${c.id}')">
+      <div class="bienf-card-type">Association / ONG</div>
+      <h3>${c.company}</h3>
+      <p>${(c.description||'').slice(0,120)}${c.description?.length>120?'…':''}</p>
+      <div class="bienf-card-footer">
+        <i class="ti ti-map-pin"></i>&nbsp;${c.region||'Suisse romande'}
+        ${c.verified ? '&nbsp;·&nbsp;<i class="ti ti-circle-check" style="color:#059669"></i>&nbsp;Vérifié':''}
+      </div>
+    </div>
+  `).join('');
+}
+
+function toggleSectorsMore() {
+  const dd = document.getElementById('sectors-dropdown');
+  if(dd) dd.classList.toggle('open');
+}
+// Fermer le dropdown si clic extérieur
+document.addEventListener('click', e => {
+  const wrap = document.getElementById('sectors-more-wrap');
+  if (wrap && !wrap.contains(e.target)) {
+    const dd = document.getElementById('sectors-dropdown');
+    if(dd) dd.classList.remove('open');
+  }
+});
+
 const SUPABASE_URL  = 'https://zdojvyrunvcodgeyoziu.supabase.co';
 const SUPABASE_KEY  = 'sb_publishable_17Qt5OGI_N-ReFW_iRGfYA_AWUXZT6W';
 // ══════════════════════════════════════════════════════════
@@ -1641,6 +2093,7 @@ function navigate(page, param, fromPopState) {
   if (page === 'dashboard') { if (!currentUser) { navigate('login'); return; } renderDashboard(); }
   if (page === 'admin')     { renderAdminPage(); }
   if (page === 'about' || page === 'faq' || page === 'legal') { /* static pages */ }
+  if (page === 'bienfaiteurs') { renderBienfaiteurs(); }
   if (page === 'register') { loadFounderOfferBanner(); }
   updateNav();
   // Ajoute une entrée dans l'historique du navigateur
@@ -1699,13 +2152,15 @@ async function renderDirectory() {
 }
 
 function filterDirectory() {
-  const q      = (document.getElementById('dir-search')?.value || '').toLowerCase();
-  const sector = document.getElementById('dir-sector')?.value || '';
-  const region = document.getElementById('dir-region')?.value || '';
-  const sort   = document.getElementById('dir-sort')?.value || 'rating';
+  const q            = (document.getElementById('dir-search')?.value || '').toLowerCase();
+  const sector       = document.getElementById('dir-sector')?.value || '';
+  const region       = document.getElementById('dir-region')?.value || '';
+  const sort         = document.getElementById('dir-sort')?.value || 'rating';
+  const bienfaiteur  = document.getElementById('dir-bienfaiteur')?.checked || false;
   let results  = allProfiles.filter(c => {
     const mq = !q || c.company.toLowerCase().includes(q) || c.sector.toLowerCase().includes(q) || c.description?.toLowerCase().includes(q) || (c.tags||[]).some(t=>t.toLowerCase().includes(q));
-    return mq && (!sector || c.sector === sector) && (!region || c.region === region);
+    const mb = !bienfaiteur || c.sector === 'Association & ONG';
+    return mq && mb && (!sector || c.sector === sector) && (!region || c.region === region);
   });
   if (sort === 'rating')  results.sort((a,b) => b.rating - a.rating);
   if (sort === 'newest')  results.sort((a,b) => new Date(b.created_at) - new Date(a.created_at));
@@ -1915,7 +2370,9 @@ function renderEditProfile() {
       <div class="form-group"><label>Type</label><select id="ep-type">${['PME','Artisan','Indépendant','Profession libérale','SA / Sàrl'].map(t=>`<option${c.type===t?' selected':''}>${t}</option>`).join('')}</select></div>
     </div>
     <div class="form-row">
-      <div class="form-group"><label>Secteur</label><select id="ep-sector">${['Construction & Rénovation','Électricité & Domotique','Plomberie & Chauffage','Informatique & Tech','Finance & Comptabilité','Droit & Juridique','Marketing & Communication','Architecture & Design','Transport & Logistique','Nettoyage & Entretien','Sécurité','Autre'].map(s=>`<option${c.sector===s?' selected':''}>${s}</option>`).join('')}</select></div>
+      <div class="form-group"><label>Secteur</label><select id="ep-sector" onchange="onSectorChange('ep')">${ALL_SECTORS.map(s=>typeof s==='string'?`<option${c.sector===s?' selected':''}>${s}</option>`:`<optgroup label="${s.group}">${s.opts.map(o=>`<option${c.sector===o?' selected':''}>${o}</option>`).join('')}</optgroup>`).join('')}</select>
+        <div class="subsector-row" id="ep-subsector-row"><label style="margin-top:8px;display:block">Corps de métier</label><select id="ep-subsector"><option value="">Préciser...</option></select></div>
+      </div>
       <div class="form-group"><label>Région</label><select id="ep-region">${['Genève','Vaud','Fribourg','Valais','Neuchâtel','Jura'].map(r=>`<option${c.region===r?' selected':''}>${r}</option>`).join('')}</select></div>
     </div>
     <div class="form-group"><label>Description</label><textarea id="ep-desc" rows="4">${c.description||''}</textarea></div>
