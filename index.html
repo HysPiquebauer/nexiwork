@@ -58,6 +58,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <script src="https://js.stripe.com/v3/"></script>
 <style>
 /* ── CONFIGURATION MANQUANTE ── */
@@ -1325,7 +1326,7 @@ input,textarea,select{font-family:'Inter',sans-serif}
       <i class="ti ti-search" style="color:var(--text-3);font-size:18px;flex-shrink:0"></i>
       <input type="text" id="dir-search" placeholder="Rechercher par nom, secteur, service..." oninput="filterDirectory()" style="border:none;box-shadow:none;padding:0;font-size:15px">
       <div style="width:1px;height:24px;background:var(--border);margin:0 4px"></div>
-      <select id="dir-sector" onchange="filterDirectory()">
+      <select id="dir-sector" onchange="filterDirectory();updateDirSubsector()">
         <option value="">Tous les secteurs</option>
         <optgroup label="Bâtiment & Travaux">
           <option>Construction & BTP</option>
@@ -1388,6 +1389,14 @@ input,textarea,select{font-family:'Inter',sans-serif}
       </select>
       <select id="dir-region" onchange="filterDirectory()"><option value="">Toutes les régions</option><option>Genève</option><option>Vaud</option><option>Fribourg</option><option>Valais</option><option>Neuchâtel</option><option>Jura</option></select>
       <select id="dir-sort" onchange="filterDirectory()"><option value="rating">Mieux notés</option><option value="newest">Plus récents</option></select>
+      <select id="dir-subsector" onchange="filterDirectory()" style="display:none"><option value="">Tous les corps de métier</option></select>
+      <select id="dir-min-rating" onchange="filterDirectory()">
+        <option value="0">Toutes les notes</option>
+        <option value="3">★ 3+</option>
+        <option value="4">★★ 4+</option>
+        <option value="4.5">★★★ 4.5+</option>
+      </select>
+      <input type="number" id="dir-max-tarif" placeholder="Tarif max CHF/h" oninput="filterDirectory()" min="0" step="10" style="width:150px;padding:6px 10px;font-size:13px;border:1px solid var(--border);border-radius:8px;background:var(--surface)">
       <label style="display:flex;align-items:center;gap:6px;font-size:13px;font-weight:500;color:#059669;cursor:pointer;white-space:nowrap;margin-left:4px"><input type="checkbox" id="dir-bienfaiteur" onchange="filterDirectory()" style="accent-color:#059669"> <i class="ti ti-heart-handshake"></i> Associations</label>
     </div>
     <div class="dir-count" id="dir-results-count"></div>
@@ -1938,6 +1947,31 @@ document.addEventListener('click', e => {
   }
 });
 
+// ── EMAILJS CONFIG (optionnel — notifications email) ──────────────────────
+// 1. Créez un compte gratuit sur emailjs.com
+// 2. Créez un service Gmail, notez le Service ID
+// 3. Créez un template avec variables: {{to_email}}, {{to_name}}, {{from_name}}, {{message}}, {{type}}
+// 4. Remplacez les valeurs ci-dessous
+const EMAILJS_PUBLIC_KEY  = 'VOTRE_PUBLIC_KEY';   // Account > API Keys
+const EMAILJS_SERVICE_ID  = 'VOTRE_SERVICE_ID';   // Email Services
+const EMAILJS_TEMPLATE_ID = 'VOTRE_TEMPLATE_ID';  // Email Templates
+const EMAILJS_ENABLED     = EMAILJS_PUBLIC_KEY !== 'VOTRE_PUBLIC_KEY';
+if (EMAILJS_ENABLED) { emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY }); }
+
+async function sendEmailNotif(toProfile, type, fromName, messageText) {
+  if (!EMAILJS_ENABLED || !toProfile?.email) return;
+  try {
+    await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+      to_email:  toProfile.email,
+      to_name:   toProfile.company,
+      from_name: fromName,
+      type:      type === 'message' ? 'un nouveau message' : 'une demande de devis',
+      message:   messageText.substring(0, 200),
+      link:      'https://nexiwork.ch/#dashboard'
+    });
+  } catch(e) { console.warn('EmailJS:', e); }
+}
+
 const SUPABASE_URL  = 'https://zdojvyrunvcodgeyoziu.supabase.co';
 const SUPABASE_KEY  = 'sb_publishable_17Qt5OGI_N-ReFW_iRGfYA_AWUXZT6W';
 // ══════════════════════════════════════════════════════════
@@ -2166,16 +2200,39 @@ async function renderDirectory() {
   filterDirectory();
 }
 
+function updateDirSubsector() {
+  const sector = document.getElementById('dir-sector')?.value || '';
+  const subEl  = document.getElementById('dir-subsector');
+  if (!subEl) return;
+  const opts = SUB_SECTORS[sector];
+  if (opts && opts.length) {
+    subEl.innerHTML = '<option value="">Tous les corps de métier</option>' + opts.map(o=>`<option>${o}</option>`).join('');
+    subEl.style.display = '';
+  } else {
+    subEl.innerHTML = '<option value="">Tous les corps de métier</option>';
+    subEl.style.display = 'none';
+  }
+}
+
 function filterDirectory() {
-  const q            = (document.getElementById('dir-search')?.value || '').toLowerCase();
-  const sector       = document.getElementById('dir-sector')?.value || '';
-  const region       = document.getElementById('dir-region')?.value || '';
-  const sort         = document.getElementById('dir-sort')?.value || 'rating';
-  const bienfaiteur  = document.getElementById('dir-bienfaiteur')?.checked || false;
-  let results  = allProfiles.filter(c => {
+  const q          = (document.getElementById('dir-search')?.value || '').toLowerCase();
+  const sector     = document.getElementById('dir-sector')?.value || '';
+  const subsector  = document.getElementById('dir-subsector')?.value || '';
+  const region     = document.getElementById('dir-region')?.value || '';
+  const sort       = document.getElementById('dir-sort')?.value || 'rating';
+  const minRating  = parseFloat(document.getElementById('dir-min-rating')?.value || '0');
+  const maxTarifRaw = document.getElementById('dir-max-tarif')?.value;
+  const maxTarif   = maxTarifRaw ? parseFloat(maxTarifRaw) : Infinity;
+  const bienfaiteur = document.getElementById('dir-bienfaiteur')?.checked || false;
+  let results = allProfiles.filter(c => {
     const mq = !q || c.company.toLowerCase().includes(q) || c.sector.toLowerCase().includes(q) || c.description?.toLowerCase().includes(q) || (c.tags||[]).some(t=>t.toLowerCase().includes(q));
     const mb = !bienfaiteur || c.sector === 'Association & ONG';
-    return mq && mb && (!sector || c.sector === sector) && (!region || c.region === region);
+    const mr = (c.rating || 0) >= minRating;
+    const mt = !c.tarif || c.tarif <= maxTarif;
+    return mq && mb && mr && mt
+      && (!sector    || c.sector    === sector)
+      && (!subsector || c.subsector === subsector)
+      && (!region    || c.region    === region);
   });
   if (sort === 'rating')  results.sort((a,b) => b.rating - a.rating);
   if (sort === 'newest')  results.sort((a,b) => new Date(b.created_at) - new Date(a.created_at));
@@ -2266,6 +2323,7 @@ async function renderProfileView(id) {
             <span><i class="ti ti-briefcase"></i>${c.type}</span>
             <span><i class="ti ti-map-pin"></i>${c.region}</span>
             <span><i class="ti ti-tag"></i>${c.sector}</span>
+            ${c.subsector ? `<span><i class="ti ti-tools"></i>${c.subsector}</span>` : ''}
             ${c.tarif ? `<span><i class="ti ti-coin"></i>CHF ${c.tarif}/h</span>` : ''}
           </div>
           <div class="flex gap-2" style="margin-top:12px;flex-wrap:wrap">
@@ -2509,6 +2567,9 @@ async function sendMessage(toId) {
   if (!text) return;
   input.value = '';
   await sb.from('messages').insert({ from_id: currentProfile.id, to_id: toId, text });
+  // Notification email au destinataire
+  const { data: toProf } = await sb.from('profiles').select('company,email').eq('id', toId).single();
+  sendEmailNotif(toProf, 'message', currentProfile.company, text);
   await renderMessages();
 }
 
@@ -2588,6 +2649,9 @@ async function submitDevis() {
   });
   btn.disabled = false;
   if (error) { toast('Erreur lors de l\'envoi.', 'error'); return; }
+  // Notification email au destinataire
+  const { data: toProf } = await sb.from('profiles').select('company,email').eq('id', activeDevisTarget).single();
+  sendEmailNotif(toProf, 'devis', currentProfile.company, desc);
   closeModal('modal-devis');
   toast('Demande de devis envoyée !', 'success');
 }
