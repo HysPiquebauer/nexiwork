@@ -1973,10 +1973,11 @@ async function doLogin() {
 
 async function doRegister() {
   if (!configured) { toast('Configure Supabase d\'abord.', 'error'); return; }
-  const company = document.getElementById('reg-company').value.trim();
-  const type    = document.getElementById('reg-type').value;
-  const sector  = document.getElementById('reg-sector').value;
-  const region  = document.getElementById('reg-region').value;
+  const company   = document.getElementById('reg-company').value.trim();
+  const type      = document.getElementById('reg-type').value;
+  const sector    = document.getElementById('reg-sector').value;
+  const subsector = document.getElementById('reg-subsector')?.value || '';
+  const region    = document.getElementById('reg-region').value;
   const desc    = document.getElementById('reg-desc').value.trim();
   const email   = document.getElementById('reg-email').value.trim();
   const pass    = document.getElementById('reg-pass').value;
@@ -2004,7 +2005,7 @@ async function doRegister() {
 
   const { data, error } = await sb.auth.signUp({
     email, password: pass,
-    options: { data: { company, type, sector, region, description: desc, tags: tags.join(','), tarif, phone, color, initials,
+    options: { data: { company, type, sector, subsector, region, description: desc, tags: tags.join(','), tarif, phone, color, initials,
       founding_member: isFounder,
       founding_member_since: founderSince,
       founding_member_premium_until: founderPremiumUntil,
@@ -2381,6 +2382,15 @@ function renderEditProfile() {
       <div class="form-group"><label>Téléphone</label><input id="ep-phone" value="${c.phone||''}"></div>
     </div>
     <div class="form-group"><label>Tags (séparés par virgule)</label><input id="ep-tags" value="${(c.tags||[]).join(', ')}"></div>`;
+  // Pré-remplir le sous-secteur actuel
+  onSectorChange('ep');
+  if (c.subsector) {
+    const epSub = document.getElementById('ep-subsector');
+    if (epSub) {
+      const opt = [...epSub.options].find(o => o.value === c.subsector);
+      if (opt) opt.selected = true;
+    }
+  }
 }
 
 async function saveProfile() {
@@ -2388,6 +2398,7 @@ async function saveProfile() {
     company:     document.getElementById('ep-company').value.trim(),
     type:        document.getElementById('ep-type').value,
     sector:      document.getElementById('ep-sector').value,
+    subsector:   document.getElementById('ep-subsector')?.value || '',
     region:      document.getElementById('ep-region').value,
     description: document.getElementById('ep-desc').value.trim(),
     tarif:       parseInt(document.getElementById('ep-tarif').value) || null,
