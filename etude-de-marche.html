@@ -1,0 +1,827 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nexiwork — Étude de marché</title>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<style>
+  :root {
+    --blue: #1e40af;
+    --blue-light: #dbeafe;
+    --blue-mid: #3b82f6;
+    --green: #059669;
+    --border: #e2e8f0;
+    --surface: #f8fafc;
+    --text: #1e293b;
+    --text-2: #475569;
+    --radius: 8px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: linear-gradient(135deg, #eff6ff 0%, #f8fafc 100%);
+    min-height: 100vh;
+    padding: 32px 16px;
+    color: var(--text);
+  }
+  .container {
+    max-width: 820px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 4px 32px rgba(30,64,175,0.10);
+    overflow: hidden;
+  }
+
+  /* HEADER */
+  .header {
+    background: linear-gradient(135deg, var(--blue) 0%, #1d4ed8 100%);
+    padding: 32px 40px 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  .logo-block { display: flex; align-items: center; gap: 14px; }
+  .logo-icon {
+    width: 52px; height: 52px;
+    background: white;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; font-weight: 900; color: var(--blue);
+  }
+  .logo-text h1 { color: white; font-size: 22px; font-weight: 800; letter-spacing: 1px; }
+  .logo-text p { color: #bfdbfe; font-size: 12px; margin-top: 2px; }
+  .header-contact { text-align: right; }
+  .header-contact p { color: #bfdbfe; font-size: 13px; line-height: 1.8; }
+  .header-contact a { color: white; text-decoration: none; font-weight: 600; }
+
+  .form-title {
+    background: var(--blue-light);
+    text-align: center;
+    padding: 20px 40px;
+    border-bottom: 2px solid #bfdbfe;
+  }
+  .form-title h2 { color: var(--blue); font-size: 18px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; }
+  .form-title p { color: var(--text-2); font-size: 12.5px; margin-top: 6px; }
+
+  /* FORM BODY */
+  .form-body { padding: 32px 40px; }
+
+  .section { margin-bottom: 32px; }
+  .section-title {
+    color: var(--blue);
+    font-size: 13px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--blue);
+    margin-bottom: 18px;
+  }
+
+  .field-row {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    align-items: start;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .field-row:last-child { border-bottom: none; }
+  .field-label {
+    font-size: 13.5px;
+    color: var(--text-2);
+    font-weight: 500;
+    padding-top: 8px;
+    line-height: 1.4;
+  }
+  .field-label .qnum {
+    color: var(--blue);
+    font-weight: 700;
+    margin-right: 4px;
+  }
+  .field-input { display: flex; flex-direction: column; gap: 6px; }
+  .hint { font-size: 11px; color: #94a3b8; font-style: italic; }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="number"],
+  select,
+  textarea {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    font-size: 13.5px;
+    color: var(--text);
+    background: var(--surface);
+    transition: border-color 0.2s, box-shadow 0.2s;
+    font-family: inherit;
+    appearance: none;
+    -webkit-appearance: none;
+  }
+  select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%231e40af' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    padding-right: 30px;
+    cursor: pointer;
+  }
+  input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: var(--blue-mid);
+    box-shadow: 0 0 0 3px rgba(59,130,246,0.12);
+    background: white;
+  }
+  textarea { resize: vertical; min-height: 70px; }
+
+  /* Rating scale row */
+  .scale-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .scale-row label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+    color: var(--text-2);
+    cursor: pointer;
+  }
+  .scale-row input[type="radio"] {
+    width: 18px; height: 18px;
+    accent-color: var(--blue);
+    cursor: pointer;
+  }
+  .scale-label { font-size: 11px; color: #94a3b8; font-style: italic; }
+
+  /* Multi-check */
+  .check-group { display: flex; flex-direction: column; gap: 5px; }
+  .check-item {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 13px; color: var(--text-2); cursor: pointer;
+  }
+  .check-item input[type="checkbox"] {
+    width: 16px; height: 16px;
+    accent-color: var(--blue);
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+
+  /* SUBMIT */
+  .submit-section {
+    background: var(--blue-light);
+    padding: 28px 40px;
+    text-align: center;
+    border-top: 1px solid #bfdbfe;
+  }
+  .submit-section p { font-size: 12.5px; color: var(--text-2); margin-bottom: 16px; }
+  .btn-submit {
+    background: linear-gradient(135deg, var(--blue) 0%, #1d4ed8 100%);
+    color: white; border: none;
+    padding: 14px 48px;
+    border-radius: 10px;
+    font-size: 15px; font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(30,64,175,0.25);
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+  .btn-submit:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(30,64,175,0.35); }
+  .btn-submit:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+  .toast { display: none; margin-top: 16px; padding: 14px 20px; border-radius: 10px; font-size: 14px; font-weight: 600; }
+  .toast.success { background: #d1fae5; color: #065f46; display: block; }
+  .toast.error   { background: #fee2e2; color: #991b1b; display: block; }
+
+  .footer { text-align: center; padding: 16px; font-size: 11px; color: #94a3b8; border-top: 1px solid var(--border); }
+
+  @media(max-width:600px) {
+    .form-body { padding: 20px 16px; }
+    .field-row { grid-template-columns: 1fr; gap: 4px; }
+    .field-label { padding-top: 0; }
+    .header { padding: 20px 16px; }
+    .submit-section { padding: 20px 16px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="logo-block">
+      <div class="logo-icon">NX</div>
+      <div class="logo-text">
+        <h1>NEXIWORK</h1>
+        <p>La plateforme B2B des PME de Suisse romande</p>
+      </div>
+    </div>
+    <div class="header-contact">
+      <p>🌐 <a href="https://nexiwork.ch">nexiwork.ch</a></p>
+      <p>✉️ <a href="mailto:contact@nexiwork.ch">contact@nexiwork.ch</a></p>
+    </div>
+  </div>
+
+  <!-- TITLE -->
+  <div class="form-title">
+    <h2>Étude de marché — Votre avis sur Nexiwork</h2>
+    <p>⏱ 8 à 12 minutes &nbsp;|&nbsp; Vos réponses nous aident à construire un outil vraiment utile pour les PME romandes</p>
+  </div>
+
+  <form id="nx-form" class="form-body">
+
+    <!-- ── SECTION A ── -->
+    <div class="section">
+      <div class="section-title">A — Profil de votre entreprise</div>
+
+      <div class="field-row">
+        <div class="field-label"><span class="qnum">Q1.</span> Raison sociale</div>
+        <div class="field-input">
+          <input type="text" name="raison_sociale" placeholder="Nom de votre entreprise" required>
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="field-label"><span class="qnum">Q2.</span> Email de contact</div>
+        <div class="field-input">
+          <input type="email" name="email" placeholder="votre@email.ch">
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="field-label"><span class="qnum">Q3.</span> Secteur d'activité principal</div>
+        <div class="field-input">
+          <select name="secteur">
+            <option value="">Choisir...</option>
+            <option>Construction & BTP / Électricité / Plomberie</option>
+            <option>Architecture & Design / Décoration intérieure</option>
+            <option>Informatique & Développement / Conseil IT</option>
+            <option>Marketing & Communication / Graphisme</option>
+            <option>Santé & Bien-être / Beauté & Soins</option>
+            <option>Restauration & Traiteur / Événementiel</option>
+            <option>Agriculture & Bio / Énergie & Solaire</option>
+            <option>Immobilier / Sécurité & Surveillance</option>
+            <option>Formation & Coaching / Juridique & Comptabilité</option>
+            <option>Autre</option>
+          </select>
+          <input type="text" name="secteur_autre" placeholder="Si autre, préciser...">
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="field-label"><span class="qnum">Q4.</span> Taille de l'entreprise</div>
+        <div class="field-input">
+          <select name="taille">
+            <option value="">Choisir...</option>
+            <option>Indépendant / Auto-entrepreneur (1 personne)</option>
+            <option>Très petite entreprise (2 à 5 collaborateurs)</option>
+            <option>Petite entreprise (6 à 20 collaborateurs)</option>
+            <option>Moyenne entreprise (21 à 50 collaborateurs)</option>
+            <option>Plus de 50 collaborateurs</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="field-label"><span class="qnum">Q5.</span> Région(s) d'activité</div>
+        <div class="field-input">
+          <select name="region">
+            <option value="">Choisir...</option>
+            <option>Genève</option>
+            <option>Vaud</option>
+            <option>Fribourg</option>
+            <option>Valais</option>
+            <option>Neuchâtel</option>
+            <option>Jura</option>
+            <option>Plusieurs cantons romands</option>
+            <option>Toute la Suisse</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="field-label"><span class="qnum">Q6.</span> Ancienneté de l'entreprise</div>
+        <div class="field-input">
+          <select name="anciennete">
+            <option value="">Choisir...</option>
+            <option>Moins de 1 an</option>
+            <option>1 à 3 ans</option>
+            <option>4 à 10 ans</option>
+            <option>Plus de 10 ans</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── SECTION B ── -->
+    <div class="section">
+      <div class="section-title">B — Habitudes de mise en relation professionnelle</div>
+
+      <div class="field-row">
+        <div class="field-label"><span class="qnum">Q7.</span> Comment trouvez-vous actuellement de nouveaux clients ou partenaires ?</div>
+        <div class="field-input">
+          <div class="check-group">
+            <label class="check-item"><input type="checkbox" name="prospection" value="Bouche-à-oreille / recommandations"> Bouche-à-oreille / recommandations</label>
+            <label class="check-item"><input type="checkbox" name="prospection" value="Réseaux sociaux (LinkedIn, Instagram...)"> Réseaux sociaux (LinkedIn, Instagram...)</label>
+            <label class="check-item"><input type="checkbox" name="prospection" value="Annuaires en ligne (Local.ch, Google Maps...)"> Annuaires en ligne (Local.ch, Google Maps...)</label>
+            <label class="check-item"><input type="checkbox" name="prospection" value="Foires et événements professionnels"> Foires et événements professionnels</label>
+            <label class="check-item"><input type="checkbox" name="prospection" value="Publicité payante (Google Ads, Meta Ads...)"> Publicité payante (Google Ads, Meta Ads...)</label>
+            <label class="check-item"><input type="checkbox" name="prospection" value="Plateformes de mise en relation"> Plateformes de mise en relation</label>
+            <label class="check-item"><input type="checkbox" name="prospection" value="Pas de stratégie définie"> Pas de stratégie définie</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="field-label"><span class="qnum">Q8.</span> Temps consacré par semaine à la prospection</div>
+        <div class="field-input">
+          <select name="temps_prospection">
+            <option value="">Choisir...</option>
+            <option>Moins de 1 heure</option>
+            <option>1 à 3 heures</option>
+            <option>3 à 7 heures</option>
+            <option>Plus de 7 heures</option>
+            <option>Je ne prospecte pas activement</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="field-label"><span class="qnum">Q9.</span> Principaux obstacles pour trouver des partenaires de confiance</div>
+        <div class="field-input">
+          <div class="check-group">
+            <label class="check-item"><input type="checkbox" name="obstacles" value="Manque de temps"> Manque de temps</label>
+            <label class="check-item"><input type="checkbox" name="obstacles" value="Difficulté à vérifier la fiabilité"> Difficulté à vérifier la fiabilité</label>
+            <label class="check-item"><input type="checkbox" name="obstacles" value="Pas d'outil adapté aux PME locales"> Pas d'outil adapté aux PME locales</label>
+            <label class="check-item"><input type="checkbox" name="obstacles" value="Coût trop élevé des solutions existantes"> Coût trop élevé des solutions existantes</label>
+            <label class="check-item"><input type="checkbox" name="obstacles" value="Manque de transparence sur les tarifs"> Manque de transparence sur les tarifs</label>
+            <label class="check-item"><input type="checkbox" name="obstacles" value="Je n'ai pas vraiment de difficultés"> Je n'ai pas vraiment de difficultés</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="field-label"><span class="qnum">Q10.</span> Utilisez-vous une plateforme B2B actuellement ?</div>
+        <div class="field-input">
+          <select name="plateforme_actuelle">
+            <option value="">Choisir...</option>
+            <option>Oui, régulièrement</option>
+            <option>Oui, mais rarement</option>
+            <option>Non, j'ai essayé sans succès</option>
+            <option>Non, je n'en ai pas besoin</option>
+          </select>
+          <input type="text" name="plateforme_laquelle" placeholder="Si oui, laquelle ?">
+        </div>
+      </div>
+    </div>
+
+    <!-- ── SECTION C ── -->
+    <div class="section">
+      <div class="section-title">C — Attentes envers Nexiwork</div>
+
+      <div class="field-row">
+        <div class="field-label"><span class="qnum">Q11.</span> Votre première réaction face au concept Nexiwork</div>
+        <div class="field-input">
+          <select name="reaction">
+            <option value="">Choisir...</option>
+            <option>Très enthousiaste — j'en ai vraiment besoin</option>
+            <option>Plutôt intéressé(e), sous conditions</option>
+            <option>Neutre — à voir selon les fonctionnalités</option>
+            <option>Sceptique — il y a déjà trop d'outils</option>
+            <option>Pas intéressé(e)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="field-label"><span class="qnum">Q12.</span> Fonctionnalités les plus utiles<div class="hint">Notez de 1 (inutile) à 5 (indispensable)</div></div>
+        <div class="field-input">
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:4px 0;border-bottom:1px solid #f1f5f9;gap:10px"><span style="font-size:13px;color:var(--text-2);flex:1">Annuaire par secteur et région</span><div class="scale-row"><label><input type="radio" name="feat_annuaire" value="1"><span>1</span></label><label><input type="radio" name="feat_annuaire" value="2"><span>2</span></label><label><input type="radio" name="feat_annuaire" value="3"><span>3</span></label><label><input type="radio" name="feat_annuaire" value="4"><span>4</span></label><label><input type="radio" name="feat_annuaire" value="5"><span>5</span></label></div></div>
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:4px 0;border-bottom:1px solid #f1f5f9;gap:10px"><span style="font-size:13px;color:var(--text-2);flex:1">Demande de devis en ligne</span><div class="scale-row"><label><input type="radio" name="feat_devis" value="1"><span>1</span></label><label><input type="radio" name="feat_devis" value="2"><span>2</span></label><label><input type="radio" name="feat_devis" value="3"><span>3</span></label><label><input type="radio" name="feat_devis" value="4"><span>4</span></label><label><input type="radio" name="feat_devis" value="5"><span>5</span></label></div></div>
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:4px 0;border-bottom:1px solid #f1f5f9;gap:10px"><span style="font-size:13px;color:var(--text-2);flex:1">Messagerie directe entre professionnels</span><div class="scale-row"><label><input type="radio" name="feat_messagerie" value="1"><span>1</span></label><label><input type="radio" name="feat_messagerie" value="2"><span>2</span></label><label><input type="radio" name="feat_messagerie" value="3"><span>3</span></label><label><input type="radio" name="feat_messagerie" value="4"><span>4</span></label><label><input type="radio" name="feat_messagerie" value="5"><span>5</span></label></div></div>
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:4px 0;border-bottom:1px solid #f1f5f9;gap:10px"><span style="font-size:13px;color:var(--text-2);flex:1">Avis et notations vérifiés</span><div class="scale-row"><label><input type="radio" name="feat_avis" value="1"><span>1</span></label><label><input type="radio" name="feat_avis" value="2"><span>2</span></label><label><input type="radio" name="feat_avis" value="3"><span>3</span></label><label><input type="radio" name="feat_avis" value="4"><span>4</span></label><label><input type="radio" name="feat_avis" value="5"><span>5</span></label></div></div>
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:4px 0;border-bottom:1px solid #f1f5f9;gap:10px"><span style="font-size:13px;color:var(--text-2);flex:1">Badge de vérification (entreprise certifiée)</span><div class="scale-row"><label><input type="radio" name="feat_badge" value="1"><span>1</span></label><label><input type="radio" name="feat_badge" value="2"><span>2</span></label><label><input type="radio" name="feat_badge" value="3"><span>3</span></label><label><input type="radio" name="feat_badge" value="4"><span>4</span></label><label><input type="radio" name="feat_badge" value="5"><span>5</span></label></div></div>
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:4px 0;border-bottom:1px solid #f1f5f9;gap:10px"><span style="font-size:13px;color:var(--text-2);flex:1">Artisans disponibles en urgence</span><div class="scale-row"><label><input type="radio" name="feat_urgence" value="1"><span>1</span></label><label><input type="radio" name="feat_urgence" value="2"><span>2</span></label><label><input type="radio" name="feat_urgence" value="3"><span>3</span></label><label><input type="radio" name="feat_urgence" value="4"><span>4</span></label><label><input type="radio" name="feat_urgence" value="5"><span>5</span></label></div></div>
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:4px 0;border-bottom:1px solid #f1f5f9;gap:10px"><span style="font-size:13px;color:var(--text-2);flex:1">Statistiques de visibilité du profil</span><div class="scale-row"><label><input type="radio" name="feat_stats" value="1"><span>1</span></label><label><input type="radio" name="feat_stats" value="2"><span>2</span></label><label><input type="radio" name="feat_stats" value="3"><span>3</span></label><label><input type="radio" name="feat_stats" value="4"><span>4</span></label><label><input type="radio" name="feat_stats" value="5"><span>5</span></label></div></div>
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:4px 0;border-bottom:1px solid #f1f5f9;gap:10px"><span style="font-size:13px;color:var(--text-2);flex:1">Espace parrainage</span><div class="scale-row"><label><input type="radio" name="feat_parrainage" value="1"><span>1</span></label><label><input type="radio" name="feat_parrainage" value="2"><span>2</span></label><label><input type="radio" name="feat_parrainage" value="3"><span>3</span></label><label><input type="radio" name="feat_parrainage" value="4"><span>4</span></label><label><input type="radio" name="feat_parrainage" value="5"><span>5</span></label></div></div>
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:4px 0;border-bottom:1px solid #f1f5f9;gap:10px"><span style="font-size:13px;color:var(--text-2);flex:1">Annonce de recrutement / sous-traitants</span><div class="scale-row"><label><input type="radio" name="feat_recrutement" value="1"><span>1</span></label><label><input type="radio" name="feat_recrutement" value="2"><span>2</span></label><label><input type="radio" name="feat_recrutement" value="3"><span>3</span></label><label><input type="radio" name="feat_recrutement" value="4"><span>4</span></label><label><input type="radio" name="feat_recrutement" value="5"><span>5</span></label></div></div>
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:4px 0;gap:10px"><span style="font-size:13px;color:var(--text-2);flex:1">Application mobile dédiée</span><div class="scale-row"><label><input type="radio" name="feat_app" value="1"><span>1</span></label><label><input type="radio" name="feat_app" value="2"><span>2</span></label><label><input type="radio" name="feat_app" value="3"><span>3</span></label><label><input type="radio" name="feat_app" value="4"><span>4</span></label><label><input type="radio" name="feat_app" value="5"><span>5</span></label></div></div>
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="field-label"><span class="qnum">Q13.</span> Fréquence d'utilisation prévue</div>
+        <div class="field-input">
+          <select name="frequence_utilisation">
+            <option value="">Choisir...</option>
+            <option>Tous les jours</option>
+            <option>Plusieurs fois par semaine</option>
+            <option>Quelques fois par mois</option>
+            <option>Occasionnellement</option>
+            <option>Rarement</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="field-label"><span class="qnum">Q14.</span> Seriez-vous prêt(e) à créer un profil gratuit sur Nexiwork ?</div>
+        <div class="field-input">
+          <select name="creer_profil">
+            <option value="">Choisir...</option>
+            <option>Oui, immédiatement</option>
+            <option>Oui, si un collègue me le recommande</option>
+            <option>Peut-être, besoin d'en savoir plus</option>
+            <option>Non</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── SECTION D ── -->
+    <div class="section">
+      <div class="section-title">D — Confiance et qualité</div>
+
+      <div class="field-row">
+        <div class="field-label"><span class="qnum">Q15.</span> Ce qui vous donnerait le plus confiance envers un prestataire trouvé en ligne</div>
+        <div class="field-input">
+          <div class="check-group">
+            <label class="check-item"><input type="checkbox" name="confiance" value="Avis vérifiés d'autres entreprises"> Avis vérifiés d'autres entreprises</label>
+            <label class="check-item"><input type="checkbox" name="confiance" value="Badge de vérification légale (RCS, TVA)"> Badge de vérification légale (RCS, TVA)</label>
+            <label class="check-item"><input type="checkbox" name="confiance" value="Photos de réalisations"> Photos de réalisations</label>
+            <label class="check-item"><input type="checkbox" name="confiance" value="Années d'expérience affichées"> Années d'expérience affichées</label>
+            <label class="check-item"><input type="checkbox" name="confiance" value="Tarif horaire transparent"> Tarif horaire transparent</label>
+            <label class="check-item"><input type="checkbox" name="confiance" value="Réponse rapide aux messages"> Réponse rapide aux messages</label>
+            <label class="check-item"><input type="checkbox" name="confiance" value="Recommandation d'une entreprise connue"> Recommandation d'une entreprise connue</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="field-label"><span class="qnum">Q16.</span> Avez-vous eu une mauvaise expérience avec un prestataire trouvé en ligne ?</div>
+        <div class="field-input">
+          <select name="mauvaise_exp">
+            <option value="">Choisir...</option>
+            <option>Oui, plusieurs fois</option>
+            <option>Oui, une fois</option>
+            <option>Non, jamais</option>
+            <option>Je ne cherche pas en ligne</option>
+          </select>
+          <input type="text" name="mauvaise_exp_detail" placeholder="Si oui, que s'est-il passé ? (facultatif)">
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="field-label"><span class="qnum">Q17.</span> Je ferais davantage confiance à une plateforme locale suisse qu'internationale<div class="hint">1 = Pas du tout d'accord → 5 = Totalement d'accord</div></div>
+        <div class="field-input">
+          <div class="scale-row">
+            <label><input type="radio" name="confiance_locale" value="1"><span>1</span></label>
+            <label><input type="radio" name="confiance_locale" value="2"><span>2</span></label>
+            <label><input type="radio" name="confiance_locale" value="3"><span>3</span></label>
+            <label><input type="radio" name="confiance_locale" value="4"><span>4</span></label>
+            <label><input type="radio" name="confiance_locale" value="5"><span>5</span></label>
+          </div>
+          <div class="scale-label">1 = Pas du tout d'accord &nbsp;→&nbsp; 5 = Totalement d'accord</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── SECTION E ── -->
+    <div class="section">
+      <div class="section-title">E — Modèle économique et tarification</div>
+
+      <div class="field-row">
+        <div class="field-label"><span class="qnum">Q18.</span> Modèle tarifaire préféré</div>
+        <div class="field-input">
+          <select name="modele_tarifaire">
+            <option value="">Choisir...</option>
+            <option>Gratuit avec fonctionnalités limitées (freemium)</option>
+            <option>Abonnement mensuel CHF 10 à CHF 20</option>
+            <option>Abonnement mensuel CHF 25 à CHF 50</option>
+            <option>Commission sur chaque devis accepté (ex. 2-5%)</option>
+            <option>Paiement à la mise en relation réussie uniquement</option>
+            <option>Je ne souhaite rien payer</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="field-label"><span class="qnum">Q19.</span> Budget mensuel maximum pour accéder à toutes les fonctionnalités</div>
+        <div class="field-input">
+          <select name="budget_max">
+            <option value="">Choisir...</option>
+            <option>CHF 0 (gratuit uniquement)</option>
+            <option>CHF 10 à CHF 20</option>
+            <option>CHF 25 à CHF 40</option>
+            <option>CHF 50 à CHF 80</option>
+            <option>Plus de CHF 80 si ROI clair</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="field-label"><span class="qnum">Q20.</span> Avantages qui justifieraient un abonnement payant</div>
+        <div class="field-input">
+          <div class="check-group">
+            <label class="check-item"><input type="checkbox" name="avantages_payant" value="Tête de liste dans l'annuaire"> Tête de liste dans l'annuaire</label>
+            <label class="check-item"><input type="checkbox" name="avantages_payant" value="Accès aux statistiques du profil"> Accès aux statistiques du profil</label>
+            <label class="check-item"><input type="checkbox" name="avantages_payant" value="Badge Premium / Vérifié visible"> Badge Premium / Vérifié visible</label>
+            <label class="check-item"><input type="checkbox" name="avantages_payant" value="Accès illimité aux contacts et devis"> Accès illimité aux contacts et devis</label>
+            <label class="check-item"><input type="checkbox" name="avantages_payant" value="Support client prioritaire"> Support client prioritaire</label>
+            <label class="check-item"><input type="checkbox" name="avantages_payant" value="Visibilité sur les réseaux sociaux Nexiwork"> Visibilité sur les réseaux sociaux Nexiwork</label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── SECTION F ── -->
+    <div class="section">
+      <div class="section-title">F — Expérience digitale</div>
+
+      <div class="field-row">
+        <div class="field-label"><span class="qnum">Q21.</span> Votre entreprise possède-t-elle un site web ?</div>
+        <div class="field-input">
+          <select name="site_web">
+            <option value="">Choisir...</option>
+            <option>Oui, professionnel et à jour</option>
+            <option>Oui, mais pas à jour / peu utilisé</option>
+            <option>Non, seulement une page sur les réseaux</option>
+            <option>Non, aucune présence digitale</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="field-label"><span class="qnum">Q22.</span> Appareils utilisés principalement pour vos outils pro en ligne</div>
+        <div class="field-input">
+          <select name="appareils">
+            <option value="">Choisir...</option>
+            <option>Ordinateur de bureau / laptop uniquement</option>
+            <option>Smartphone principalement</option>
+            <option>Les deux équitablement</option>
+            <option>Tablette</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="field-label"><span class="qnum">Q23.</span> Aisance avec les outils numériques professionnels<div class="hint">1 = Très faible → 5 = Très avancée</div></div>
+        <div class="field-input">
+          <div class="scale-row">
+            <label><input type="radio" name="aisance_digitale" value="1"><span>1</span></label>
+            <label><input type="radio" name="aisance_digitale" value="2"><span>2</span></label>
+            <label><input type="radio" name="aisance_digitale" value="3"><span>3</span></label>
+            <label><input type="radio" name="aisance_digitale" value="4"><span>4</span></label>
+            <label><input type="radio" name="aisance_digitale" value="5"><span>5</span></label>
+          </div>
+          <div class="scale-label">1 = Très faible &nbsp;→&nbsp; 5 = Très avancée</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── SECTION G ── -->
+    <div class="section">
+      <div class="section-title">G — Communauté et valeurs</div>
+
+      <div class="field-row">
+        <div class="field-label"><span class="qnum">Q24.</span> Intérêt pour des événements networking locaux organisés par Nexiwork</div>
+        <div class="field-input">
+          <select name="networking">
+            <option value="">Choisir...</option>
+            <option>Oui, très intéressé(e)</option>
+            <option>Peut-être</option>
+            <option>Non, je préfère le numérique</option>
+            <option>Je manque de temps pour cela</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="field-label"><span class="qnum">Q25.</span> L'aspect « local et suisse romand » de Nexiwork est-il important ?<div class="hint">1 = Pas du tout → 5 = Très important</div></div>
+        <div class="field-input">
+          <div class="scale-row">
+            <label><input type="radio" name="importance_local" value="1"><span>1</span></label>
+            <label><input type="radio" name="importance_local" value="2"><span>2</span></label>
+            <label><input type="radio" name="importance_local" value="3"><span>3</span></label>
+            <label><input type="radio" name="importance_local" value="4"><span>4</span></label>
+            <label><input type="radio" name="importance_local" value="5"><span>5</span></label>
+          </div>
+          <div class="scale-label">1 = Pas du tout important &nbsp;→&nbsp; 5 = Très important</div>
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="field-label"><span class="qnum">Q26.</span> Seriez-vous prêt(e) à recommander Nexiwork si vous en êtes satisfait(e) ?</div>
+        <div class="field-input">
+          <select name="recommandation">
+            <option value="">Choisir...</option>
+            <option>Oui, spontanément</option>
+            <option>Oui, si quelqu'un me le demande</option>
+            <option>Peut-être</option>
+            <option>Non</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="field-label"><span class="qnum">Q27.</span> Avez-vous des partenaires que vous recommanderiez sur Nexiwork ?</div>
+        <div class="field-input">
+          <select name="partenaires_a_recommander">
+            <option value="">Choisir...</option>
+            <option>Oui, plusieurs</option>
+            <option>Oui, une ou deux</option>
+            <option>Non, pas pour l'instant</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── SECTION H ── -->
+    <div class="section">
+      <div class="section-title">H — Questions ouvertes</div>
+
+      <div class="field-row">
+        <div class="field-label"><span class="qnum">Q28.</span> Votre principale attente envers une plateforme B2B pour les PME suisses</div>
+        <div class="field-input">
+          <textarea name="attente_principale" placeholder="En une ou deux phrases..."></textarea>
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="field-label"><span class="qnum">Q29.</span> Ce qui vous empêcherait de vous inscrire ou d'utiliser Nexiwork</div>
+        <div class="field-input">
+          <textarea name="frein_inscription" placeholder="Vos freins ou réserves..."></textarea>
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="field-label"><span class="qnum">Q30.</span> Fonctionnalités ou services que vous aimeriez trouver et qui n'existent pas encore</div>
+        <div class="field-input">
+          <textarea name="suggestions" placeholder="Vos idées sont précieuses..."></textarea>
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="field-label"><span class="qnum">Q31.</span> Commentaires, suggestions ou questions libres</div>
+        <div class="field-input">
+          <textarea name="commentaires" placeholder="Tout ce que vous souhaitez nous dire..."></textarea>
+        </div>
+      </div>
+    </div>
+
+  </form>
+
+  <!-- SUBMIT -->
+  <div class="submit-section">
+    <p>En cliquant sur Envoyer, vos réponses seront transmises à l'équipe Nexiwork. Merci pour votre contribution !</p>
+    <button class="btn-submit" onclick="sendForm()">📨 Envoyer mes réponses à Nexiwork</button>
+    <div id="toast" class="toast"></div>
+  </div>
+
+  <div class="footer">
+    Nexiwork &nbsp;•&nbsp; nexiwork.ch &nbsp;•&nbsp; © 2025
+  </div>
+
+</div>
+
+<script>
+  emailjs.init({ publicKey: 'laFplDymBow60FC2u' });
+
+  function getChecked(name) {
+    return [...document.querySelectorAll(`input[name="${name}"]:checked`)].map(e => e.value).join(', ') || '—';
+  }
+  function getRadio(name) {
+    const el = document.querySelector(`input[name="${name}"]:checked`);
+    return el ? el.value : '—';
+  }
+  function getVal(name) {
+    const el = document.querySelector(`[name="${name}"]`);
+    return el ? (el.value || '—') : '—';
+  }
+  function getFeatRatings() {
+    const feats = [
+      ['feat_annuaire','Annuaire par secteur/région'],
+      ['feat_devis','Demande de devis en ligne'],
+      ['feat_messagerie','Messagerie directe'],
+      ['feat_avis','Avis et notations vérifiés'],
+      ['feat_badge','Badge de vérification'],
+      ['feat_urgence','Artisans en urgence'],
+      ['feat_stats','Statistiques de visibilité'],
+      ['feat_parrainage','Espace parrainage'],
+      ['feat_recrutement','Recrutement / sous-traitants'],
+      ['feat_app','Application mobile'],
+    ];
+    return feats.map(([name, label]) => `  ${label.padEnd(32)} : ${getRadio(name)}/5`).join('\n');
+  }
+
+  function sendForm() {
+    const btn   = document.querySelector('.btn-submit');
+    const toast = document.getElementById('toast');
+    toast.className = 'toast';
+    toast.textContent = '';
+
+    const raison = getVal('raison_sociale');
+    if (!raison || raison === '—') {
+      toast.className = 'toast error';
+      toast.textContent = '⚠️ Veuillez renseigner au minimum la raison sociale.';
+      return;
+    }
+
+    const msg = `
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+A — PROFIL DE L'ENTREPRISE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Raison sociale    : ${getVal('raison_sociale')}
+Email             : ${getVal('email')}
+Secteur           : ${getVal('secteur')} ${getVal('secteur_autre') !== '—' ? '→ ' + getVal('secteur_autre') : ''}
+Taille            : ${getVal('taille')}
+Région            : ${getVal('region')}
+Ancienneté        : ${getVal('anciennete')}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+B — MISE EN RELATION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Canaux prospection     : ${getChecked('prospection')}
+Temps/semaine          : ${getVal('temps_prospection')}
+Obstacles              : ${getChecked('obstacles')}
+Plateforme actuelle    : ${getVal('plateforme_actuelle')} ${getVal('plateforme_laquelle') !== '—' ? '→ ' + getVal('plateforme_laquelle') : ''}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+C — ATTENTES NEXIWORK
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Réaction concept       : ${getVal('reaction')}
+Fréquence utilisation  : ${getVal('frequence_utilisation')}
+Créer un profil        : ${getVal('creer_profil')}
+
+Notes fonctionnalités (sur 5) :
+${getFeatRatings()}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+D — CONFIANCE & QUALITÉ
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Facteurs de confiance  : ${getChecked('confiance')}
+Mauvaise expérience    : ${getVal('mauvaise_exp')} ${getVal('mauvaise_exp_detail') !== '—' ? '→ ' + getVal('mauvaise_exp_detail') : ''}
+Confiance locale/5     : ${getRadio('confiance_locale')}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+E — MODÈLE ÉCONOMIQUE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Modèle préféré         : ${getVal('modele_tarifaire')}
+Budget mensuel max     : ${getVal('budget_max')}
+Avantages payants      : ${getChecked('avantages_payant')}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+F — EXPÉRIENCE DIGITALE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Site web               : ${getVal('site_web')}
+Appareils              : ${getVal('appareils')}
+Aisance digitale /5    : ${getRadio('aisance_digitale')}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+G — COMMUNAUTÉ
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Networking local       : ${getVal('networking')}
+Importance local /5    : ${getRadio('importance_local')}
+Recommandation         : ${getVal('recommandation')}
+Partenaires à reco.    : ${getVal('partenaires_a_recommander')}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+H — QUESTIONS OUVERTES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Attente principale     : ${getVal('attente_principale')}
+Freins inscription     : ${getVal('frein_inscription')}
+Suggestions            : ${getVal('suggestions')}
+Commentaires libres    : ${getVal('commentaires')}
+`.trim();
+
+    btn.disabled = true;
+    btn.textContent = '⏳ Envoi en cours...';
+
+    emailjs.send('service_84pcfl9', 'template_wfl6o7u', {
+      to_email  : 'contact@nexiwork.ch',
+      to_name   : 'Nexiwork',
+      from_name : raison,
+      type      : 'une réponse à l\'étude de marché Nexiwork',
+      message   : msg,
+      link      : 'https://nexiwork.ch'
+    }).then(() => {
+      toast.className = 'toast success';
+      toast.textContent = '✅ Merci ! Vos réponses ont bien été envoyées à l\'équipe Nexiwork.';
+      btn.textContent = '✅ Envoyé avec succès !';
+    }).catch(() => {
+      toast.className = 'toast error';
+      toast.textContent = '❌ Erreur lors de l\'envoi. Veuillez réessayer ou écrire directement à contact@nexiwork.ch';
+      btn.disabled = false;
+      btn.textContent = '📨 Envoyer mes réponses à Nexiwork';
+    });
+  }
+</script>
+
+</body>
+</html>
