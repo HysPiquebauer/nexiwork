@@ -565,9 +565,21 @@ input,textarea,select{font-family:'Inter',sans-serif}
 
 /* ARTISAN DE LA SEMAINE */
 /* ── CARTE SUISSE ── */
-.map-section{padding:72px 28px;background:var(--white)}
+.map-popup-pro .leaflet-popup-content-wrapper{border-radius:16px!important;box-shadow:0 8px 32px rgba(0,0,0,0.14)!important;border:none!important;padding:0!important;overflow:hidden}
+.map-popup-pro .leaflet-popup-content{margin:0!important}
+.map-popup-pro .leaflet-popup-tip-container{display:none}
+.map-popup-inner{padding:16px 18px;min-width:210px}
+.map-popup-badge{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:700;padding:3px 8px;border-radius:10px;margin-bottom:8px}
+.map-popup-company{font-weight:800;font-size:15px;margin-bottom:4px;color:#111827}
+.map-section{padding:72px 28px;background:linear-gradient(180deg,var(--white) 0%,var(--bg) 100%)}
 .map-section .section-header{text-align:center;margin-bottom:40px}
-#swiss-map{width:100%;height:500px;border-radius:var(--radius-lg);overflow:hidden;border:1px solid var(--border);box-shadow:var(--shadow-lg)}
+#swiss-map{width:100%;height:540px;border-radius:20px;overflow:hidden;border:none;box-shadow:0 20px 60px rgba(37,99,235,0.12),0 4px 20px rgba(0,0,0,0.06)}
+.map-wrap{position:relative;border-radius:20px;overflow:hidden;box-shadow:0 20px 60px rgba(37,99,235,0.12)}
+.map-filter-bar{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:20px}
+.map-filter-btn{padding:7px 16px;border-radius:20px;border:1.5px solid var(--border);background:white;font-size:12px;font-weight:600;color:var(--text-2);cursor:pointer;transition:all .15s}
+.map-filter-btn:hover,.map-filter-btn.active{background:var(--blue);color:white;border-color:var(--blue)}
+.map-stats-overlay{position:absolute;top:16px;left:16px;z-index:1000;display:flex;flex-direction:column;gap:8px}
+.map-stat-pill{background:rgba(255,255,255,0.95);backdrop-filter:blur(8px);border:1px solid rgba(37,99,235,0.15);border-radius:12px;padding:8px 14px;font-size:12px;font-weight:700;color:var(--blue);box-shadow:0 2px 12px rgba(0,0,0,0.08);display:flex;align-items:center;gap:6px}
 .map-legend{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:20px}
 .map-legend-item{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--text-3);background:var(--bg);padding:6px 14px;border-radius:20px;border:1px solid var(--border)}
 .map-legend-dot{width:10px;height:10px;border-radius:50%;background:var(--blue)}
@@ -909,7 +921,7 @@ input,textarea,select{font-family:'Inter',sans-serif}
       </div>
       <div class="stat">
         <div class="stat-icon-box" style="width:44px;height:44px;background:linear-gradient(135deg,#4F46E5,#7C3AED);border-radius:12px;display:flex;align-items:center;justify-content:center;color:white;font-size:20px;margin:0 auto 8px"><i class="ti ti-briefcase"></i></div>
-        <div class="stat-num" style="background:linear-gradient(135deg,#4F46E5,#7C3AED);-webkit-background-clip:text;-webkit-text-fill-color:transparent">12</div>
+        <div class="stat-num" style="background:linear-gradient(135deg,#4F46E5,#7C3AED);-webkit-background-clip:text;-webkit-text-fill-color:transparent">44</div>
         <div class="stat-lbl">Secteurs couverts</div>
       </div>
       <div class="stat">
@@ -1164,7 +1176,24 @@ input,textarea,select{font-family:'Inter',sans-serif}
         <h2>Les entreprises Nexiwork<br><span class="gradient-text">sur la carte de Suisse</span></h2>
         <p style="color:var(--text-3);margin-top:8px">Cliquez sur un marqueur pour découvrir l'entreprise</p>
       </div>
-      <div id="swiss-map"></div>
+      <!-- Filtres par région -->
+      <div class="map-filter-bar" id="map-filter-bar">
+        <button class="map-filter-btn active" onclick="filterMap('all',this)">🇨🇭 Toute la Suisse</button>
+        <button class="map-filter-btn" onclick="filterMap('Genève',this)">Genève</button>
+        <button class="map-filter-btn" onclick="filterMap('Vaud',this)">Vaud</button>
+        <button class="map-filter-btn" onclick="filterMap('Fribourg',this)">Fribourg</button>
+        <button class="map-filter-btn" onclick="filterMap('Valais',this)">Valais</button>
+        <button class="map-filter-btn" onclick="filterMap('Neuchâtel',this)">Neuchâtel</button>
+        <button class="map-filter-btn" onclick="filterMap('Jura',this)">Jura</button>
+      </div>
+      <!-- Carte avec overlay stats -->
+      <div class="map-wrap">
+        <div id="swiss-map"></div>
+        <div class="map-stats-overlay">
+          <div class="map-stat-pill"><i class="ti ti-building-store"></i><span id="map-count-live">–</span> entreprises</div>
+          <div class="map-stat-pill"><i class="ti ti-map-pin"></i><span id="map-region-live">Tous cantons</span></div>
+        </div>
+      </div>
       <div class="map-legend">
         <div class="map-legend-item"><div class="map-legend-dot" style="background:#2563EB"></div>Entreprise inscrite</div>
         <div class="map-legend-item"><div class="map-legend-dot" style="background:#7C3AED"></div>Premium</div>
@@ -2492,48 +2521,95 @@ function makeMarkerIcon(color, premium) {
 }
 
 async function loadSwissMap() {
-  const mapEl = document.getElementById('swiss-map');
+  var mapEl = document.getElementById('swiss-map');
   if (!mapEl) return;
+
+  // Charger Leaflet.markercluster si pas encore chargé
+  if (!window.L || !L.markerClusterGroup) {
+    if (!document.getElementById('leaflet-cluster-css')) {
+      var css = document.createElement('link');
+      css.id = 'leaflet-cluster-css';
+      css.rel = 'stylesheet';
+      css.href = 'https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css';
+      document.head.appendChild(css);
+    }
+    await new Promise(function(resolve) {
+      if (document.getElementById('leaflet-cluster-js')) { resolve(); return; }
+      var s = document.createElement('script');
+      s.id = 'leaflet-cluster-js';
+      s.src = 'https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js';
+      s.onload = resolve;
+      document.head.appendChild(s);
+    });
+  }
 
   // Init carte une seule fois
   if (!swissMap) {
     swissMap = L.map('swiss-map', {
       center: [46.8182, 8.2275],
       zoom: 8,
-      zoomControl: true,
-      scrollWheelZoom: false
+      zoomControl: false,
+      scrollWheelZoom: false,
+      attributionControl: false
     });
+
+    // Tuiles CartoDB Positron — style épuré et moderne
     L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-      attribution: '© <a href="https://carto.com/">CARTO</a> | © OpenStreetMap',
       subdomains: 'abcd',
-      maxZoom: 14
+      maxZoom: 16
     }).addTo(swissMap);
+
+    // Zoom control en bas à droite
+    L.control.zoom({ position: 'bottomright' }).addTo(swissMap);
+
+    // Attribution discrète
+    L.control.attribution({ position: 'bottomleft', prefix: '© CARTO · OSM' }).addTo(swissMap);
   }
 
-  // Supprimer anciens marqueurs
-  mapMarkers.forEach(m => m.remove());
+  // Nettoyer les anciens clusters/marqueurs
+  if (swissMap._clusterGroup) {
+    swissMap.removeLayer(swissMap._clusterGroup);
+  }
   mapMarkers = [];
 
   if (!sb) {
-    document.getElementById('map-count-legend').textContent = 'Supabase non configuré';
+    var liveEl = document.getElementById('map-count-live');
+    if (liveEl) liveEl.textContent = '0';
     return;
   }
 
-  const { data: companies } = await sb.from('profiles').select('id,company,sector,region,plan,avg_rating');
-  if (!companies || companies.length === 0) {
-    document.getElementById('map-count-legend').textContent = '0 entreprise inscrite';
-    return;
-  }
+  var res = await sb.from('profiles').select('id,company,sector,region,plan,rating,type');
+  var companies = (res.data || []);
 
-  companies.forEach(c => {
-    let coords = null;
-    const region = c.region || '';
+  // Filtrer par région si filtre actif
+  var activeFilter = window.mapActiveFilter || 'all';
+  var filtered = activeFilter === 'all' ? companies : companies.filter(function(c){ return c.region === activeFilter; });
 
-    // Cherche match exact puis partiel dans REGION_COORDS
+  // Cluster group avec style custom
+  var clusterGroup = L.markerClusterGroup({
+    maxClusterRadius: 50,
+    spiderfyOnMaxZoom: true,
+    showCoverageOnHover: false,
+    zoomToBoundsOnClick: true,
+    iconCreateFunction: function(cluster) {
+      var count = cluster.getChildCount();
+      var size = count < 5 ? 36 : count < 15 ? 44 : 52;
+      return L.divIcon({
+        html: '<div style="width:'+size+'px;height:'+size+'px;border-radius:50%;background:linear-gradient(135deg,#2563EB,#4F46E5);color:white;display:flex;align-items:center;justify-content:center;font-size:'+(size<44?13:15)+'px;font-weight:800;box-shadow:0 4px 16px rgba(37,99,235,0.35);border:3px solid white">'+count+'</div>',
+        className: '',
+        iconSize: [size, size],
+        iconAnchor: [size/2, size/2]
+      });
+    }
+  });
+
+  filtered.forEach(function(c) {
+    var coords = null;
+    var region = c.region || '';
     if (REGION_COORDS[region]) {
       coords = REGION_COORDS[region];
     } else {
-      for (const k in REGION_COORDS) {
+      for (var k in REGION_COORDS) {
         if (region.toLowerCase().includes(k.toLowerCase()) || k.toLowerCase().includes(region.toLowerCase())) {
           coords = REGION_COORDS[k]; break;
         }
@@ -2541,32 +2617,65 @@ async function loadSwissMap() {
     }
     if (!coords) coords = [46.8182 + (Math.random()-0.5)*2, 8.2275 + (Math.random()-0.5)*2];
 
-    const lat = jitter(coords[0]);
-    const lng = jitter(coords[1]);
-    const premium = c.plan === 'premium' || c.plan === 'pro' || c.plan === 'business';
-    const color = sectorColor(c.sector);
-    const stars = c.avg_rating ? '⭐ ' + parseFloat(c.avg_rating).toFixed(1) : '';
+    var lat = jitter(coords[0]);
+    var lng = jitter(coords[1]);
+    var premium = c.plan === 'premium' || c.plan === 'pro' || c.plan === 'business';
+    var color = sectorColor(c.sector);
+    var stars = c.rating ? '⭐ ' + parseFloat(c.rating).toFixed(1) : '';
 
-    const marker = L.marker([lat, lng], { icon: makeMarkerIcon(color, premium) })
-      .bindPopup(`
-        <div class="map-popup-company">${c.company || 'Entreprise'}</div>
-        <div class="map-popup-sector">${c.sector || ''} ${c.region ? '· ' + c.region : ''}</div>
-        ${stars ? '<div style="font-size:12px;color:#D97706;margin-bottom:8px">'+stars+'</div>' : ''}
-        <button class="map-popup-btn" onclick="navigate('profile','${c.id}');if(swissMap)swissMap.closePopup()">Voir le profil</button>
-      `, { maxWidth: 220 })
-      .addTo(swissMap);
+    // Marqueur pro avec dégradé
+    var markerSize = premium ? 38 : 30;
+    var markerHtml = '<div style="'
+      + 'width:'+markerSize+'px;height:'+markerSize+'px;'
+      + 'border-radius:50% 50% 50% 0;'
+      + 'transform:rotate(-45deg);'
+      + 'background:'+(premium ? 'linear-gradient(135deg,'+color+','+color+'dd)' : color)+';'
+      + 'border:3px solid white;'
+      + 'box-shadow:0 4px 14px rgba(0,0,0,'+(premium?'0.25':'0.15')+');'
+      + '"></div>';
 
+    var icon = L.divIcon({
+      html: markerHtml,
+      className: '',
+      iconSize: [markerSize, markerSize],
+      iconAnchor: [markerSize/2, markerSize]
+    });
+
+    // Popup pro
+    var badge = premium
+      ? '<div class="map-popup-badge" style="background:#FDE68A;color:#92400E">👑 Premium</div>'
+      : '<div class="map-popup-badge" style="background:#E0E7FF;color:#3730A3">'+( c.type || 'Entreprise')+'</div>';
+
+    var popupHtml = '<div class="map-popup-inner">'
+      + badge
+      + '<div class="map-popup-company">' + (c.company || 'Entreprise') + '</div>'
+      + '<div style="font-size:12px;color:#6B7280;margin-bottom:'+(stars?'6px':'0')+'">'
+      + '<i class="ti ti-tag" style="margin-right:3px"></i>' + (c.sector||'') 
+      + ' · <i class="ti ti-map-pin" style="margin-left:3px;margin-right:3px"></i>' + region
+      + '</div>'
+      + (stars ? '<div style="font-size:12px;font-weight:600;color:#F59E0B">'+stars+'</div>' : '')
+      + '<button onclick="viewProfile(\''+c.id+'\')" style="margin-top:12px;width:100%;padding:8px;background:linear-gradient(135deg,#2563EB,#4F46E5);color:white;border:none;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer">Voir le profil →</button>'
+      + '</div>';
+
+    var marker = L.marker([lat, lng], { icon: icon })
+      .bindPopup(popupHtml, { maxWidth: 240, minWidth: 220, className: 'map-popup-pro' });
+
+    clusterGroup.addLayer(marker);
     mapMarkers.push(marker);
   });
 
-  const legend = document.getElementById('map-count-legend');
-  if (legend) legend.innerHTML = `<i class="ti ti-map-pin" style="font-size:14px"></i> ${companies.length} entreprise${companies.length > 1 ? 's' : ''} inscrite${companies.length > 1 ? 's' : ''}`;
+  swissMap.addLayer(clusterGroup);
+  swissMap._clusterGroup = clusterGroup;
 
-  // Ajuste la vue sur les marqueurs si possible
-  if (mapMarkers.length > 0) {
-    const group = L.featureGroup(mapMarkers);
-    swissMap.fitBounds(group.getBounds().pad(0.15));
-  }
+  // Mettre à jour le compteur overlay
+  var liveEl = document.getElementById('map-count-live');
+  if (liveEl) liveEl.textContent = filtered.length;
+  var regionEl = document.getElementById('map-region-live');
+  if (regionEl) regionEl.textContent = activeFilter === 'all' ? 'Tous cantons' : activeFilter;
+
+  // Ancienne légende (compatibilité)
+  var legEl = document.getElementById('map-count-legend');
+  if (legEl) legEl.innerHTML = '<i class="ti ti-map-pin" style="font-size:14px"></i> ' + filtered.length + ' entreprise' + (filtered.length > 1 ? 's' : '');
 }
 
 function heroSearch() {
@@ -3965,6 +4074,26 @@ async function loadWaitlistCount() {
     var res = await sb.from('waitlist').select('*', { count: 'exact', head: true });
     if (res.count !== null) el.textContent = res.count;
   } catch(e) {}
+}
+
+// ═══ FILTRE CARTE ═══
+function filterMap(region, btn) {
+  window.mapActiveFilter = region;
+  // Mettre à jour les boutons
+  document.querySelectorAll('.map-filter-btn').forEach(function(b){ b.classList.remove('active'); });
+  if (btn) btn.classList.add('active');
+  // Recharger la carte avec le filtre
+  loadSwissMap();
+  // Zoom sur la région
+  if (region !== 'all' && REGION_COORDS[region]) {
+    setTimeout(function(){
+      if (swissMap) swissMap.setView(REGION_COORDS[region], 11, { animate: true });
+    }, 300);
+  } else {
+    setTimeout(function(){
+      if (swissMap) swissMap.setView([46.8182, 8.2275], 8, { animate: true });
+    }, 300);
+  }
 }
 
 // ═══ SCROLL-REVEAL ═══
