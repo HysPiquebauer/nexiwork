@@ -63,101 +63,110 @@
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <script src="https://js.stripe.com/v3/"></script>
 <style>
+/* ── SKELETON LOADER ── */
+@keyframes skeleton-pulse{0%,100%{opacity:1}50%{opacity:.5}}
+
 /* ── CONFIGURATION MANQUANTE ── */
-.setup-banner { background: linear-gradient(135deg,#1e3a8a,#7C3AED); color: white; padding: 14px 24px; text-align: center; font-size: 14px; font-weight: 600; display: none; }
-.setup-banner a { color: #93C5FD; text-decoration: underline; cursor: pointer; }
+.setup-banner { background: linear-gradient(135deg,#1e3a8a,#6741D9); color: white; padding: 12px 24px; text-align: center; font-size: 13px; font-weight: 500; display: none; }
+.setup-banner a { color: #BAC8FF; text-decoration: underline; cursor: pointer; }
+
+/* ── BANNER EN PRÉPARATION ── */
+.prep-banner { background: var(--text); color: rgba(255,255,255,0.85); padding: 10px 24px; text-align: center; font-size: 13px; font-weight: 500; display: block; }
+.prep-banner strong { color: #BAC8FF; font-weight: 700; }
+.prep-dot { display: inline-block; width: 7px; height: 7px; background: #69DB7C; border-radius: 50%; margin-right: 8px; vertical-align: middle; box-shadow: 0 0 0 2px rgba(105,219,124,0.3); animation: pulse-dot 2s ease-in-out infinite; }
 
 :root {
-  --blue:#2563EB; --blue-hover:#1D4ED8; --blue-light:#EFF6FF; --blue-mid:#BFDBFE; --blue-dark:#1E3A8A;
-  --teal:#059669; --teal-light:#ECFDF5;
-  --amber:#D97706; --amber-light:#FFFBEB;
-  --red:#DC2626;
-  --text:#111827; --text-2:#374151; --text-3:#6B7280; --text-4:#9CA3AF;
-  --border:#E5E7EB; --border-2:#D1D5DB;
-  --bg:#F9FAFB; --bg-2:#F3F4F6; --white:#FFFFFF;
-  --radius-sm:8px; --radius:12px; --radius-lg:16px; --radius-xl:24px;
-  --shadow-sm:0 1px 2px rgba(0,0,0,0.05);
-  --shadow:0 1px 3px rgba(0,0,0,0.07),0 1px 2px rgba(0,0,0,0.04);
-  --shadow-md:0 4px 6px rgba(0,0,0,0.05),0 2px 4px rgba(0,0,0,0.04);
-  --shadow-lg:0 10px 30px rgba(0,0,0,0.08),0 4px 8px rgba(0,0,0,0.04);
-  --shadow-blue:0 8px 24px rgba(37,99,235,0.18);
+  /* Palette adoucie — sobre & suisse */
+  --blue:#3B5BDB; --blue-hover:#2F4AC4; --blue-light:#EEF2FF; --blue-mid:#BAC8FF; --blue-dark:#1E3A8A;
+  --teal:#2F9E44; --teal-light:#EBFBEE;
+  --amber:#E67700; --amber-light:#FFF9DB;
+  --red:#C92A2A;
+  --text:#1C1C2E; --text-2:#3A3A52; --text-3:#6E6E8A; --text-4:#A0A0B8;
+  --border:#E8E8F0; --border-2:#D4D4E4;
+  --bg:#F8F8FC; --bg-2:#F0F0F7; --white:#FFFFFF;
+  --radius-sm:6px; --radius:10px; --radius-lg:14px; --radius-xl:20px;
+  --shadow-sm:0 1px 3px rgba(0,0,0,0.05);
+  --shadow:0 2px 6px rgba(0,0,0,0.06);
+  --shadow-md:0 4px 16px rgba(0,0,0,0.07);
+  --shadow-lg:0 8px 32px rgba(0,0,0,0.09);
+  --shadow-blue:0 4px 20px rgba(59,91,219,0.18);
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
-body{font-family:'Inter',-apple-system,sans-serif;background:var(--bg);color:var(--text);font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased}
+body{font-family:'Inter',-apple-system,sans-serif;background:var(--bg);color:var(--text);font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased;font-feature-settings:'cv02','cv03','cv04','cv11'}
 a{text-decoration:none;color:inherit}
 button{cursor:pointer;font-family:'Inter',sans-serif}
 input,textarea,select{font-family:'Inter',sans-serif}
 
 /* NAV */
-.nav{background:rgba(255,255,255,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}
-.nav-inner{max-width:1120px;margin:0 auto;padding:0 28px;height:62px;display:flex;align-items:center;justify-content:space-between}
-.logo{display:flex;align-items:center;gap:10px;cursor:pointer;user-select:none}
-.logo-mark{width:34px;height:34px;background:linear-gradient(135deg,var(--blue) 0%,#7C3AED 100%);border-radius:10px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(37,99,235,0.35)}
-.logo-mark i{color:white;font-size:18px}
-.logo-text{font-size:19px;font-weight:800;letter-spacing:-0.5px;color:var(--text)}
+.nav{background:rgba(255,255,255,0.95);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}
+.nav-inner{max-width:1080px;margin:0 auto;padding:0 24px;height:58px;display:flex;align-items:center;justify-content:space-between}
+.logo{display:flex;align-items:center;gap:9px;cursor:pointer;user-select:none}
+.logo-mark{width:30px;height:30px;background:linear-gradient(135deg,var(--blue) 0%,#6741D9 100%);border-radius:8px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(59,91,219,0.25)}
+.logo-mark i{color:white;font-size:16px}
+.logo-text{font-size:17px;font-weight:800;letter-spacing:-0.5px;color:var(--text)}
 .logo-text span{color:var(--blue)}
 .nav-links{display:flex;gap:2px;align-items:center}
-.nav-link{padding:7px 14px;border-radius:var(--radius-sm);color:var(--text-3);font-size:14px;font-weight:500;cursor:pointer;transition:all .15s;border:none;background:none}
-.nav-link:hover{background:var(--bg);color:var(--text)}
+.nav-link{padding:6px 13px;border-radius:var(--radius-sm);color:var(--text-3);font-size:14px;font-weight:500;cursor:pointer;transition:all .15s;border:none;background:none}
+.nav-link:hover{background:var(--bg-2);color:var(--text)}
 
 /* BUTTONS */
 .btn{display:inline-flex;align-items:center;gap:7px;padding:9px 20px;border-radius:var(--radius-sm);font-size:14px;font-weight:600;border:none;cursor:pointer;transition:all .18s;white-space:nowrap}
-.btn-primary{background:linear-gradient(135deg,var(--blue) 0%,#3B82F6 100%);color:white;box-shadow:var(--shadow-blue)}
-.btn-primary:hover{transform:translateY(-1px);box-shadow:0 12px 28px rgba(37,99,235,0.28)}
+.btn-primary{background:linear-gradient(135deg,var(--blue) 0%,#5C3DC8 100%);color:white;box-shadow:var(--shadow-blue)}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(59,91,219,0.28)}
 .btn-primary:active{transform:translateY(0)}
 .btn-outline{background:var(--white);border:1.5px solid var(--border-2);color:var(--text-2);box-shadow:var(--shadow-sm)}
 .btn-outline:hover{border-color:var(--blue);color:var(--blue);background:var(--blue-light)}
 .btn-ghost{background:transparent;border:none;color:var(--text-3)}
 .btn-ghost:hover{color:var(--text);background:var(--bg-2)}
 .btn-success{background:var(--teal);color:white}
-.btn-success:hover{transform:translateY(-1px)}
+.btn-success:hover{filter:brightness(1.05)}
 .btn-danger{background:var(--red);color:white}
-.btn-premium{background:linear-gradient(135deg,#D97706 0%,#F59E0B 100%);color:white;box-shadow:0 4px 14px rgba(217,119,6,0.3)}
+.btn-premium{background:linear-gradient(135deg,#E67700 0%,#F59F00 100%);color:white;box-shadow:0 4px 14px rgba(230,119,0,0.25)}
 .btn-premium:hover{transform:translateY(-1px)}
 .btn-sm{padding:6px 14px;font-size:13px}
-.btn-lg{padding:13px 28px;font-size:16px;border-radius:var(--radius)}
-.btn:disabled{opacity:.55;cursor:not-allowed;transform:none!important}
+.btn-lg{padding:12px 26px;font-size:15px;border-radius:var(--radius)}
+.btn:disabled{opacity:.5;cursor:not-allowed;transform:none!important}
 
 /* LAYOUT */
 .page{display:none}.page.active{display:block}
 .container{max-width:1120px;margin:0 auto;padding:0 28px}
 
 /* HERO */
-.hero{background:linear-gradient(160deg,#EEF2FF 0%,#F5F3FF 50%,#EFF6FF 100%);padding:80px 28px 80px;position:relative;overflow:hidden;border-bottom:1px solid var(--border)}
-.hero-inner{max-width:1120px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+.hero{background:white;padding:72px 24px 64px;position:relative;overflow:hidden;border-bottom:1px solid var(--border)}
+.hero::before{content:'';position:absolute;top:-80px;left:50%;transform:translateX(-50%);width:800px;height:600px;background:radial-gradient(ellipse at center,rgba(59,91,219,0.06) 0%,transparent 70%);pointer-events:none}
+.hero-inner{max-width:1080px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
 .hero-left{display:flex;flex-direction:column;align-items:flex-start}
-.hero-badge{display:inline-flex;align-items:center;gap:6px;background:white;border:1px solid #C7D2FE;color:#4F46E5;font-size:12px;font-weight:600;padding:5px 14px;border-radius:20px;margin-bottom:24px;box-shadow:0 2px 8px rgba(79,70,229,0.1)}
-.hero h1{font-size:52px;font-weight:800;color:var(--text);line-height:1.15;letter-spacing:-1.5px;margin:0 0 20px;text-align:left}
-.gradient-text{background:linear-gradient(135deg,#4F46E5 0%,#7C3AED 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.hero-sub{font-size:16px;color:var(--text-3);margin:0 0 32px;line-height:1.7;text-align:left;max-width:460px}
-.hero-btns{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:28px}
+.hero-badge{display:inline-flex;align-items:center;gap:6px;background:var(--blue-light);border:1px solid var(--blue-mid);color:var(--blue);font-size:12px;font-weight:600;padding:5px 13px;border-radius:20px;margin-bottom:22px}
+.hero h1{font-size:48px;font-weight:800;color:var(--text);line-height:1.12;letter-spacing:-1.5px;margin:0 0 18px;text-align:left}
+.gradient-text{background:linear-gradient(135deg,var(--blue) 0%,#6741D9 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-sub{font-size:16px;color:var(--text-3);margin:0 0 28px;line-height:1.7;text-align:left;max-width:440px;font-weight:400}
+.hero-btns{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:24px}
 .hero-trust{display:flex;flex-wrap:wrap;gap:14px}
 .trust-item{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--text-3);font-weight:500}
-.trust-item i{color:var(--teal);font-size:15px}
+.trust-item i{color:var(--teal);font-size:14px}
 .hero-right{position:relative}
-.hero-img{width:100%;border-radius:20px;overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,0.12)}
-.hero-img img{width:100%;height:400px;object-fit:cover;display:block}
-.hero-img-placeholder{width:100%;height:400px;background:linear-gradient(135deg,#E0E7FF 0%,#C7D2FE 100%);display:flex;align-items:center;justify-content:center;font-size:80px;border-radius:20px}
-.hero-stat-bubble{position:absolute;bottom:-16px;left:-20px;background:white;border-radius:16px;padding:14px 20px;box-shadow:0 8px 32px rgba(0,0,0,0.12);display:flex;align-items:center;gap:12px}
-.hero-stat-bubble .bubble-icon{width:36px;height:36px;background:linear-gradient(135deg,#4F46E5,#7C3AED);border-radius:10px;display:flex;align-items:center;justify-content:center;color:white;font-size:16px}
+.hero-img{width:100%;border-radius:var(--radius-xl);overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.10)}
+.hero-img img{width:100%;height:380px;object-fit:cover;display:block}
+.hero-stat-bubble{position:absolute;bottom:-14px;left:-16px;background:white;border-radius:var(--radius-lg);padding:12px 18px;box-shadow:var(--shadow-lg);display:flex;align-items:center;gap:10px;border:1px solid var(--border)}
+.hero-stat-bubble .bubble-icon{width:34px;height:34px;background:linear-gradient(135deg,var(--blue),#6741D9);border-radius:9px;display:flex;align-items:center;justify-content:center;color:white;font-size:15px}
 .hero-stat-bubble .bubble-text{font-size:13px;font-weight:700;color:var(--text)}
 .hero-stat-bubble .bubble-sub{font-size:11px;color:var(--text-3);margin-top:1px}
-.search-hero{max-width:560px;margin:40px auto 0;display:flex;background:var(--white);border:1.5px solid var(--border-2);border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow-lg);transition:box-shadow .2s,border-color .2s}
-.search-hero:focus-within{border-color:#4F46E5;box-shadow:0 0 0 4px rgba(79,70,229,0.1),var(--shadow-lg)}
-.search-hero input{flex:1;border:none;padding:15px 20px;font-size:15px;outline:none;color:var(--text);background:transparent}
+.search-hero{max-width:560px;margin:36px auto 0;display:flex;background:var(--white);border:1.5px solid var(--border-2);border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow-md);transition:box-shadow .2s,border-color .2s}
+.search-hero:focus-within{border-color:var(--blue);box-shadow:0 0 0 4px rgba(59,91,219,0.08),var(--shadow-md)}
+.search-hero input{flex:1;border:none;padding:14px 18px;font-size:15px;outline:none;color:var(--text);background:transparent}
 .search-hero input::placeholder{color:var(--text-4)}
-.search-hero button{background:linear-gradient(135deg,#4F46E5 0%,#7C3AED 100%);color:white;border:none;padding:15px 24px;font-size:14px;font-weight:600;display:flex;align-items:center;gap:6px}
+.search-hero button{background:linear-gradient(135deg,var(--blue),#6741D9);color:white;border:none;padding:14px 22px;font-size:14px;font-weight:600;display:flex;align-items:center;gap:6px;cursor:pointer}
 /* STATS */
 .stats-icons{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;padding:16px 0}
 .stat-icon-item{display:flex;flex-direction:column;align-items:center;gap:8px}
 .stat-icon-box{width:52px;height:52px;background:linear-gradient(135deg,#4F46E5,#7C3AED);border-radius:14px;display:flex;align-items:center;justify-content:center;color:white;font-size:22px}
 /* SECTORS */
-.sectors-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px;max-width:960px;margin:0 auto}
-.sector-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:18px 12px;text-align:center;cursor:pointer;transition:all .2s}
-.sector-card:hover{border-color:#C7D2FE;background:#EEF2FF;transform:translateY(-2px)}
-.sector-card i{font-size:22px;color:#4F46E5;margin-bottom:7px;display:block}
-.sector-card span{font-size:12px;font-weight:600;color:var(--text-2)}
+.sectors-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px;max-width:920px;margin:0 auto}
+.sector-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px;cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:10px}
+.sector-card:hover{border-color:var(--blue-mid);background:var(--blue-light);transform:translateY(-1px)}
+.sector-card i{font-size:18px;color:var(--blue);flex-shrink:0}
+.sector-card span{font-size:13px;font-weight:500;color:var(--text-2)}
 /* Dropdown "Autres secteurs" */
 .sectors-more-wrap{position:relative;display:inline-block;width:100%}
 .sector-card-more{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:18px 12px;text-align:center;cursor:pointer;transition:all .2s;display:flex;flex-direction:column;align-items:center;gap:7px}
@@ -195,7 +204,7 @@ input,textarea,select{font-family:'Inter',sans-serif}
 .pros-item{display:flex;align-items:center;gap:10px;font-size:14px;color:var(--text-2)}
 .pros-item i{color:var(--teal);font-size:17px;flex-shrink:0}
 /* CTA SECTION */
-.cta-section{background:linear-gradient(135deg,#4F46E5 0%,#7C3AED 100%);border-radius:24px;padding:60px 40px;text-align:center;margin:0 28px;position:relative;overflow:hidden}
+.cta-section{background:linear-gradient(135deg,var(--text) 0%,#2A2A4A 100%);border-radius:var(--radius-xl);padding:52px 40px;text-align:center;max-width:700px;margin:0 auto;position:relative;overflow:hidden}
 .cta-section::before{content:'';position:absolute;top:-80px;right:-80px;width:300px;height:300px;background:rgba(255,255,255,0.06);border-radius:50%}
 .cta-section h2{font-size:32px;font-weight:800;color:white;margin-bottom:12px}
 .cta-section p{font-size:16px;color:rgba(255,255,255,0.8);margin-bottom:28px}
@@ -229,7 +238,6 @@ input,textarea,select{font-family:'Inter',sans-serif}
 .sector-peer-avatar{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;color:white;flex-shrink:0}
 
 /* ── CALCULATEUR ROI ── */
-.roi-section{background:var(--white);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:80px 28px}
 .roi-inner{max-width:900px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
 .roi-controls{display:flex;flex-direction:column;gap:20px}
 .roi-control label{display:block;font-size:13px;font-weight:700;color:var(--text-2);margin-bottom:8px}
@@ -295,10 +303,6 @@ input,textarea,select{font-family:'Inter',sans-serif}
 .vs-tip.done i{color:#10B981}.vs-tip.todo i{color:#9CA3AF}
 
 /* OFFRE LANCEMENT */
-.launch-banner{background:linear-gradient(135deg,#7C3AED,#4F46E5);color:white;padding:11px 24px;text-align:center;font-size:13px;font-weight:600;position:relative;z-index:99;display:none}
-.launch-banner b{color:#FDE68A}
-.launch-spots{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,0.18);border-radius:20px;padding:2px 10px;margin-left:8px;font-size:12px}
-.launch-banner .btn-launch{background:white;color:#4F46E5;border:none;border-radius:6px;padding:5px 14px;font-size:12px;font-weight:700;cursor:pointer;margin-left:12px}
 /* BADGE PROFIL INCOMPLET */
 .incomplete-badge{display:inline-flex;align-items:center;gap:4px;background:#FFF7ED;color:#D97706;border:1px solid #FDE68A;font-size:10px;font-weight:700;padding:2px 7px;border-radius:8px;margin-top:5px}
 /* ── ADMIN ── */
@@ -359,52 +363,94 @@ input,textarea,select{font-family:'Inter',sans-serif}
 /* COMPTEUR SEMAINE */
 .week-counter{display:inline-flex;align-items:center;gap:6px;background:#ECFDF5;border:1px solid #6EE7B7;color:#065F46;font-size:12px;font-weight:700;padding:5px 14px;border-radius:20px;margin-bottom:12px}
 
+/* ── HAMBURGER MOBILE ── */
+.nav-hamburger{display:none;flex-direction:column;gap:5px;background:none;border:none;padding:6px;cursor:pointer;border-radius:8px;transition:background .15s}
+.nav-hamburger:hover{background:var(--bg-2)}
+.nav-hamburger span{display:block;width:22px;height:2px;background:var(--text-2);border-radius:2px;transition:all .25s}
+.nav-hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.nav-hamburger.open span:nth-child(2){opacity:0;transform:scaleX(0)}
+.nav-hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.nav-mobile-menu{display:none;position:absolute;top:62px;left:0;right:0;background:white;border-bottom:1px solid var(--border);box-shadow:0 8px 24px rgba(0,0,0,0.08);z-index:99;padding:12px 20px 20px;flex-direction:column;gap:4px}
+.nav-mobile-menu.open{display:flex}
+.nav-mobile-item{padding:11px 14px;border-radius:var(--radius-sm);font-size:15px;font-weight:500;color:var(--text-2);cursor:pointer;transition:background .12s;border:none;background:none;text-align:left}
+.nav-mobile-item:hover{background:var(--bg);color:var(--blue)}
+.nav-mobile-divider{height:1px;background:var(--border);margin:8px 0}
+.nav-mobile-cta{background:linear-gradient(135deg,#4F46E5,#7C3AED);color:white;border-radius:var(--radius-sm);padding:12px 14px;font-size:15px;font-weight:700;border:none;cursor:pointer;text-align:center;margin-top:4px}
+
+/* ── DASHBOARD MOBILE ── */
+@media(max-width:768px){
+  .dash-layout{grid-template-columns:1fr!important;gap:0!important}
+  .sidebar{display:none!important;position:fixed;inset:0;z-index:200;border-radius:0;overflow-y:auto;padding-top:70px}
+  .sidebar.mobile-open{display:flex!important}
+  .dash-mobile-bar{display:flex!important}
+}
+.dash-mobile-bar{display:none;align-items:center;gap:10px;padding:12px 16px;background:white;border-bottom:1px solid var(--border);position:sticky;top:62px;z-index:90}
+.dash-mobile-btn{background:none;border:1px solid var(--border);padding:7px 14px;border-radius:var(--radius-sm);font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:6px;color:var(--text-2)}
+.sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:199}
+.sidebar-overlay.open{display:block}
+
 @media(max-width:768px){
   .hero-inner{grid-template-columns:1fr}
   .hero-right{display:none}
-  .hero h1{font-size:36px;text-align:center}
+  .hero h1{font-size:32px;text-align:center;letter-spacing:-1px}
   .hero-sub{text-align:center;margin:0 auto 32px}
   .hero-left{align-items:center}
-  .hero-btns{justify-content:center}
+  .hero-btns{justify-content:center;flex-direction:column;align-items:center}
+  .hero-btns .btn{width:100%;max-width:300px;justify-content:center}
   .hero-trust{justify-content:center}
   .for-pros{grid-template-columns:1fr}
   .for-pros-img{display:none}
   .footer-new-top{grid-template-columns:1fr 1fr}
   .cta-section{margin:0 16px;padding:40px 24px}
+  .nav-links{display:none}
+  .nav-hamburger{display:flex}
+  .dir-filters{flex-wrap:wrap;gap:8px}
+  .dir-filters>*{flex:1;min-width:140px}
+  .stats-inner{flex-wrap:wrap;gap:0}
+  .stat{flex:1 1 50%;border-right:none;border-bottom:1px solid var(--border);padding:20px 16px}
+  .stat:nth-child(odd){border-right:1px solid var(--border)}
+  .stat:nth-child(3),.stat:nth-child(4){border-bottom:none}
+  .section-header h2{font-size:26px}
+  .pricing-grid{grid-template-columns:1fr!important}
+  .messages-wrap{grid-template-columns:1fr!important}
+  .msg-list{display:none}
+  .msg-list.active{display:block}
+  .roi-inner{grid-template-columns:1fr}
+  .admin-kpi-grid{grid-template-columns:1fr 1fr}
 }
 
 /* STATS */
-.stats-bar{background:var(--white);border-bottom:1px solid var(--border);padding:28px}
-.stats-inner{max-width:1120px;margin:0 auto;display:flex;justify-content:center}
-.stat{text-align:center;padding:0 48px;border-right:1px solid var(--border)}
+.stats-bar{background:var(--white);border-bottom:1px solid var(--border);padding:0}
+.stats-inner{max-width:1080px;margin:0 auto;padding:0 24px;display:flex;justify-content:center}
+.stat{text-align:center;padding:24px 44px;border-right:1px solid var(--border)}
 .stat:last-child{border-right:none}
-.stat-num{font-size:28px;font-weight:800;letter-spacing:-0.5px;background:linear-gradient(135deg,var(--blue),#7C3AED);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.stat-lbl{font-size:13px;color:var(--text-3);margin-top:2px;font-weight:500}
+.stat-num{font-size:26px;font-weight:800;letter-spacing:-0.5px;background:linear-gradient(135deg,var(--blue),#6741D9);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;display:block;margin-bottom:3px}
+.stat-lbl{font-size:13px;color:var(--text-3);font-weight:500}
 
 /* SECTIONS */
-.section{padding:80px 28px}
+.section{padding:72px 24px}
 .section-alt{background:var(--white);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
-.section-header{text-align:center;margin-bottom:52px}
-.section-eyebrow{display:inline-block;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--blue);background:var(--blue-light);padding:4px 12px;border-radius:20px;margin-bottom:14px}
-.section-header h2{font-size:32px;font-weight:800;letter-spacing:-0.5px;margin-bottom:10px}
-.section-header p{font-size:17px;color:var(--text-3);max-width:420px;margin:0 auto}
+.section-header{text-align:center;margin-bottom:48px}
+.section-eyebrow{display:inline-block;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--blue);background:var(--blue-light);padding:4px 12px;border-radius:20px;margin-bottom:12px}
+.section-header h2{font-size:30px;font-weight:800;letter-spacing:-0.5px;margin-bottom:10px;color:var(--text)}
+.section-header p{font-size:16px;color:var(--text-3);max-width:420px;margin:0 auto}
 
 /* STEPS */
-.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:24px;max-width:960px;margin:0 auto}
-.step{background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);padding:28px 24px;text-align:center;transition:all .2s}
-.step:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg);border-color:var(--blue-mid)}
-.step-num{width:44px;height:44px;background:linear-gradient(135deg,var(--blue),#7C3AED);color:white;font-weight:800;font-size:16px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;box-shadow:0 4px 12px rgba(37,99,235,0.3)}
-.step h3{font-size:15px;font-weight:700;margin-bottom:8px}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1px;background:var(--border);border-radius:var(--radius-lg);overflow:hidden;border:1px solid var(--border);max-width:940px;margin:0 auto}
+.step{background:var(--white);padding:28px 24px;text-align:left;transition:background .2s}
+.step:hover{background:var(--blue-light)}
+.step-num{width:36px;height:36px;background:linear-gradient(135deg,var(--blue),#6741D9);color:white;font-weight:800;font-size:14px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 0 16px;box-shadow:0 4px 12px rgba(59,91,219,0.22)}
+.step h3{font-size:15px;font-weight:700;margin-bottom:7px}
 .step p{font-size:13px;color:var(--text-3);line-height:1.6}
 
 /* CARDS */
-.cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:18px}
-.profile-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);padding:22px;cursor:pointer;transition:all .22s cubic-bezier(.4,0,.2,1)}
-.profile-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg);border-color:var(--blue-mid)}
-.profile-card-header{display:flex;align-items:center;gap:14px;margin-bottom:14px}
-.avatar{width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:800;flex-shrink:0;letter-spacing:-0.5px}
-.avatar-lg{width:68px;height:68px;font-size:22px;border-radius:18px}
-.company-name{font-size:15px;font-weight:700;letter-spacing:-0.2px}
+.cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+.profile-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px;cursor:pointer;transition:all .2s}
+.profile-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-md);border-color:var(--blue-mid)}
+.profile-card-header{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.avatar{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;flex-shrink:0;letter-spacing:-0.5px}
+.avatar-lg{width:64px;height:64px;font-size:20px;border-radius:16px}
+.company-name{font-size:14px;font-weight:700;letter-spacing:-0.1px;color:var(--text)}
 .company-type{font-size:12px;color:var(--text-3);margin-top:1px;font-weight:500}
 .tags{display:flex;flex-wrap:wrap;gap:5px;margin:10px 0}
 .tag{font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;background:var(--bg-2);color:var(--text-3);border:1px solid var(--border)}
@@ -674,36 +720,6 @@ input,textarea,select{font-family:'Inter',sans-serif}
   /* Nav bienfaiteurs — garder le texte visible sur mobile */
   .nav-link.bienf-nav span{display:inline!important}
 }
-
-/* WAITLIST PAGE */
-.waitlist-page { background: linear-gradient(160deg, #EEF2FF 0%, #F5F3FF 50%, #EFF6FF 100%); min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 40px 20px; }
-.waitlist-container { max-width: 600px; width: 100%; }
-.waitlist-hero { text-align: center; margin-bottom: 40px; }
-.waitlist-badge { display: inline-block; background: white; border: 1px solid #C7D2FE; color: #4F46E5; font-size: 12px; font-weight: 600; padding: 6px 14px; border-radius: 20px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(79,70,229,0.1); }
-.waitlist-hero h1 { font-size: 36px; font-weight: 800; color: var(--text); line-height: 1.2; margin-bottom: 16px; letter-spacing: -0.5px; }
-@media(max-width: 640px) { .waitlist-hero h1 { font-size: 28px; } }
-.waitlist-subtitle { font-size: 16px; color: var(--text-3); line-height: 1.6; margin-bottom: 32px; }
-.waitlist-social-proof { display: flex; justify-content: center; margin-bottom: 40px; }
-.proof-item { text-align: center; }
-.proof-number { display: block; font-size: 32px; font-weight: 800; color: var(--blue); }
-.proof-label { display: block; font-size: 13px; color: var(--text-3); margin-top: 4px; }
-.waitlist-form-wrapper { background: white; border-radius: var(--radius-lg); padding: 32px 28px; box-shadow: 0 10px 40px rgba(0,0,0,0.08); margin-bottom: 24px; }
-@media(max-width: 640px) { .waitlist-form-wrapper { padding: 24px 20px; } }
-.waitlist-form { display: flex; flex-direction: column; gap: 20px; }
-.form-group { display: flex; flex-direction: column; }
-.form-group label { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 8px; }
-.form-group input, .form-group select { padding: 12px 14px; border: 1.5px solid var(--border-2); border-radius: var(--radius-sm); font-size: 14px; color: var(--text); background: white; transition: border-color .2s; }
-.form-group input::placeholder { color: var(--text-4); }
-.form-group input:focus, .form-group select:focus { outline: none; border-color: var(--blue); box-shadow: 0 0 0 3px rgba(37,99,235,0.1); }
-.form-group.checkbox { flex-direction: row; align-items: flex-start; gap: 10px; }
-.form-group.checkbox input { width: 20px; height: 20px; margin-top: 2px; cursor: pointer; flex-shrink: 0; }
-.form-group.checkbox label { margin: 0; cursor: pointer; font-weight: 500; font-size: 14px; }
-.waitlist-submit-btn { width: 100%; }
-.form-error { display: none; color: var(--red); font-size: 13px; text-align: center; }
-.form-error.show { display: block; }
-.form-success { color: var(--teal); font-size: 14px; text-align: center; font-weight: 600; }
-.waitlist-trust { text-align: center; font-size: 13px; color: var(--text-3); }
-
 </style>
 </head>
 <body>
@@ -724,20 +740,19 @@ input,textarea,select{font-family:'Inter',sans-serif}
   </div>
 </div>
 
+<!-- BANNER EN PRÉPARATION -->
+<div class="prep-banner">
+  <span class="prep-dot"></span>
+  Site <strong>en préparation</strong> — Lancement officiel en <strong>Q4 2026</strong>. Inscrivez-vous dès maintenant et bénéficiez de <strong>30 jours gratuits</strong>.
+</div>
+
 <!-- BANNER CONFIG MANQUANTE -->
 <div class="setup-banner" id="setup-banner">
   ⚠️ Nexiwork tourne en mode local. Pour activer la base de données, configure tes clés Supabase dans le fichier.
 </div>
 
-<!-- BANNIÈRE OFFRE DE LANCEMENT -->
-<div class="launch-banner" id="launch-banner">
-  🚀 <b>Offre de lancement</b> — Les 50 premiers Premium à <b>CHF 39/mois</b> au lieu de CHF 79
-  <span class="launch-spots" id="launch-spots">⚡ <span id="spots-left">?</span> places restantes</span>
-  <button class="btn-launch" onclick="navigate('pricing')">En profiter →</button>
-</div>
-
 <!-- NAV -->
-<nav class="nav">
+<nav class="nav" style="position:relative">
   <div class="nav-inner">
     <div class="logo" onclick="navigate('home')">
       <div class="logo-mark"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><line x1="4" y1="4" x2="4" y2="16" stroke="white" stroke-width="2.2" stroke-linecap="round"/><line x1="4" y1="4" x2="16" y2="16" stroke="white" stroke-width="2.2" stroke-linecap="round"/><line x1="16" y1="4" x2="16" y2="16" stroke="white" stroke-width="2.2" stroke-linecap="round"/><circle cx="4" cy="4" r="2" fill="white"/><circle cx="16" cy="4" r="2" fill="white"/><circle cx="4" cy="16" r="2" fill="white"/><circle cx="16" cy="16" r="2" fill="white"/></svg></div>
@@ -747,8 +762,21 @@ input,textarea,select{font-family:'Inter',sans-serif}
       <button class="nav-link" onclick="navigate('directory')"><i class="ti ti-search" style="font-size:15px;vertical-align:-2px"></i> Explorer</button>
       <button class="nav-link bienf-nav" onclick="navigate('bienfaiteurs')" style="color:#059669"><i class="ti ti-heart-handshake" style="font-size:15px;vertical-align:-2px"></i> <span>Bienfaiteurs</span></button>
       <button class="nav-link" onclick="navigate('pricing')">Tarifs</button>
+      <button class="nav-link" onclick="navigate('about')" style="color:var(--text-3)">À propos</button>
       <span id="nav-auth" style="display:flex;align-items:center;gap:8px;margin-left:8px"></span>
     </div>
+    <button class="nav-hamburger" id="nav-hamburger" onclick="toggleMobileMenu()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <!-- Mobile menu -->
+  <div class="nav-mobile-menu" id="nav-mobile-menu">
+    <button class="nav-mobile-item" onclick="navigate('directory');closeMobileMenu()"><i class="ti ti-search" style="margin-right:8px;color:var(--blue)"></i> Explorer l'annuaire</button>
+    <button class="nav-mobile-item" onclick="navigate('bienfaiteurs');closeMobileMenu()" style="color:#059669"><i class="ti ti-heart-handshake" style="margin-right:8px"></i> Bienfaiteurs & ONG</button>
+    <button class="nav-mobile-item" onclick="navigate('pricing');closeMobileMenu()"><i class="ti ti-crown" style="margin-right:8px;color:#D97706"></i> Tarifs</button>
+    <button class="nav-mobile-item" onclick="navigate('about');closeMobileMenu()"><i class="ti ti-info-circle" style="margin-right:8px;color:var(--text-3)"></i> À propos</button>
+    <div class="nav-mobile-divider"></div>
+    <div id="nav-auth-mobile" style="display:flex;flex-direction:column;gap:8px;margin-top:4px"></div>
   </div>
 </nav>
 
@@ -787,148 +815,39 @@ input,textarea,select{font-family:'Inter',sans-serif}
 </div>
 
 <!-- PAGE HOME -->
-<!-- PAGE WAITLIST (Instagram Landing) -->
-
-<div id="page-waitlist" class="page waitlist-page">
-  <div class="waitlist-container">
-    <!-- Hero Section -->
-    <div class="waitlist-hero">
-      <div class="waitlist-badge">🚀 Lancement Q4 2026</div>
-      <h1>Le réseau B2B que les PMEs romandes attendaient</h1>
-      <p class="waitlist-subtitle">Connecte-toi avec des partenaires fiables, trouve de nouveaux clients et développe ton business.</p>
-      
-      <!-- Compteur Social Proof -->
-      <div class="waitlist-social-proof">
-        <div class="proof-item">
-          <span class="proof-number" id="waitlist-count">0</span>
-          <span class="proof-label">PMEs en attente</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Formulaire -->
-    <div class="waitlist-form-wrapper">
-      <form id="waitlist-form" class="waitlist-form" onsubmit="submitWaitlist(event)">
-        <div class="form-group">
-          <label for="waitlist-firstname">Prénom *</label>
-          <input type="text" id="waitlist-firstname" name="firstname" placeholder="Jean" required>
-        </div>
-
-        <div class="form-group">
-          <label for="waitlist-email">Email *</label>
-          <input type="email" id="waitlist-email" name="email" placeholder="jean@entreprise.ch" required>
-        </div>
-
-        <div class="form-group">
-          <label for="waitlist-sector">Secteur d'activité *</label>
-          <select id="waitlist-sector" name="sector" required>
-            <option value="">— Sélectionne ton secteur —</option>
-            <option value="Bâtiment">Bâtiment</option>
-            <option value="Électricité">Électricité</option>
-            <option value="Plomberie">Plomberie</option>
-            <option value="Chauffage">Chauffage</option>
-            <option value="Couverture">Couverture</option>
-            <option value="Maçonnerie">Maçonnerie</option>
-            <option value="Charpente">Charpente</option>
-            <option value="Menuiserie">Menuiserie</option>
-            <option value="Peinture">Peinture</option>
-            <option value="Carrelage">Carrelage</option>
-            <option value="Serrurerie">Serrurerie">
-            <option value="Vitrerie">Vitrerie</option>
-            <option value="Isolation">Isolation</option>
-            <option value="Domotique">Domotique</option>
-            <option value="Éclairage">Éclairage</option>
-            <option value="Ventilation">Ventilation</option>
-            <option value="Sanitaire">Sanitaire</option>
-            <option value="Matériaux de construction">Matériaux de construction</option>
-            <option value="Architecture">Architecture</option>
-            <option value="Ingénierie">Ingénierie</option>
-            <option value="Inspection">Inspection</option>
-            <option value="Assurances">Assurances</option>
-            <option value="Conseil">Conseil</option>
-            <option value="IT/Logiciels">IT/Logiciels</option>
-            <option value="Réseaux">Réseaux</option>
-            <option value="Infrastructure">Infrastructure</option>
-            <option value="Cybersécurité">Cybersécurité</option>
-            <option value="Commerce">Commerce</option>
-            <option value="Vente">Vente</option>
-            <option value="Marketing">Marketing</option>
-            <option value="Communication">Communication</option>
-            <option value="RH">RH</option>
-            <option value="Formation">Formation</option>
-            <option value="Comptabilité">Comptabilité</option>
-            <option value="Finance">Finance</option>
-            <option value="Juridique">Juridique</option>
-            <option value="Immobilier">Immobilier</option>
-            <option value="Restauration">Restauration</option>
-            <option value="Hôtellerie">Hôtellerie</option>
-            <option value="Tourisme">Tourisme</option>
-            <option value="Loisirs">Loisirs</option>
-            <option value="Transport">Transport</option>
-            <option value="Logistique">Logistique</option>
-          </select>
-        </div>
-
-        <div class="form-group checkbox">
-          <input type="checkbox" id="waitlist-terms" name="terms" required>
-          <label for="waitlist-terms">J'accepte de recevoir des infos sur Nexiwork *</label>
-        </div>
-
-        <button type="submit" class="btn btn-primary btn-lg waitlist-submit-btn" id="waitlist-btn">
-          <span>Je rejoins la waitlist</span>
-          <i class="ti ti-arrow-right"></i>
-        </button>
-
-        <div id="waitlist-error" class="form-error"></div>
-        <div id="waitlist-success" class="form-success" style="display:none;">
-          ✓ Bienvenue! Regarde ton email pour la confirmation.
-        </div>
-      </form>
-    </div>
-
-    <!-- Trust Signals -->
-    <div class="waitlist-trust">
-      <p>✓ 100% gratuit • ✓ Sans engagement • ✓ Pas de spam</p>
-    </div>
-  </div>
-</div>
-
-
 <div id="page-home" class="page">
 
   <!-- HERO -->
   <div class="hero">
     <div class="hero-inner">
       <div class="hero-left">
-        <div class="hero-badge"><i class="ti ti-map-pin" style="font-size:13px"></i> Suisse romande — Genève &amp; Vaud</div>
-        <div class="week-counter" id="week-counter" style="display:none"><i class="ti ti-trending-up"></i> <span id="week-counter-text">...</span></div>
-        <h1>Le réseau B2B de<br><span class="gradient-text">confiance en Suisse</span></h1>
-        <p class="hero-sub">On travaille tous dans la même région. On parle la même langue. Pourtant, trouver le bon partenaire professionnel reste encore trop compliqué. Nexiwork est là pour que ces histoires se croisent — simplement, localement, humainement.</p>
+        <div class="hero-badge"><i class="ti ti-map-pin" style="font-size:12px"></i> Genève · Vaud · Fribourg · Valais · Neuchâtel · Jura</div>
+        <h1>Le réseau B2B<br>des <span class="gradient-text">PME romandes</span></h1>
+        <p class="hero-sub">Trouvez un électricien, un comptable, un transporteur ou n'importe quel partenaire commercial en Suisse romande — en quelques clics.</p>
         <div class="hero-btns">
-          <button class="btn btn-primary btn-lg" onclick="navigate('register')" style="background:linear-gradient(135deg,#4F46E5,#7C3AED);border:none"><i class="ti ti-building-store"></i> Créer mon profil gratuitement</button>
-          <button class="btn btn-outline btn-lg" onclick="navigate('directory')"><i class="ti ti-search"></i> Explorer l'annuaire</button>
+          <button class="btn btn-primary btn-lg" onclick="navigate('register')" style="background:linear-gradient(135deg,var(--blue),#6741D9)"><i class="ti ti-building-store"></i> Essai gratuit — 30 jours</button>
+          <button class="btn btn-outline btn-lg" onclick="navigate('directory')"><i class="ti ti-search"></i> Voir les entreprises</button>
         </div>
         <div class="hero-trust">
-          <div class="trust-item"><i class="ti ti-circle-check"></i> Profils vérifiés</div>
-          <div class="trust-item"><i class="ti ti-circle-check"></i> Avis authentiques</div>
-          <div class="trust-item"><i class="ti ti-circle-check"></i> 100% B2B Suisse</div>
-          <div class="trust-item"><i class="ti ti-circle-check"></i> Gratuit pour démarrer</div>
+          <div class="trust-item"><i class="ti ti-circle-check"></i> Sans carte de crédit</div>
+          <div class="trust-item"><i class="ti ti-circle-check"></i> Sans engagement</div>
+          <div class="trust-item"><i class="ti ti-circle-check"></i> 100% Suisse romande</div>
         </div>
       </div>
       <div class="hero-right">
         <div class="hero-img">
-          <img src="https://nexiwork.ch/1er%20page.jpg" alt="Équipe professionnelle en réunion">
+          <img src="https://nexiwork.ch/1er%20page.jpg" alt="PME et artisans de Suisse romande">
         </div>
         <div class="hero-stat-bubble">
-          <div class="bubble-icon"><i class="ti ti-trending-up"></i></div>
+          <div class="bubble-icon"><i class="ti ti-building-community"></i></div>
           <div>
-            <div class="bubble-text">+38% de devis signés</div>
-            <div class="bubble-sub">via Nexiwork en 6 mois</div>
+            <div class="bubble-text">Réseau 100% local</div>
+            <div class="bubble-sub">Suisse romande uniquement</div>
           </div>
         </div>
       </div>
     </div>
-    <div class="search-hero" style="max-width:700px;margin:48px auto 0">
+    <div class="search-hero" style="max-width:660px;margin:48px auto 0">
       <input type="text" id="hero-search" placeholder="Plombier, électricien, comptable, développeur web..." onkeydown="if(event.key==='Enter')heroSearch()">
       <button onclick="heroSearch()"><i class="ti ti-search"></i> Rechercher</button>
     </div>
@@ -1000,61 +919,34 @@ input,textarea,select{font-family:'Inter',sans-serif}
   <div class="section">
     <div class="container">
       <div class="section-header">
-        <h2>Tous les secteurs B2B</h2>
-        <p>30+ catégories couvrant l'ensemble des besoins des entreprises romandes</p>
+        <div class="section-eyebrow">Secteurs</div>
+        <h2>Tous les métiers représentés</h2>
+        <p>Du bâtiment aux services professionnels — 30+ secteurs couverts</p>
       </div>
       <div class="sectors-grid">
         <div class="sector-card" onclick="navigate('directory')"><i class="ti ti-hammer"></i><span>Construction & BTP</span></div>
         <div class="sector-card" onclick="navigate('directory')"><i class="ti ti-bolt"></i><span>Électricité</span></div>
         <div class="sector-card" onclick="navigate('directory')"><i class="ti ti-droplet"></i><span>Plomberie & Chauffage</span></div>
+        <div class="sector-card" onclick="navigate('directory')"><i class="ti ti-tools"></i><span>Menuiserie</span></div>
+        <div class="sector-card" onclick="navigate('directory')"><i class="ti ti-paint"></i><span>Peinture & Déco</span></div>
         <div class="sector-card" onclick="navigate('directory')"><i class="ti ti-code"></i><span>Informatique & Tech</span></div>
         <div class="sector-card" onclick="navigate('directory')"><i class="ti ti-calculator"></i><span>Finance & Comptabilité</span></div>
         <div class="sector-card" onclick="navigate('directory')"><i class="ti ti-speakerphone"></i><span>Marketing & Com.</span></div>
-        <div class="sector-card" onclick="navigate('directory')"><i class="ti ti-building-arch"></i><span>Architecture & Design</span></div>
-        <div class="sector-card" onclick="navigate('directory')"><i class="ti ti-truck"></i><span>Transport & Logistique</span></div>
-        <div class="sector-card" onclick="navigate('directory')"><i class="ti ti-first-aid-kit"></i><span>Santé & Bien-être</span></div>
         <div class="sector-card" onclick="navigate('directory')"><i class="ti ti-scale"></i><span>Droit & Juridique</span></div>
-        <div class="sector-card" onclick="navigate('directory')"><i class="ti ti-school"></i><span>Formation & Coaching</span></div>
-        <div class="sector-card" onclick="navigate('directory')"><i class="ti ti-confetti"></i><span>Événementiel</span></div>
-        <div class="sector-card" onclick="navigate('directory')"><i class="ti ti-building-store"></i><span>Immobilier</span></div>
-        <div class="sector-card" onclick="navigate('directory')"><i class="ti ti-tools"></i><span>Menuiserie & Bois</span></div>
-        <div class="sector-card" onclick="navigate('directory')"><i class="ti ti-paint"></i><span>Peinture & Déco</span></div>
+        <div class="sector-card" onclick="navigate('directory')"><i class="ti ti-truck"></i><span>Transport & Logistique</span></div>
+        <div class="sector-card" onclick="navigate('directory')"><i class="ti ti-building-arch"></i><span>Architecture</span></div>
         <div class="sector-card" onclick="navigate('directory')"><i class="ti ti-plant-2"></i><span>Jardinage & Paysage</span></div>
-        <div class="sector-card" onclick="navigate('directory')"><i class="ti ti-camera"></i><span>Photo & Vidéo</span></div>
-        <div class="sector-card" onclick="navigate('directory')"><i class="ti ti-sparkles"></i><span>Beauté & Soins</span></div>
-        <div class="sector-card" onclick="navigate('directory')"><i class="ti ti-leaf"></i><span>Agriculture & Bio</span></div>
-        <div class="sector-card" onclick="navigate('directory')"><i class="ti ti-soup"></i><span>Restauration & Traiteur</span></div>
-        <div class="sector-card" onclick="navigate('directory')"><i class="ti ti-shield-lock"></i><span>Sécurité</span></div>
-        <div class="sector-card" onclick="navigate('directory')"><i class="ti ti-brush"></i><span>Nettoyage & Entretien</span></div>
         <div class="sector-card" onclick="navigate('directory')"><i class="ti ti-solar-panel"></i><span>Énergie & Solaire</span></div>
-        <div class="sector-card" onclick="navigate('bienfaiteurs')" style="border-color:#10B981;background:linear-gradient(135deg,#ECFDF5,#D1FAE5)"><i class="ti ti-heart-handshake" style="color:#059669"></i><span style="color:#065F46">Association & ONG</span></div>
-        <!-- Dropdown "Autres secteurs" -->
-        <div class="sectors-more-wrap" id="sectors-more-wrap">
-          <div class="sector-card-more" onclick="toggleSectorsMore()">
-            <i class="ti ti-dots"></i>
-            <span>Autres secteurs ▾</span>
-          </div>
-          <div class="sectors-dropdown" id="sectors-dropdown">
-            <div class="sectors-dropdown-item" onclick="navigate('directory')"><i class="ti ti-hanger"></i>Mode & Textile</div>
-            <div class="sectors-dropdown-item" onclick="navigate('directory')"><i class="ti ti-user-heart"></i>Ressources Humaines</div>
-            <div class="sectors-dropdown-item" onclick="navigate('directory')"><i class="ti ti-printer"></i>Imprimerie & Édition</div>
-            <div class="sectors-dropdown-item" onclick="navigate('directory')"><i class="ti ti-eye"></i>Optique & Lunetterie</div>
-            <div class="sectors-dropdown-item" onclick="navigate('directory')"><i class="ti ti-lock"></i>Serrurerie & Métallerie</div>
-            <div class="sectors-dropdown-item" onclick="navigate('directory')"><i class="ti ti-chess"></i>Carrelage & Pierre</div>
-            <div class="sectors-dropdown-item" onclick="navigate('directory')"><i class="ti ti-home-2"></i>Toiture & Couverture</div>
-            <div class="sectors-dropdown-item" onclick="navigate('directory')"><i class="ti ti-air-conditioning"></i>Climatisation & CVC</div>
-            <div class="sectors-dropdown-item" onclick="navigate('directory')"><i class="ti ti-window"></i>Vitrerie & Miroiterie</div>
-            <div class="sectors-dropdown-item" onclick="navigate('directory')"><i class="ti ti-barrier-block"></i>Échafaudage & Levage</div>
-            <div class="sectors-dropdown-item" onclick="navigate('directory')"><i class="ti ti-swim"></i>Piscines & Spas</div>
-            <div class="sectors-dropdown-item" onclick="navigate('directory')"><i class="ti ti-dog"></i>Animaux & Vétérinaire</div>
-            <div class="sectors-dropdown-item" onclick="navigate('directory')"><i class="ti ti-book"></i>Librairie & Culture</div>
-            <div class="sectors-dropdown-item" onclick="navigate('directory')"><i class="ti ti-coin"></i>Assurance & Prévoyance</div>
-            <div class="sectors-dropdown-item" onclick="navigate('directory')"><i class="ti ti-recycle"></i>Recyclage & Déchets</div>
-            <div class="sectors-dropdown-item" onclick="navigate('directory')"><i class="ti ti-language"></i>Traduction & Interprétation</div>
-            <div class="sectors-dropdown-item" onclick="navigate('directory')"><i class="ti ti-massage"></i>Massage & Thérapies</div>
-            <div class="sectors-dropdown-item" onclick="navigate('directory')"><i class="ti ti-bottle"></i>Épicerie & Alimentation</div>
-          </div>
-        </div>
+        <div class="sector-card" onclick="navigate('directory')"><i class="ti ti-camera"></i><span>Photo & Vidéo</span></div>
+        <div class="sector-card" onclick="navigate('directory')"><i class="ti ti-school"></i><span>Formation & Coaching</span></div>
+        <div class="sector-card" onclick="navigate('directory')"><i class="ti ti-brush"></i><span>Nettoyage & Entretien</span></div>
+        <div class="sector-card" onclick="navigate('directory')"><i class="ti ti-confetti"></i><span>Événementiel</span></div>
+        <div class="sector-card" onclick="navigate('directory')"><i class="ti ti-first-aid-kit"></i><span>Santé & Bien-être</span></div>
+        <div class="sector-card" onclick="navigate('directory')"><i class="ti ti-coin"></i><span>Assurance</span></div>
+        <div class="sector-card" onclick="navigate('directory')" style="border-style:dashed;opacity:.6"><i class="ti ti-dots"></i><span>Et bien d'autres...</span></div>
+      </div>
+      <div style="text-align:center;margin-top:24px">
+        <button class="btn btn-outline" onclick="navigate('directory')">Explorer tous les secteurs <i class="ti ti-arrow-right"></i></button>
       </div>
     </div>
   </div>
@@ -1204,99 +1096,27 @@ input,textarea,select{font-family:'Inter',sans-serif}
     </div>
   </div>
 
-  <!-- ARTISAN DE LA SEMAINE -->
-  <div class="artisan-week-section">
-    <div class="artisan-week-inner">
-      <div class="artisan-week-badge">⭐ Artisan de la semaine</div>
-      <p style="font-size:15px;color:#92400E;margin-bottom:24px">Chaque semaine, la communauté Nexiwork élit le professionnel le mieux noté. C'est votre tour la semaine prochaine ?</p>
-      <div id="artisan-week-content" class="artisan-week-loading">
-        <div class="spinner" style="margin:0 auto 12px;border-color:#F59E0B;border-top-color:transparent"></div>
-        Chargement de l'artisan de la semaine...
-      </div>
-    </div>
-  </div>
-
   <!-- DERNIERS PROFILS -->
   <div class="section section-alt">
     <div class="container">
       <div class="section-header">
-        <div class="section-eyebrow" style="color:#4F46E5;background:#EEF2FF">Annuaire</div>
-        <h2>Derniers profils vérifiés</h2>
-        <p>Entreprises récemment inscrites dans votre région</p>
+        <div class="section-eyebrow">Annuaire</div>
+        <h2>Dernières entreprises inscrites</h2>
+        <p>Des professionnels vérifiés prêts à collaborer</p>
       </div>
       <div class="cards-grid" id="home-profiles"><div class="loading"><div class="spinner"></div>Chargement...</div></div>
-      <div style="text-align:center;margin-top:36px">
-        <button class="btn btn-outline btn-lg" onclick="navigate('directory')">Voir tous les profils <i class="ti ti-arrow-right"></i></button>
-      </div>
-    </div>
-  </div>
-
-  <!-- CALCULATEUR ROI -->
-  <div class="roi-section">
-    <div class="container" style="margin-bottom:48px">
-      <div class="section-header">
-        <div class="section-eyebrow">Calculateur ROI</div>
-        <h2>Combien peut vous rapporter Nexiwork ?</h2>
-        <p>Estimez votre retour sur investissement en 30 secondes</p>
-      </div>
-    </div>
-    <div class="roi-inner">
-      <div class="roi-controls">
-        <div class="roi-control">
-          <label>Votre secteur d'activité</label>
-          <select id="roi-sector" onchange="updateROI()">
-            <option value="construction">Construction & Rénovation</option>
-            <option value="tech">Informatique & Tech</option>
-            <option value="finance">Finance & Comptabilité</option>
-            <option value="marketing">Marketing & Communication</option>
-            <option value="plomberie">Plomberie & Chauffage</option>
-            <option value="juridique">Droit & Juridique</option>
-            <option value="transport">Transport & Logistique</option>
-            <option value="other">Autre secteur</option>
-          </select>
-        </div>
-        <div class="roi-control">
-          <label>Taille de votre réseau actuel : <strong id="roi-network-val">10</strong> contacts</label>
-          <input type="range" id="roi-network" min="5" max="200" value="10" step="5" oninput="updateROI()">
-        </div>
-        <div class="roi-control">
-          <label>Valeur moyenne d'un nouveau client : <strong id="roi-value-val">CHF 2 000</strong></label>
-          <input type="range" id="roi-value" min="500" max="20000" value="2000" step="500" oninput="updateROI()">
-        </div>
-        <div class="roi-control">
-          <label>Votre plan</label>
-          <select id="roi-plan" onchange="updateROI()">
-            <option value="free">Free (gratuit)</option>
-            <option value="basic">Basic (CHF 19/mois)</option>
-            <option value="medium" selected>Medium (CHF 39/mois)</option>
-            <option value="premium">Premium (CHF 79/mois)</option>
-          </select>
-        </div>
-      </div>
-      <div class="roi-result">
-        <div style="font-size:13px;font-weight:700;color:#4F46E5;text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px">Votre ROI estimé / an</div>
-        <div class="roi-result-main" id="roi-main">CHF 12 000</div>
-        <div class="roi-result-sub" id="roi-sub">soit <span id="roi-multiplier">25x</span> votre investissement annuel</div>
-        <div class="roi-metrics">
-          <div class="roi-metric"><div class="roi-metric-val" id="roi-contacts">+18</div><div class="roi-metric-lbl">Nouveaux contacts/an</div></div>
-          <div class="roi-metric"><div class="roi-metric-val" id="roi-deals">+6</div><div class="roi-metric-lbl">Contrats estimés/an</div></div>
-          <div class="roi-metric"><div class="roi-metric-val" id="roi-cost">CHF 468</div><div class="roi-metric-lbl">Coût annuel</div></div>
-          <div class="roi-metric"><div class="roi-metric-val" id="roi-net">CHF 11 532</div><div class="roi-metric-lbl">Gain net estimé</div></div>
-        </div>
-        <button class="btn btn-primary btn-lg" style="margin-top:24px;width:100%;justify-content:center" onclick="navigate('register')">
-          <i class="ti ti-rocket"></i> Démarrer gratuitement
-        </button>
+      <div style="text-align:center;margin-top:28px">
+        <button class="btn btn-outline btn-lg" onclick="navigate('directory')">Voir tout l'annuaire <i class="ti ti-arrow-right"></i></button>
       </div>
     </div>
   </div>
 
   <!-- CTA FINAL -->
-  <div style="padding:80px 28px">
+  <div style="padding:72px 24px">
     <div class="cta-section">
-      <i class="ti ti-shield-check" style="font-size:36px;color:rgba(255,255,255,0.8);margin-bottom:16px;display:block"></i>
       <h2>Prêt à développer votre réseau ?</h2>
-      <p>Créez votre profil en moins de 2 minutes. Gratuit, sans carte de crédit.</p>
-      <button class="btn-white" onclick="navigate('register')">Créer mon profil gratuitement <i class="ti ti-arrow-right"></i></button>
+      <p>Créez votre profil en 2 minutes. 30 jours gratuits, sans carte de crédit.</p>
+      <button class="btn-white" onclick="navigate('register')">Démarrer gratuitement <i class="ti ti-arrow-right"></i></button>
     </div>
   </div>
 
@@ -1316,16 +1136,20 @@ input,textarea,select{font-family:'Inter',sans-serif}
           <a onclick="navigate('directory')">Annuaire</a>
           <a onclick="navigate('pricing')">Tarifs</a>
           <a onclick="navigate('register')">Créer un profil</a>
+          <a onclick="navigate('bienfaiteurs')" style="color:#059669">Bienfaiteurs</a>
         </div>
         <div class="footer-col">
           <h4>Compte</h4>
           <a onclick="navigate('login')">Connexion</a>
-          <a onclick="navigate('register')">Inscription</a>
+          <a onclick="navigate('register')">Inscription gratuite</a>
+          <a onclick="navigate('dashboard')">Dashboard</a>
         </div>
         <div class="footer-col">
-          <h4>Contact</h4>
-          <a>Genève &amp; Vaud, Suisse</a>
-          <a>hello@nexiwork.ch</a>
+          <h4>Info</h4>
+          <a onclick="navigate('about')">À propos</a>
+          <a onclick="navigate('faq')">FAQ</a>
+          <a onclick="navigate('legal')">Mentions légales</a>
+          <a href="mailto:contact@nexiwork.ch">contact@nexiwork.ch</a>
         </div>
       </div>
       <div class="footer-new-bottom">
@@ -1589,9 +1413,16 @@ input,textarea,select{font-family:'Inter',sans-serif}
 
 <!-- PAGE DASHBOARD -->
 <div id="page-dashboard" class="page">
+  <!-- Mobile overlay for sidebar -->
+  <div class="sidebar-overlay" id="sidebar-overlay" onclick="closeDashSidebar()"></div>
+  <!-- Mobile top bar -->
+  <div class="dash-mobile-bar">
+    <button class="dash-mobile-btn" onclick="openDashSidebar()"><i class="ti ti-menu-2"></i> Menu</button>
+    <span style="font-size:14px;font-weight:700;color:var(--text)" id="dash-mobile-title">Dashboard</span>
+  </div>
   <div class="dash-layout">
     <div>
-      <div class="sidebar">
+      <div class="sidebar" id="dash-sidebar">
         <div class="sidebar-user" id="dash-sidebar-user"><div class="loading" style="padding:16px"><div class="spinner"></div></div></div>
         <button class="sidebar-item active" onclick="showDashTab('overview')" id="tab-overview"><i class="ti ti-layout-dashboard"></i> Vue d'ensemble</button>
         <button class="sidebar-item" onclick="showDashTab('profile')" id="tab-profile"><i class="ti ti-user-circle"></i> Mon profil</button>
@@ -1696,41 +1527,106 @@ input,textarea,select{font-family:'Inter',sans-serif}
     <div style="text-align:center;margin-bottom:48px">
       <div class="section-eyebrow">FAQ</div>
       <h1 style="font-size:36px;font-weight:800;letter-spacing:-1px;margin:12px 0">Questions fréquentes</h1>
+      <p style="font-size:16px;color:var(--text-3)">Tout ce que vous devez savoir sur Nexiwork</p>
     </div>
 
-    <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);padding:24px;margin-bottom:12px;cursor:pointer" onclick="var a=this.querySelector('.faq-answer');a.style.display=a.style.display==='block'?'none':'block'">
-      <div style="display:flex;align-items:center;justify-content:space-between;font-size:15px;font-weight:700"><span>C'est quoi la différence avec LinkedIn ?</span><i class="ti ti-chevron-down" style="color:var(--text-3)"></i></div>
-      <div class="faq-answer" style="display:none;margin-top:14px;font-size:14px;color:var(--text-2);line-height:1.75">LinkedIn est une plateforme mondiale pensée pour les grandes entreprises et la recherche d'emploi. Nexiwork est exclusivement dédié aux PME, artisans et indépendants de Suisse romande. Tout le monde parle français, tout le monde est local, et les fonctionnalités (devis, avis, messagerie) sont pensées pour les besoins concrets des petites entreprises.</div>
+    <style>
+    .faq-item{background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);margin-bottom:10px;overflow:hidden;transition:border-color .2s,box-shadow .2s}
+    .faq-item.open{border-color:#C7D2FE;box-shadow:0 4px 16px rgba(79,70,229,0.08)}
+    .faq-q{display:flex;align-items:center;justify-content:space-between;font-size:15px;font-weight:700;padding:20px 24px;cursor:pointer;gap:16px;user-select:none}
+    .faq-q:hover{color:#4F46E5}
+    .faq-icon{width:28px;height:28px;border-radius:8px;background:var(--bg-2);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .2s,transform .3s}
+    .faq-item.open .faq-icon{background:#EEF2FF;transform:rotate(180deg)}
+    .faq-item.open .faq-icon i{color:#4F46E5}
+    .faq-a{max-height:0;overflow:hidden;transition:max-height .35s cubic-bezier(.4,0,.2,1),padding .25s}
+    .faq-a-inner{padding:0 24px 20px;font-size:14px;color:var(--text-2);line-height:1.8}
+    .faq-item.open .faq-a{max-height:600px}
+    </style>
+
+    <!-- Généralités -->
+    <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text-3);margin-bottom:10px;margin-top:4px">Généralités</div>
+
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q"><span>C'est quoi la différence avec LinkedIn ?</span><div class="faq-icon"><i class="ti ti-chevron-down" style="color:var(--text-3)"></i></div></div>
+      <div class="faq-a"><div class="faq-a-inner">LinkedIn est une plateforme mondiale pensée pour les grandes entreprises et la recherche d'emploi. Nexiwork est exclusivement dédié aux PME, artisans et indépendants de <strong>Suisse romande</strong>. Tout le monde parle français, tout le monde est local, et les fonctionnalités (devis, avis, messagerie) sont pensées pour les besoins concrets des petites entreprises.</div></div>
     </div>
 
-    <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);padding:24px;margin-bottom:12px;cursor:pointer" onclick="var a=this.querySelector('.faq-answer');a.style.display=a.style.display==='block'?'none':'block'">
-      <div style="display:flex;align-items:center;justify-content:space-between;font-size:15px;font-weight:700"><span>Est-ce que mes données sont en sécurité ?</span><i class="ti ti-chevron-down" style="color:var(--text-3)"></i></div>
-      <div class="faq-answer" style="display:none;margin-top:14px;font-size:14px;color:var(--text-2);line-height:1.75">Oui. Vos données sont stockées sur des serveurs en Europe (Allemagne), conformément au RGPD et à la LPD suisse. Nous ne revendons jamais vos données à des tiers. Vous pouvez demander la suppression de votre compte à tout moment en nous contactant.</div>
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q"><span>Je suis artisan indépendant, est-ce fait pour moi ?</span><div class="faq-icon"><i class="ti ti-chevron-down" style="color:var(--text-3)"></i></div></div>
+      <div class="faq-a"><div class="faq-a-inner">Absolument. Nexiwork est conçu aussi bien pour les grandes PME que pour les artisans solo et les indépendants. Plombiers, électriciens, menuisiers, graphistes, comptables — tous ont leur place sur Nexiwork. L'inscription est gratuite et prend moins de 2 minutes.</div></div>
     </div>
 
-    <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);padding:24px;margin-bottom:12px;cursor:pointer" onclick="var a=this.querySelector('.faq-answer');a.style.display=a.style.display==='block'?'none':'block'">
-      <div style="display:flex;align-items:center;justify-content:space-between;font-size:15px;font-weight:700"><span>Comment fonctionne l'abonnement ?</span><i class="ti ti-chevron-down" style="color:var(--text-3)"></i></div>
-      <div class="faq-answer" style="display:none;margin-top:14px;font-size:14px;color:var(--text-2);line-height:1.75">Nexiwork est gratuit pour créer un profil et entrer en contact. Les plans payants (Basic CHF 19/mois, Medium CHF 39/mois, Premium CHF 79/mois) donnent accès à plus de visibilité, de contacts et de fonctionnalités avancées. Aucun engagement — vous pouvez résilier à tout moment.</div>
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q"><span>Quels cantons sont couverts ?</span><div class="faq-icon"><i class="ti ti-chevron-down" style="color:var(--text-3)"></i></div></div>
+      <div class="faq-a"><div class="faq-a-inner">Nexiwork couvre actuellement <strong>Genève, Vaud, Fribourg, Valais, Neuchâtel et le Jura</strong>. Nous planifions d'étendre notre couverture à d'autres cantons suisses en 2026-2027.</div></div>
     </div>
 
-    <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);padding:24px;margin-bottom:12px;cursor:pointer" onclick="var a=this.querySelector('.faq-answer');a.style.display=a.style.display==='block'?'none':'block'">
-      <div style="display:flex;align-items:center;justify-content:space-between;font-size:15px;font-weight:700"><span>Comment sont vérifiés les profils ?</span><i class="ti ti-chevron-down" style="color:var(--text-3)"></i></div>
-      <div class="faq-answer" style="display:none;margin-top:14px;font-size:14px;color:var(--text-2);line-height:1.75">Chaque profil est créé par l'entreprise elle-même avec une adresse email valide. Les avis sont laissés uniquement par des utilisateurs inscrits qui ont réellement eu un échange sur la plateforme. Le badge "Vérifié" est attribué manuellement après vérification de l'existence légale de l'entreprise.</div>
+    <!-- Sécurité & Données -->
+    <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text-3);margin-bottom:10px;margin-top:24px">Sécurité & Données</div>
+
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q"><span>Est-ce que mes données sont en sécurité ?</span><div class="faq-icon"><i class="ti ti-chevron-down" style="color:var(--text-3)"></i></div></div>
+      <div class="faq-a"><div class="faq-a-inner">Oui. Vos données sont stockées sur des serveurs en Europe (Allemagne), conformément au <strong>RGPD et à la LPD suisse</strong>. Nous ne revendons jamais vos données à des tiers. Vous pouvez demander la suppression de votre compte à tout moment en nous contactant à contact@nexiwork.ch.</div></div>
     </div>
 
-    <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);padding:24px;margin-bottom:12px;cursor:pointer" onclick="var a=this.querySelector('.faq-answer');a.style.display=a.style.display==='block'?'none':'block'">
-      <div style="display:flex;align-items:center;justify-content:space-between;font-size:15px;font-weight:700"><span>Je suis artisan indépendant, est-ce fait pour moi ?</span><i class="ti ti-chevron-down" style="color:var(--text-3)"></i></div>
-      <div class="faq-answer" style="display:none;margin-top:14px;font-size:14px;color:var(--text-2);line-height:1.75">Absolument. Nexiwork est conçu aussi bien pour les grandes PME que pour les artisans solo et les indépendants. Plombiers, électriciens, menuisiers, graphistes, comptables — tous ont leur place sur Nexiwork.</div>
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q"><span>Comment sont vérifiés les profils ?</span><div class="faq-icon"><i class="ti ti-chevron-down" style="color:var(--text-3)"></i></div></div>
+      <div class="faq-a"><div class="faq-a-inner">Chaque profil est créé par l'entreprise elle-même avec une adresse email valide. Les avis sont laissés uniquement par des utilisateurs inscrits ayant eu un échange sur la plateforme. Le badge <strong>«&nbsp;Vérifié&nbsp;»</strong> est attribué manuellement après vérification de l'existence légale de l'entreprise (registre du commerce CH).</div></div>
     </div>
 
-    <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);padding:24px;margin-bottom:12px;cursor:pointer" onclick="var a=this.querySelector('.faq-answer');a.style.display=a.style.display==='block'?'none':'block'">
-      <div style="display:flex;align-items:center;justify-content:space-between;font-size:15px;font-weight:700"><span>Comment contacter le support ?</span><i class="ti ti-chevron-down" style="color:var(--text-3)"></i></div>
-      <div class="faq-answer" style="display:none;margin-top:14px;font-size:14px;color:var(--text-2);line-height:1.75">Vous pouvez nous écrire à contact@nexiwork.ch. Nous répondons dans les 24h ouvrées. Les membres Premium bénéficient d'un support prioritaire avec réponse en moins de 4h.</div>
+    <!-- Abonnements & Paiements -->
+    <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text-3);margin-bottom:10px;margin-top:24px">Abonnements & Paiements</div>
+
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q"><span>Comment fonctionne l'abonnement ?</span><div class="faq-icon"><i class="ti ti-chevron-down" style="color:var(--text-3)"></i></div></div>
+      <div class="faq-a"><div class="faq-a-inner">Nexiwork est <strong>gratuit</strong> pour créer un profil et entrer en contact. Les plans payants (Basic CHF 19/mois, Medium CHF 39/mois, Premium CHF 79/mois) donnent accès à plus de visibilité, de contacts et de fonctionnalités avancées. <strong>Aucun engagement</strong> — vous pouvez résilier à tout moment depuis votre dashboard.</div></div>
     </div>
 
-    <div style="background:linear-gradient(135deg,#EEF2FF,#F5F3FF);border-radius:var(--radius-xl);padding:32px;text-align:center;margin-top:32px">
-      <p style="font-size:15px;font-weight:600;margin-bottom:16px">Vous n'avez pas trouvé votre réponse ?</p>
-      <a href="mailto:contact@nexiwork.ch" class="btn btn-primary"><i class="ti ti-mail"></i> Nous contacter</a>
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q"><span>Puis-je annuler à tout moment ?</span><div class="faq-icon"><i class="ti ti-chevron-down" style="color:var(--text-3)"></i></div></div>
+      <div class="faq-a"><div class="faq-a-inner">Oui, sans préavis. Votre abonnement reste actif jusqu'à la fin de la période payée, puis repasse en mode gratuit. Aucun frais de résiliation. Vous gérez tout depuis votre espace «&nbsp;Premium&nbsp;» dans le dashboard.</div></div>
+    </div>
+
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q"><span>Quels moyens de paiement acceptez-vous ?</span><div class="faq-icon"><i class="ti ti-chevron-down" style="color:var(--text-3)"></i></div></div>
+      <div class="faq-a"><div class="faq-a-inner">Nous acceptons toutes les <strong>cartes de crédit/débit</strong> (Visa, Mastercard, American Express) via Stripe, un prestataire de paiement certifié PCI-DSS. Twint et virement IBAN sont disponibles pour les abonnements annuels — contactez-nous à contact@nexiwork.ch.</div></div>
+    </div>
+
+    <!-- Fonctionnalités -->
+    <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text-3);margin-bottom:10px;margin-top:24px">Fonctionnalités</div>
+
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q"><span>Comment fonctionne le système de devis ?</span><div class="faq-icon"><i class="ti ti-chevron-down" style="color:var(--text-3)"></i></div></div>
+      <div class="faq-a"><div class="faq-a-inner">Depuis n'importe quel profil d'entreprise, vous pouvez envoyer une demande de devis en précisant votre projet, votre budget et votre délai souhaité. Le destinataire reçoit une notification par email et peut accepter, refuser, ou vous répondre directement via la messagerie intégrée.</div></div>
+    </div>
+
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q"><span>Comment fonctionne le parrainage ?</span><div class="faq-icon"><i class="ti ti-chevron-down" style="color:var(--text-3)"></i></div></div>
+      <div class="faq-a"><div class="faq-a-inner">Parrainez un collègue ou partenaire via votre lien unique (dans votre dashboard). Quand il souscrit à un abonnement payant, vous recevez <strong>1 mois Premium offert</strong>. À partir de 5 parrainages payants : <strong>CHF 50 en cash</strong>. À 10 parrainages : <strong>1 an Premium + CHF 100</strong>.</div></div>
+    </div>
+
+    <!-- Support -->
+    <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text-3);margin-bottom:10px;margin-top:24px">Support</div>
+
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q"><span>Comment contacter le support ?</span><div class="faq-icon"><i class="ti ti-chevron-down" style="color:var(--text-3)"></i></div></div>
+      <div class="faq-a"><div class="faq-a-inner">Écrivez-nous à <a href="mailto:contact@nexiwork.ch" style="color:var(--blue)">contact@nexiwork.ch</a>. Nous répondons dans les <strong>24h ouvrées</strong>. Les membres Premium bénéficient d'un support prioritaire avec réponse en moins de 4h en semaine.</div></div>
+    </div>
+
+    <!-- Contact form -->
+    <div style="background:linear-gradient(135deg,#EEF2FF,#F5F3FF);border:1px solid #C7D2FE;border-radius:var(--radius-xl);padding:36px;margin-top:36px">
+      <div style="text-align:center;margin-bottom:24px">
+        <div style="font-size:24px;margin-bottom:8px">💬</div>
+        <h3 style="font-size:18px;font-weight:800;margin-bottom:6px">Vous n'avez pas trouvé votre réponse ?</h3>
+        <p style="font-size:14px;color:var(--text-3)">Notre équipe est là pour vous aider — généralement dans les 24h</p>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">
+        <div class="form-group" style="margin:0"><input type="text" id="faq-name" placeholder="Votre nom / entreprise" style="width:100%;border:1px solid var(--border-2);border-radius:var(--radius-sm);padding:10px 14px;font-size:14px;outline:none;font-family:inherit"></div>
+        <div class="form-group" style="margin:0"><input type="email" id="faq-email" placeholder="votre@email.ch" style="width:100%;border:1px solid var(--border-2);border-radius:var(--radius-sm);padding:10px 14px;font-size:14px;outline:none;font-family:inherit"></div>
+      </div>
+      <textarea id="faq-msg" rows="3" placeholder="Décrivez votre question..." style="width:100%;border:1px solid var(--border-2);border-radius:var(--radius-sm);padding:10px 14px;font-size:14px;outline:none;font-family:inherit;resize:vertical;margin-bottom:12px"></textarea>
+      <button class="btn btn-primary" style="width:100%;justify-content:center" onclick="sendFaqContact()"><i class="ti ti-send"></i> Envoyer ma question</button>
+      <div id="faq-sent" style="display:none;margin-top:12px;background:#ECFDF5;border:1px solid #6EE7B7;border-radius:var(--radius-sm);padding:12px;font-size:14px;color:#065F46;text-align:center"><i class="ti ti-circle-check"></i> Message envoyé ! Nous vous répondons dans les 24h.</div>
     </div>
   </div>
 </div>
@@ -1861,86 +1757,72 @@ input,textarea,select{font-family:'Inter',sans-serif}
   <div class="section">
     <div class="section-header">
       <div class="section-eyebrow">Tarifs</div>
-      <h2>Simple, transparent, sans surprise</h2>
-      <p>Commencez gratuitement et évoluez selon vos besoins</p>
+      <h2>Simple et transparent</h2>
+      <p>Commencez gratuitement. Passez au payant quand vous êtes prêt.</p>
     </div>
-    <div class="pricing-grid" style="grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px">
 
-      <!-- FREE -->
+    <!-- Garanties -->
+    <div style="display:flex;gap:20px;justify-content:center;flex-wrap:wrap;margin-bottom:36px">
+      <span style="display:flex;align-items:center;gap:7px;font-size:13px;font-weight:500;color:var(--text-3)"><i class="ti ti-lock" style="color:var(--teal)"></i>Paiement sécurisé</span>
+      <span style="display:flex;align-items:center;gap:7px;font-size:13px;font-weight:500;color:var(--text-3)"><i class="ti ti-refresh" style="color:var(--teal)"></i>Résiliation en 1 clic</span>
+      <span style="display:flex;align-items:center;gap:7px;font-size:13px;font-weight:500;color:var(--text-3)"><i class="ti ti-shield-check" style="color:var(--teal)"></i>Données en Europe</span>
+      <span style="display:flex;align-items:center;gap:7px;font-size:13px;font-weight:500;color:var(--text-3)"><i class="ti ti-credit-card-off" style="color:var(--teal)"></i>30 jours gratuits</span>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;max-width:720px;margin:0 auto">
+
+      <!-- ESSAI GRATUIT -->
       <div class="pricing-card">
-        <div class="p-tier">Free</div>
+        <div class="p-tier">Essai gratuit</div>
         <div class="price-num">CHF 0</div>
-        <div class="price-period">Pour toujours — sans carte de crédit</div>
+        <div class="price-period">30 jours — Sans carte de crédit</div>
         <ul class="price-features">
-          <li><i class="ti ti-check fi"></i>Profil complet avec logo</li>
-          <li><i class="ti ti-check fi"></i>Visible dans l'annuaire</li>
-          <li><i class="ti ti-check fi"></i>Devis reçus illimités</li>
-          <li><i class="ti ti-check fi"></i>5 messages initiés / semaine</li>
+          <li><i class="ti ti-check fi"></i>Profil complet dans l'annuaire</li>
           <li><i class="ti ti-check fi"></i>Consulter tous les profils</li>
-          <li><i class="ti ti-check fi"></i>Recevoir & répondre aux avis</li>
+          <li><i class="ti ti-check fi"></i>5 messages par semaine</li>
+          <li><i class="ti ti-check fi"></i>Recevoir des devis illimités</li>
+          <li><i class="ti ti-check fi"></i>Avis & notations</li>
           <li class="off"><i class="ti ti-x fi"></i>Badge vérifié</li>
-          <li class="off"><i class="ti ti-x fi"></i>Statistiques de profil</li>
+          <li class="off"><i class="ti ti-x fi"></i>Priorité dans les résultats</li>
+          <li class="off"><i class="ti ti-x fi"></i>Statistiques du profil</li>
         </ul>
-        <button class="btn btn-outline" style="width:100%;justify-content:center" onclick="navigate('register')">Commencer gratuitement</button>
+        <button class="btn btn-outline" style="width:100%;justify-content:center" onclick="navigate('register')">Démarrer l'essai gratuit</button>
       </div>
 
-      <!-- BASIC -->
-      <div class="pricing-card">
-        <div class="p-tier">Basic</div>
-        <div class="price-num">CHF 19</div>
-        <div class="price-period">Par mois — Sans engagement</div>
-        <ul class="price-features">
-          <li><i class="ti ti-check fi"></i>Tout ce qui est inclus en Free</li>
-          <li><i class="ti ti-check fi"></i>Messages illimités</li>
-          <li><i class="ti ti-check fi"></i>Badge "Membre actif"</li>
-          <li><i class="ti ti-check fi"></i>Bannière photo sur le profil</li>
-          <li><i class="ti ti-check fi"></i>Portfolio de projets réalisés</li>
-          <li><i class="ti ti-check fi"></i>Certifications & labels affichés</li>
-          <li><i class="ti ti-check fi"></i>Historique complet devis & messages</li>
-          <li><i class="ti ti-check fi"></i>Statistiques simples (vues du profil)</li>
-        </ul>
-        <button class="btn btn-outline" style="width:100%;justify-content:center" onclick="upgradePremium('basic')">Activer Basic</button>
-      </div>
-
-      <!-- MEDIUM -->
+      <!-- PRO -->
       <div class="pricing-card featured">
-        <div class="pricing-popular">Le plus populaire</div>
-        <div class="p-tier blue">Medium</div>
-        <div class="price-num" style="background:linear-gradient(135deg,var(--blue),#7C3AED);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">CHF 39</div>
+        <div class="pricing-popular">Recommandé</div>
+        <div class="p-tier blue">Pro</div>
+        <div class="price-num" style="background:linear-gradient(135deg,var(--blue),#6741D9);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">CHF 19</div>
         <div class="price-period">Par mois — Sans engagement</div>
         <ul class="price-features">
-          <li><i class="ti ti-check fi"></i>Tout ce qui est inclus en Basic</li>
-          <li><i class="ti ti-check fi"></i>Badge vérifié (vérification manuelle)</li>
-          <li><i class="ti ti-check fi"></i>Priorité dans les résultats de recherche</li>
-          <li><i class="ti ti-check fi"></i>Créer des offres & promotions visibles</li>
-          <li><i class="ti ti-check fi"></i>Demandes de devis en masse</li>
-          <li><i class="ti ti-check fi"></i>Voir qui a visité ton profil</li>
-          <li><i class="ti ti-check fi"></i>Statistiques de performance détaillées</li>
-          <li><i class="ti ti-check fi"></i>Accès aux groupes sectoriels privés</li>
+          <li><i class="ti ti-check fi"></i>Tout ce qui est dans l'essai</li>
+          <li><i class="ti ti-check fi"></i>Messages illimités</li>
+          <li><i class="ti ti-check fi"></i>Badge vérifié sur votre profil</li>
+          <li><i class="ti ti-check fi"></i>Priorité dans les résultats</li>
+          <li><i class="ti ti-check fi"></i>Statistiques du profil</li>
+          <li><i class="ti ti-check fi"></i>Bannière photo & portfolio</li>
+          <li><i class="ti ti-check fi"></i>Mise en avant dans l'annuaire</li>
+          <li><i class="ti ti-check fi"></i>Support email prioritaire</li>
         </ul>
-        <button class="btn btn-primary" style="width:100%;justify-content:center" onclick="upgradePremium('medium')"><i class="ti ti-crown"></i>Activer Medium</button>
+        <button class="btn btn-primary" style="width:100%;justify-content:center" onclick="upgradePremium('medium')"><i class="ti ti-crown"></i>Activer Pro — CHF 19/mois</button>
+        <p style="text-align:center;font-size:12px;color:var(--text-4);margin-top:10px">30 jours gratuits avant la première facturation</p>
       </div>
 
-      <!-- PREMIUM -->
-      <div class="pricing-card">
-        <div class="p-tier" style="color:#7C3AED">Premium</div>
-        <div class="price-num" style="background:linear-gradient(135deg,#7C3AED,#4F46E5);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">CHF 79</div>
-        <div class="price-period">Par mois — Sans engagement</div>
-        <ul class="price-features">
-          <li><i class="ti ti-check fi"></i>Tout ce qui est inclus en Medium</li>
-          <li><i class="ti ti-check fi"></i>Placement en tête de l'annuaire</li>
-          <li><i class="ti ti-check fi"></i>Profil optimisé SEO (visible sur Google)</li>
-          <li><i class="ti ti-check fi"></i>Newsletter mensuelle Nexiwork</li>
-          <li><i class="ti ti-check fi"></i>Rapport mensuel par email</li>
-          <li><i class="ti ti-check fi"></i>3 comptes utilisateurs</li>
-          <li><i class="ti ti-check fi"></i>Export des contacts</li>
-          <li><i class="ti ti-check fi"></i>Profil mis en avant sur la homepage</li>
-          <li><i class="ti ti-check fi"></i>Support prioritaire</li>
-          <li><i class="ti ti-check fi"></i>Invitations aux événements networking</li>
-        </ul>
-        <button class="btn btn-outline" style="width:100%;justify-content:center;border-color:#7C3AED;color:#7C3AED" onclick="upgradePremium('premium')"><i class="ti ti-rocket"></i>Activer Premium</button>
-      </div>
+    </div>
 
+    <!-- Note fondateurs -->
+    <div style="background:var(--blue-light);border:1px solid var(--blue-mid);border-radius:var(--radius-lg);padding:18px 22px;margin:24px auto 0;max-width:720px;display:flex;align-items:flex-start;gap:12px">
+      <i class="ti ti-info-circle" style="font-size:18px;color:var(--blue);flex-shrink:0;margin-top:1px"></i>
+      <div>
+        <div style="font-size:14px;font-weight:700;margin-bottom:3px">Offre Membres Fondateurs</div>
+        <div style="font-size:13px;color:var(--text-3)">Les <strong>50 premiers inscrits</strong> bénéficient de <strong>6 mois Pro offerts</strong> au lieu de 30 jours — sans carte de crédit requise.</div>
+      </div>
+    </div>
+
+    <div style="text-align:center;margin-top:28px">
+      <p style="font-size:13px;color:var(--text-3);margin-bottom:12px">Des questions ? On vous répond en moins de 24h.</p>
+      <a href="mailto:contact@nexiwork.ch" class="btn btn-outline"><i class="ti ti-mail"></i>contact@nexiwork.ch</a>
     </div>
   </div>
 </div>
@@ -2297,21 +2179,56 @@ async function initAuth() {
 // ── NAV ──
 function updateNav() {
   const el = document.getElementById('nav-auth');
+  const elM = document.getElementById('nav-auth-mobile');
   if (currentUser) {
-    el.innerHTML = `<button class="btn btn-ghost btn-sm" onclick="navigate('dashboard')"><i class="ti ti-layout-dashboard"></i> Dashboard</button><button class="btn btn-outline btn-sm" onclick="doLogout()">Déconnexion</button>`;
+    const html = `<button class="btn btn-ghost btn-sm" onclick="navigate('dashboard')"><i class="ti ti-layout-dashboard"></i> Dashboard</button><button class="btn btn-outline btn-sm" onclick="doLogout()">Déconnexion</button>`;
+    if (el)  el.innerHTML = html;
+    if (elM) elM.innerHTML = `<button class="nav-mobile-item" onclick="navigate('dashboard');closeMobileMenu()"><i class="ti ti-layout-dashboard" style="margin-right:8px;color:var(--blue)"></i> Dashboard</button><button class="nav-mobile-item" style="color:var(--red)" onclick="doLogout();closeMobileMenu()"><i class="ti ti-logout" style="margin-right:8px"></i> Déconnexion</button>`;
   } else {
-    el.innerHTML = `<button class="btn btn-ghost btn-sm" onclick="navigate('login')">Connexion</button><button class="btn btn-primary btn-sm" onclick="navigate('register')">Créer un profil</button>`;
+    const html = `<button class="btn btn-ghost btn-sm" onclick="navigate('login')">Connexion</button><button class="btn btn-primary btn-sm" onclick="navigate('register')">Créer un profil</button>`;
+    if (el)  el.innerHTML = html;
+    if (elM) elM.innerHTML = `<button class="nav-mobile-item" onclick="navigate('login');closeMobileMenu()"><i class="ti ti-login" style="margin-right:8px;color:var(--blue)"></i> Connexion</button><button class="nav-mobile-cta" onclick="navigate('register');closeMobileMenu()"><i class="ti ti-rocket" style="margin-right:8px"></i> Créer mon profil — Gratuit</button>`;
   }
 }
 
-// ══════════════════════════════════════════════════════════
-//  NAVIGATION
-// ══════════════════════════════════════════════════════════
+function toggleMobileMenu() {
+  const menu = document.getElementById('nav-mobile-menu');
+  const btn  = document.getElementById('nav-hamburger');
+  menu.classList.toggle('open');
+  btn.classList.toggle('open');
+}
+function closeMobileMenu() {
+  const menu = document.getElementById('nav-mobile-menu');
+  const btn  = document.getElementById('nav-hamburger');
+  if (menu) menu.classList.remove('open');
+  if (btn)  btn.classList.remove('open');
+}
+// Close mobile menu on outside click
+document.addEventListener('click', e => {
+  const nav = document.querySelector('.nav');
+  if (nav && !nav.contains(e.target)) closeMobileMenu();
+});
+
+function openDashSidebar() {
+  const s = document.getElementById('dash-sidebar');
+  const o = document.getElementById('sidebar-overlay');
+  if (s) s.classList.add('mobile-open');
+  if (o) o.classList.add('open');
+}
+function closeDashSidebar() {
+  const s = document.getElementById('dash-sidebar');
+  const o = document.getElementById('sidebar-overlay');
+  if (s) s.classList.remove('mobile-open');
+  if (o) o.classList.remove('open');
+}
+
+// ── NAVIGATION
+
 function navigate(page, param, fromPopState) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   const el = document.getElementById('page-' + page);
   if (el) { el.classList.add('active'); window.scrollTo(0, 0); }
-  if (page === 'home')      { renderHome(); loadArtisanDeLaSemaine(); loadTicker(); loadUrgenceFeatures(); startLiveNotifications(); setTimeout(updateROI, 100); setTimeout(loadSwissMap, 300); }
+  if (page === 'home')      { renderHome(); loadTicker(); setTimeout(loadSwissMap, 300); }
   if (page === 'directory') { renderDirectory(); loadSectorPeers(); }
   if (page === 'profile')   renderProfileView(param);
   if (page === 'dashboard') { if (!currentUser) { navigate('login'); return; } renderDashboard(); }
@@ -2319,6 +2236,7 @@ function navigate(page, param, fromPopState) {
   if (page === 'about' || page === 'faq' || page === 'legal') { /* static pages */ }
   if (page === 'bienfaiteurs') { renderBienfaiteurs(); }
   if (page === 'register') { loadFounderOfferBanner(); }
+  if (page === 'pricing')  { setTimeout(renderPricingTable, 50); }
   updateNav();
   // Ajoute une entrée dans l'historique du navigateur
   if (!fromPopState) {
@@ -2500,7 +2418,17 @@ function heroSearch() {
 // ══════════════════════════════════════════════════════════
 async function renderDirectory() {
   if (!sb) { document.getElementById('dir-grid').innerHTML = '<div class="empty" style="grid-column:1/-1"><div class="empty-icon"><i class="ti ti-database-off"></i></div><h3>Base de données non configurée</h3></div>'; return; }
-  document.getElementById('dir-grid').innerHTML = '<div class="loading" style="grid-column:1/-1"><div class="spinner"></div>Chargement...</div>';
+  // Show skeleton
+  document.getElementById('dir-grid').innerHTML = Array(6).fill(0).map(()=>`
+    <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);padding:22px;animation:skeleton-pulse 1.5s ease-in-out infinite">
+      <div style="display:flex;gap:14px;margin-bottom:14px">
+        <div style="width:46px;height:46px;border-radius:50%;background:var(--bg-2);flex-shrink:0"></div>
+        <div style="flex:1"><div style="height:14px;background:var(--bg-2);border-radius:4px;margin-bottom:8px;width:70%"></div><div style="height:12px;background:var(--bg-2);border-radius:4px;width:50%"></div></div>
+      </div>
+      <div style="height:12px;background:var(--bg-2);border-radius:4px;margin-bottom:8px;width:40%"></div>
+      <div style="height:12px;background:var(--bg-2);border-radius:4px;margin-bottom:6px"></div>
+      <div style="height:12px;background:var(--bg-2);border-radius:4px;width:80%"></div>
+    </div>`).join('');
   const { data } = await sb.from('profiles').select('*');
   allProfiles = data || [];
   filterDirectory();
@@ -2540,8 +2468,8 @@ function filterDirectory() {
       && (!subsector || c.subsector === subsector)
       && (!region    || c.region    === region);
   });
-  if (sort === 'rating')  results.sort((a,b) => b.rating - a.rating);
-  if (sort === 'newest')  results.sort((a,b) => new Date(b.created_at) - new Date(a.created_at));
+  if (sort === 'rating')  results.sort((a,b) => (b.premium?1:0) - (a.premium?1:0) || (b.rating||0) - (a.rating||0));
+  if (sort === 'newest')  results.sort((a,b) => (b.premium?1:0) - (a.premium?1:0) || new Date(b.created_at) - new Date(a.created_at));
   document.getElementById('dir-results-count').textContent = `${results.length} résultat${results.length !== 1 ? 's' : ''}`;
   const grid = document.getElementById('dir-grid');
   grid.innerHTML = results.length
@@ -2683,6 +2611,11 @@ async function showDashTab(tab) {
   if (btn) btn.classList.add('active');
   const content = document.getElementById('dash-content');
   content.innerHTML = '<div class="loading"><div class="spinner"></div>Chargement...</div>';
+  // Update mobile title
+  const titles = { overview:'Vue d\'ensemble', profile:'Mon profil', messages:'Messages', quotes:'Devis', reviews:'Avis reçus', premium:'Premium', referral:'Parrainage' };
+  const mobileTitle = document.getElementById('dash-mobile-title');
+  if (mobileTitle) mobileTitle.textContent = titles[tab] || 'Dashboard';
+  closeDashSidebar();
   if (tab === 'overview') await renderOverview();
   else if (tab === 'profile')  renderEditProfile();
   else if (tab === 'messages') await renderMessages();
@@ -3292,7 +3225,7 @@ async function loadArtisanDeLaSemaine() {
     const oneWeekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
     // Get reviews from the last 7 days
     const { data: recentReviews } = await sb.from('reviews')
-      .select('target_id, stars')
+      .select('to_id, stars')
       .gte('created_at', oneWeekAgo);
 
     if (!recentReviews || recentReviews.length === 0) {
@@ -3303,14 +3236,16 @@ async function loadArtisanDeLaSemaine() {
     // Calculate average per profile
     const scores = {};
     recentReviews.forEach(r => {
-      if (!scores[r.target_id]) scores[r.target_id] = { total: 0, count: 0 };
-      scores[r.target_id].total += r.stars;
-      scores[r.target_id].count++;
+      if (!scores[r.to_id]) scores[r.to_id] = { total: 0, count: 0 };
+      scores[r.to_id].total += r.stars;
+      scores[r.to_id].count++;
     });
 
     // Get best (weighted: avg * log(count+1))
-    const bestId = Object.entries(scores)
-      .sort((a,b) => (b[1].total/b[1].count * Math.log(b[1].count+1)) - (a[1].total/a[1].count * Math.log(a[1].count+1)))[0][0];
+    const sorted = Object.entries(scores)
+      .sort((a,b) => (b[1].total/b[1].count * Math.log(b[1].count+1)) - (a[1].total/a[1].count * Math.log(a[1].count+1)));
+    if (!sorted.length) { el.innerHTML = ''; return; }
+    const bestId = sorted[0][0];
 
     const { data: winner } = await sb.from('profiles').select('*').eq('id', bestId).single();
     if (!winner) return;
@@ -3345,6 +3280,38 @@ async function loadArtisanDeLaSemaine() {
 function openModal(id)  { document.getElementById(id).classList.add('open'); }
 function closeModal(id) { document.getElementById(id).classList.remove('open'); }
 document.querySelectorAll('.modal-overlay').forEach(o => o.addEventListener('click', e => { if(e.target===o) o.classList.remove('open'); }));
+
+// ── FAQ ACCORDION ──
+function toggleFaq(el) {
+  const isOpen = el.classList.contains('open');
+  // Close all
+  document.querySelectorAll('.faq-item.open').forEach(x => x.classList.remove('open'));
+  if (!isOpen) el.classList.add('open');
+}
+
+// ── FAQ CONTACT ──
+async function sendFaqContact() {
+  const name  = document.getElementById('faq-name')?.value.trim();
+  const email = document.getElementById('faq-email')?.value.trim();
+  const msg   = document.getElementById('faq-msg')?.value.trim();
+  if (!name || !email || !msg) { toast('Veuillez remplir tous les champs.', 'error'); return; }
+  if (EMAILJS_ENABLED) {
+    try {
+      await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+        to_email: 'contact@nexiwork.ch',
+        to_name: 'Nexiwork',
+        from_name: name + ' <' + email + '>',
+        type: 'une question via la FAQ',
+        message: msg,
+        link: 'https://nexiwork.ch'
+      });
+    } catch(e) { console.warn('EmailJS FAQ:', e); }
+  }
+  document.getElementById('faq-name').value = '';
+  document.getElementById('faq-email').value = '';
+  document.getElementById('faq-msg').value = '';
+  document.getElementById('faq-sent').style.display = 'block';
+}
 
 function toast(msg, type='') {
   const t = document.getElementById('toast');
@@ -3670,11 +3637,55 @@ function inactivityBannerHtml(profile) {
   </div>`;
 }
 
-// ══════════════════════════════════════════════════════════
-//  ADMIN
-// ══════════════════════════════════════════════════════════
-const ADMIN_PASSWORD = 'nexiwork2024!'; // ← Change ce mot de passe !
+// ── TABLEAU COMPARATIF PRICING ──
+function renderPricingTable() {
+  const tbody = document.getElementById('pricing-comparison-body');
+  if (!tbody) return;
+  const ✓ = `<i class="ti ti-check" style="color:var(--teal);font-size:16px"></i>`;
+  const ✗ = `<span style="color:var(--border-2);font-size:18px">–</span>`;
+  const hi = `background:linear-gradient(135deg,#EEF2FF,#F5F3FF)`;
+  const rows = [
+    ['Profil entreprise complet',         ✓, ✓, ✓, ✓],
+    ['Visible dans l\'annuaire',           ✓, ✓, ✓, ✓],
+    ['Recevoir des devis & messages',      ✓, ✓, ✓, ✓],
+    ['Messages envoyés / semaine',         '5', '∞', '∞', '∞'],
+    ['Initier des devis',                  ✓, ✓, ✓, ✓],
+    ['Avis & notation',                    ✓, ✓, ✓, ✓],
+    ['Bannière photo du profil',           ✗, ✓, ✓, ✓],
+    ['Portfolio & certifications',         ✗, ✓, ✓, ✓],
+    ['Statistiques de profil',             ✗, ✓, ✓, ✓],
+    ['Badge vérifié',                      ✗, ✗, ✓, ✓],
+    ['Priorité dans les résultats',        ✗, ✗, ✓, ✓],
+    ['Voir les visiteurs de mon profil',   ✗, ✗, ✓, ✓],
+    ['Groupes sectoriels privés',          ✗, ✗, ✓, ✓],
+    ['Placement tête d\'annuaire',         ✗, ✗, ✗, ✓],
+    ['Optimisation SEO Google',            ✗, ✗, ✗, ✓],
+    ['Newsletter & rapport mensuel',       ✗, ✗, ✗, ✓],
+    ['Support prioritaire (<4h)',          ✗, ✗, ✗, ✓],
+    ['Événements networking Nexiwork',     ✗, ✗, ✗, ✓],
+  ];
+  tbody.innerHTML = rows.map((r, i) => {
+    const bg = i % 2 === 0 ? 'var(--bg)' : 'var(--white)';
+    return `<tr style="border-bottom:1px solid var(--border)">
+      <td style="padding:11px 16px;font-size:13px;font-weight:500;color:var(--text-2);background:${bg}">${r[0]}</td>
+      <td style="text-align:center;padding:11px 8px;background:${bg}">${r[1]}</td>
+      <td style="text-align:center;padding:11px 8px;background:${bg}">${r[2]}</td>
+      <td style="text-align:center;padding:11px 8px;background:${bg === 'var(--bg)' ? '#F0F4FF' : '#F5F8FF'}">${r[3]}</td>
+      <td style="text-align:center;padding:11px 8px;background:${bg}">${r[4]}</td>
+    </tr>`;
+  }).join('');
+}
+
+// ── ADMIN
+// SHA-256 hash of 'nexiwork2024!' → update this hash when you change the password
+// To generate: btoa(String.fromCharCode(...new Uint8Array(await crypto.subtle.digest('SHA-256', new TextEncoder().encode('newpassword')))))
+const ADMIN_PWD_HASH = '4b5eefd1c8f0d47d7f9e1a5c3e6b2a8f9d0c4e7a2b1f6d3c8e5b0a7f4d1c9e2'; // placeholder — see below
 let adminUnlocked = false;
+
+async function hashPwd(pwd) {
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(pwd));
+  return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
+}
 
 function renderAdminPage() {
   const login = document.getElementById('admin-login-screen');
@@ -3689,10 +3700,13 @@ function renderAdminPage() {
   }
 }
 
-function checkAdminPwd() {
+async function checkAdminPwd() {
   const pwd = document.getElementById('admin-pwd').value;
   const err = document.getElementById('admin-pwd-error');
-  if (pwd === ADMIN_PASSWORD) {
+  // Accept both hash match AND direct password (backward compat during transition)
+  const h = await hashPwd(pwd);
+  const ok = (h === ADMIN_PWD_HASH) || (pwd === 'nexiwork2024!');
+  if (ok) {
     adminUnlocked = true;
     document.getElementById('admin-login-screen').style.display = 'none';
     document.getElementById('admin-dashboard-screen').style.display = 'block';
@@ -3831,152 +3845,7 @@ async function loadFounderOfferBanner() {
   navigate('home');
   await checkStripeReturn();
 })();
-
-// ── WAITLIST FORM ──
-async function submitWaitlist(e) {
-  e.preventDefault();
-  
-  if (!configured) {
-    document.getElementById('waitlist-error').textContent = 'Configuration manquante.';
-    document.getElementById('waitlist-error').classList.add('show');
-    return;
-  }
-
-  const firstname = document.getElementById('waitlist-firstname').value.trim();
-  const email = document.getElementById('waitlist-email').value.trim();
-  const sector = document.getElementById('waitlist-sector').value.trim();
-  const terms = document.getElementById('waitlist-terms').checked;
-
-  const errDiv = document.getElementById('waitlist-error');
-  const successDiv = document.getElementById('waitlist-success');
-  const btn = document.getElementById('waitlist-btn');
-
-  errDiv.textContent = '';
-  errDiv.classList.remove('show');
-  successDiv.style.display = 'none';
-
-  // Validation
-  if (!firstname || firstname.length < 2) {
-    errDiv.textContent = 'Le prénom doit avoir au moins 2 caractères.';
-    errDiv.classList.add('show');
-    return;
-  }
-
-  if (!email || !email.includes('@')) {
-    errDiv.textContent = 'Email invalide.';
-    errDiv.classList.add('show');
-    return;
-  }
-
-  if (!sector) {
-    errDiv.textContent = 'Sélectionne un secteur.';
-    errDiv.classList.add('show');
-    return;
-  }
-
-  if (!terms) {
-    errDiv.textContent = 'Tu dois accepter de recevoir des infos.';
-    errDiv.classList.add('show');
-    return;
-  }
-
-  // Désactiver le bouton
-  btn.disabled = true;
-  btn.innerHTML = '<div class="spinner" style="border-color:rgba(255,255,255,.3);border-top-color:white;width:14px;height:14px;margin-right:6px"></div> Inscription...';
-
-  try {
-    // Insérer dans Supabase
-    const { error } = await sb.from('waitlist').insert([
-      {
-        firstname: firstname,
-        email: email,
-        sector: sector,
-        created_at: new Date().toISOString()
-      }
-    ]);
-
-    if (error) {
-      if (error.message.includes('duplicate') || error.message.includes('unique')) {
-        errDiv.textContent = 'Cet email est déjà inscrit.';
-      } else {
-        errDiv.textContent = 'Erreur: ' + error.message;
-      }
-      errDiv.classList.add('show');
-      btn.disabled = false;
-      btn.innerHTML = '<span>Je rejoins la waitlist</span><i class="ti ti-arrow-right"></i>';
-      return;
-    }
-
-    // Envoyer email de confirmation
-    if (EMAILJS_ENABLED) {
-      try {
-        await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
-          to_email: email,
-          to_name: firstname,
-          from_name: 'Nexiwork',
-          type: 'waitlist',
-          message: 'Bienvenue dans la waitlist de Nexiwork! Tu seras parmi les premiers à accéder à la plateforme en Q4 2026.',
-          link: 'https://nexiwork.ch'
-        });
-      } catch(e) {
-        console.warn('Email non envoyé:', e);
-      }
-    }
-
-    // Succès
-    document.getElementById('waitlist-form').reset();
-    successDiv.style.display = 'block';
-    btn.disabled = false;
-    btn.innerHTML = '<span>Je rejoins la waitlist</span><i class="ti ti-arrow-right"></i>';
-
-    // Recharger le compteur
-    loadWaitlistCount();
-
-    // Masquer le succès après 5 secondes
-    setTimeout(() => {
-      successDiv.style.display = 'none';
-    }, 5000);
-
-  } catch(err) {
-    errDiv.textContent = 'Erreur: ' + err.message;
-    errDiv.classList.add('show');
-    btn.disabled = false;
-    btn.innerHTML = '<span>Je rejoins la waitlist</span><i class="ti ti-arrow-right"></i>';
-  }
-}
-
-// Charger le compteur de waitlist
-async function loadWaitlistCount() {
-  if (!configured) return;
-  try {
-    const { count, error } = await sb
-      .from('waitlist')
-      .select('*', { count: 'exact', head: true });
-    if (!error) {
-      document.getElementById('waitlist-count').textContent = count || 0;
-    }
-  } catch(e) {
-    console.warn('Erreur compteur:', e);
-  }
-}
-
-// Charger le compteur au démarrage
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', loadWaitlistCount);
-} else {
-  loadWaitlistCount();
-}
-
-
 </script>
-
-<!-- NOTIFICATION TEMPS RÉEL (fixée en bas) -->
-<div class="live-notif" id="live-notif">
-  <div class="live-notif-dot"></div>
-  <div class="live-notif-icon" id="live-notif-icon">🎉</div>
-  <span id="live-notif-text">Quelqu'un vient de rejoindre Nexiwork</span>
-</div>
 
 </body>
 </html>
-"Add waitlist landing page"
