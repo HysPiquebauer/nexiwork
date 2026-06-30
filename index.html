@@ -729,8 +729,6 @@ input,textarea,select{font-family:'Inter',sans-serif}
   <span class="prep-dot"></span>
   Site <strong>en préparation</strong> — Lancement officiel en <strong>Q4 2026</strong>. Les profils affichés sont fictifs (démonstration). Inscrivez-vous dès maintenant pour bénéficier de <strong>30 jours gratuits</strong>.
 </div>
-  Site <strong>en préparation</strong> — Lancement officiel en <strong>Q4 2026</strong>. Inscrivez-vous dès maintenant et bénéficiez de <strong>30 jours gratuits</strong>.
-</div>
 
 <!-- BANNER CONFIG MANQUANTE -->
 <div class="setup-banner" id="setup-banner">
@@ -849,7 +847,7 @@ input,textarea,select{font-family:'Inter',sans-serif}
       </div>
       <div class="stat">
         <div class="stat-icon-box" style="width:44px;height:44px;background:linear-gradient(135deg,#4F46E5,#7C3AED);border-radius:12px;display:flex;align-items:center;justify-content:center;color:white;font-size:20px;margin:0 auto 8px"><i class="ti ti-briefcase"></i></div>
-        <div class="stat-num" style="background:linear-gradient(135deg,#4F46E5,#7C3AED);-webkit-background-clip:text;-webkit-text-fill-color:transparent">12</div>
+        <div class="stat-num" style="background:linear-gradient(135deg,#4F46E5,#7C3AED);-webkit-background-clip:text;-webkit-text-fill-color:transparent">30+</div>
         <div class="stat-lbl">Secteurs couverts</div>
       </div>
       <div class="stat">
@@ -858,9 +856,9 @@ input,textarea,select{font-family:'Inter',sans-serif}
         <div class="stat-lbl">Mises en relation</div>
       </div>
       <div class="stat">
-        <div class="stat-icon-box" style="width:44px;height:44px;background:linear-gradient(135deg,#4F46E5,#7C3AED);border-radius:12px;display:flex;align-items:center;justify-content:center;color:white;font-size:20px;margin:0 auto 8px"><i class="ti ti-star"></i></div>
-        <div class="stat-num" style="background:linear-gradient(135deg,#4F46E5,#7C3AED);-webkit-background-clip:text;-webkit-text-fill-color:transparent">4.9/5</div>
-        <div class="stat-lbl">Satisfaction moyenne</div>
+        <div class="stat-icon-box" style="width:44px;height:44px;background:linear-gradient(135deg,#4F46E5,#7C3AED);border-radius:12px;display:flex;align-items:center;justify-content:center;color:white;font-size:20px;margin:0 auto 8px"><i class="ti ti-map-pin"></i></div>
+        <div class="stat-num" style="background:linear-gradient(135deg,#4F46E5,#7C3AED);-webkit-background-clip:text;-webkit-text-fill-color:transparent">6</div>
+        <div class="stat-lbl">Cantons romands</div>
       </div>
     </div>
   </div>
@@ -1755,7 +1753,7 @@ input,textarea,select{font-family:'Inter',sans-serif}
       <span style="display:flex;align-items:center;gap:7px;font-size:13px;font-weight:500;color:var(--text-3)"><i class="ti ti-credit-card-off" style="color:var(--teal)"></i>30 jours gratuits</span>
     </div>
 
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;max-width:720px;margin:0 auto">
+    <div class="pricing-grid" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;max-width:1020px;margin:0 auto">
 
       <!-- ESSAI GRATUIT -->
       <div class="pricing-card">
@@ -1779,19 +1777,38 @@ input,textarea,select{font-family:'Inter',sans-serif}
       <div class="pricing-card featured">
         <div class="pricing-popular">Recommandé</div>
         <div class="p-tier blue">Pro</div>
-        <div class="price-num" style="background:linear-gradient(135deg,var(--blue),#6741D9);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">CHF 19</div>
+        <div class="price-num" style="background:linear-gradient(135deg,var(--blue),#6741D9);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">CHF 29</div>
         <div class="price-period">Par mois — Sans engagement</div>
         <ul class="price-features">
           <li><i class="ti ti-check fi"></i>Tout ce qui est dans l'essai</li>
           <li><i class="ti ti-check fi"></i>Messages illimités</li>
           <li><i class="ti ti-check fi"></i>Badge vérifié sur votre profil</li>
           <li><i class="ti ti-check fi"></i>Priorité dans les résultats</li>
-          <li><i class="ti ti-check fi"></i>Statistiques du profil</li>
+          <li><i class="ti ti-check fi"></i>Statistiques de base du profil</li>
           <li><i class="ti ti-check fi"></i>Bannière photo & portfolio</li>
-          <li><i class="ti ti-check fi"></i>Mise en avant dans l'annuaire</li>
-          <li><i class="ti ti-check fi"></i>Support email prioritaire</li>
+          <li class="off"><i class="ti ti-x fi"></i>Mise en avant en tête d'annuaire</li>
+          <li class="off"><i class="ti ti-x fi"></i>Voir qui visite votre profil</li>
         </ul>
-        <button class="btn btn-primary" style="width:100%;justify-content:center" onclick="upgradePremium('medium')"><i class="ti ti-crown"></i>Activer Pro — CHF 19/mois</button>
+        <button class="btn btn-primary" style="width:100%;justify-content:center" onclick="upgradePremium('medium')"><i class="ti ti-crown"></i>Activer Pro — CHF 29/mois</button>
+        <p style="text-align:center;font-size:12px;color:var(--text-4);margin-top:10px">30 jours gratuits avant la première facturation</p>
+      </div>
+
+      <!-- PREMIUM -->
+      <div class="pricing-card">
+        <div class="p-tier" style="color:#B8860B">Premium</div>
+        <div class="price-num" style="background:linear-gradient(135deg,#D4A017,#B8860B);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">CHF 39</div>
+        <div class="price-period">Par mois — Sans engagement</div>
+        <ul class="price-features">
+          <li><i class="ti ti-check fi"></i>Tout ce qui est dans Pro</li>
+          <li><i class="ti ti-check fi"></i>Badge Premium doré</li>
+          <li><i class="ti ti-check fi"></i>Mise en avant en tête d'annuaire</li>
+          <li><i class="ti ti-check fi"></i>Voir qui visite votre profil</li>
+          <li><i class="ti ti-check fi"></i>Statistiques avancées</li>
+          <li><i class="ti ti-check fi"></i>Support prioritaire &lt;4h</li>
+          <li><i class="ti ti-check fi"></i>Newsletter mensuelle</li>
+          <li><i class="ti ti-check fi"></i>Mis en avant sur la page d'accueil</li>
+        </ul>
+        <button class="btn btn-outline" style="width:100%;justify-content:center;border-color:#D4A017;color:#B8860B" onclick="upgradePremium('premium')"><i class="ti ti-star-filled"></i>Activer Premium — CHF 39/mois</button>
         <p style="text-align:center;font-size:12px;color:var(--text-4);margin-top:10px">30 jours gratuits avant la première facturation</p>
       </div>
 
