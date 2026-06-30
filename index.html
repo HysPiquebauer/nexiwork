@@ -1208,11 +1208,75 @@ input,textarea,select{font-family:'Inter',sans-serif}
         <p class="sub">Soyez informé en premier du lancement officiel et profitez de l'offre Membres Fondateurs.</p>
 
         <div style="background:var(--blue-light);border:1px solid var(--blue-mid);border-radius:var(--radius);padding:14px 16px;margin-bottom:20px;font-size:13px;color:var(--text-2)">
-          <i class="ti ti-gift" style="color:var(--blue);margin-right:6px"></i>Les <strong>10 premiers inscrits</strong> au lancement recevront <strong>6 mois Premium offerts</strong>.
+          <i class="ti ti-gift" style="color:var(--blue);margin-right:6px"></i>Les <strong>50 premiers inscrits</strong> au lancement recevront <strong>6 mois Premium offerts</strong>.
         </div>
 
-        <div class="form-group"><label>Nom de l'entreprise</label><input type="text" id="wl-company" placeholder="Ex. Maçonnerie Dupont"></div>
+        <div class="form-group"><label>Prénom *</label><input type="text" id="wl-firstname" placeholder="Votre prénom" onkeydown="if(event.key==='Enter')document.getElementById('wl-email').focus()"></div>
         <div class="form-group"><label>Email *</label><input type="email" id="wl-email" placeholder="vous@entreprise.ch" onkeydown="if(event.key==='Enter')joinWaitlist()"></div>
+        <div class="form-group">
+          <label>Secteur d'activité</label>
+          <select id="wl-sector">
+            <option value="">Choisir votre secteur (optionnel)...</option>
+            <optgroup label="── Bâtiment & Travaux">
+              <option>Construction & BTP</option>
+              <option>Électricité & Domotique</option>
+              <option>Plomberie & Chauffage</option>
+              <option>Menuiserie & Ébénisterie</option>
+              <option>Peinture & Décoration</option>
+              <option>Carrelage & Pierre</option>
+              <option>Toiture & Couverture</option>
+              <option>Serrurerie & Métallerie</option>
+              <option>Vitrerie & Miroiterie</option>
+              <option>Climatisation & CVC</option>
+              <option>Isolation & Énergie</option>
+              <option>Échafaudage & Levage</option>
+              <option>Piscines & Spas</option>
+            </optgroup>
+            <optgroup label="── Tech & Services">
+              <option>Informatique & Tech</option>
+              <option>Marketing & Communication</option>
+              <option>Finance & Comptabilité</option>
+              <option>Droit & Juridique</option>
+              <option>Architecture & Design</option>
+              <option>Formation & Coaching</option>
+              <option>Ressources Humaines</option>
+              <option>Assurance & Prévoyance</option>
+              <option>Traduction & Interprétation</option>
+            </optgroup>
+            <optgroup label="── Commerce & Services">
+              <option>Transport & Logistique</option>
+              <option>Immobilier</option>
+              <option>Sécurité & Surveillance</option>
+              <option>Nettoyage & Entretien</option>
+              <option>Restauration & Traiteur</option>
+              <option>Événementiel</option>
+              <option>Imprimerie & Édition</option>
+              <option>Épicerie & Alimentation</option>
+              <option>Recyclage & Déchets</option>
+            </optgroup>
+            <optgroup label="── Santé & Bien-être">
+              <option>Santé & Bien-être</option>
+              <option>Beauté & Soins</option>
+              <option>Massage & Thérapies</option>
+              <option>Animaux & Vétérinaire</option>
+            </optgroup>
+            <optgroup label="── Création & Culture">
+              <option>Photographie & Vidéo</option>
+              <option>Mode & Textile</option>
+              <option>Optique & Lunetterie</option>
+              <option>Librairie & Culture</option>
+            </optgroup>
+            <optgroup label="── Nature & Énergie">
+              <option>Jardinage & Paysagisme</option>
+              <option>Agriculture & Bio</option>
+              <option>Énergie & Solaire</option>
+            </optgroup>
+            <optgroup label="── Engagement">
+              <option>Association & ONG</option>
+            </optgroup>
+            <option>Autre</option>
+          </select>
+        </div>
         <div id="wl-error" class="form-error" style="margin-bottom:12px"></div>
         <button class="btn btn-primary" id="btn-waitlist" style="width:100%;justify-content:center;padding:12px" onclick="joinWaitlist()"><i class="ti ti-bell-ringing"></i> Rejoindre la liste d'attente</button>
         <p class="auth-switch">Vous êtes prêt à démarrer ? <a onclick="navigate('register')">Créer votre profil maintenant</a></p>
@@ -1240,7 +1304,7 @@ input,textarea,select{font-family:'Inter',sans-serif}
       <p class="sub">Rejoignez le réseau B2B de confiance en Suisse romande</p>
       <div id="founder-offer-banner" style="background:linear-gradient(135deg,#78350F,#92400E);color:white;border-radius:var(--radius);padding:14px 16px;margin-bottom:20px;font-size:13px;display:none">
         <div style="font-weight:800;margin-bottom:3px">🏅 Offre Membres Fondateurs</div>
-        <div style="opacity:.9">Vous faites partie des <span id="founder-spots-left">10</span> premiers — <strong>6 mois Premium offerts</strong>, sans carte de crédit. Après, vous choisissez librement votre plan.</div>
+        <div style="opacity:.9">Vous faites partie des <span id="founder-spots-left">50</span> premiers — <strong>6 mois Premium offerts</strong>, sans carte de crédit. Après, vous choisissez librement votre plan.</div>
       </div>
       <div class="form-row">
         <div class="form-group"><label>Nom de l'entreprise *</label><input type="text" id="reg-company" placeholder="Ex. Maçonnerie Dupont"></div>
@@ -1522,7 +1586,7 @@ input,textarea,select{font-family:'Inter',sans-serif}
         </div>
         <div style="display:flex;gap:18px;padding-bottom:24px">
           <div style="flex-shrink:0;width:36px;height:36px;background:linear-gradient(135deg,var(--blue),#7C3AED);border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-size:12px;font-weight:800">2</div>
-          <div style="flex:1;padding-top:6px"><div style="font-size:13px;font-weight:700;color:var(--blue);margin-bottom:3px">2026 — Lancement officiel</div><div style="font-size:13px;color:var(--text-2);line-height:1.6">Nexiwork ouvre ses portes aux 10 premiers Membres Fondateurs avec 6 mois Premium offerts.</div></div>
+          <div style="flex:1;padding-top:6px"><div style="font-size:13px;font-weight:700;color:var(--blue);margin-bottom:3px">2026 — Lancement officiel</div><div style="font-size:13px;color:var(--text-2);line-height:1.6">Nexiwork ouvre ses portes aux 50 premiers Membres Fondateurs avec 6 mois Premium offerts.</div></div>
         </div>
         <div style="display:flex;gap:18px">
           <div style="flex-shrink:0;width:36px;height:36px;background:var(--bg-2);border:2px dashed var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:var(--text-3)">3</div>
@@ -1855,7 +1919,7 @@ input,textarea,select{font-family:'Inter',sans-serif}
       <i class="ti ti-info-circle" style="font-size:18px;color:var(--blue);flex-shrink:0;margin-top:1px"></i>
       <div>
         <div style="font-size:14px;font-weight:700;margin-bottom:3px">Offre Membres Fondateurs</div>
-        <div style="font-size:13px;color:var(--text-3)">Les <strong>10 premiers inscrits</strong> bénéficient de <strong>6 mois Premium offerts</strong> au lieu de 30 jours — sans carte de crédit requise.</div>
+        <div style="font-size:13px;color:var(--text-3)">Les <strong>50 premiers inscrits</strong> bénéficient de <strong>6 mois Premium offerts</strong> au lieu de 30 jours — sans carte de crédit requise.</div>
       </div>
     </div>
 
@@ -2072,20 +2136,25 @@ async function sendEmailNotif(toProfile, type, fromName, messageText) {
 async function loadWaitlistFounderInfo() {
   if (!sb) return;
   try {
-    const { count } = await sb.from('profiles').select('*', { count: 'exact', head: true });
-    const remaining = Math.max(0, 10 - (count || 0));
+    const { count } = await sb.from('profiles').select('*', { count: 'exact', head: true }).eq('is_demo', false);
+    const remaining = Math.max(0, 50 - (count || 0));
     const box = document.querySelector('#waitlist-form-view .form-group')?.previousElementSibling;
     if (box && remaining <= 0) box.style.display = 'none';
   } catch(e) { console.warn('loadWaitlistFounderInfo:', e); }
 }
 
 async function joinWaitlist() {
-  const email   = document.getElementById('wl-email')?.value.trim();
-  const company = document.getElementById('wl-company')?.value.trim() || null;
-  const err     = document.getElementById('wl-error');
-  const btn     = document.getElementById('btn-waitlist');
+  const firstname = document.getElementById('wl-firstname')?.value.trim();
+  const email     = document.getElementById('wl-email')?.value.trim();
+  const sector    = document.getElementById('wl-sector')?.value || null;
+  const err       = document.getElementById('wl-error');
+  const btn       = document.getElementById('btn-waitlist');
   err.textContent = '';
 
+  if (!firstname) {
+    err.textContent = 'Merci d\'indiquer votre prénom.';
+    return;
+  }
   if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     err.textContent = 'Merci d\'entrer une adresse email valide.';
     return;
@@ -2096,7 +2165,7 @@ async function joinWaitlist() {
   btn.innerHTML = '<div class="spinner" style="border-color:rgba(255,255,255,.3);border-top-color:white;width:16px;height:16px"></div> Inscription...';
 
   try {
-    const { error } = await sb.from('waitlist').insert({ email, company });
+    const { error } = await sb.from('waitlist').insert({ email, firstname, sector });
     if (error) {
       if (error.code === '23505') {
         err.textContent = 'Cet email est déjà inscrit sur la liste d\'attente.';
@@ -2113,10 +2182,10 @@ async function joinWaitlist() {
       try {
         await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
           to_email:  email,
-          to_name:   company || 'là',
+          to_name:   firstname,
           from_name: 'Nexiwork',
           type:      'une confirmation d\'inscription à la liste d\'attente',
-          message:   'Merci de votre inscription à la liste d\'attente Nexiwork ! Vous serez parmi les premiers informés du lancement officiel. Si vous faites partie des 10 premiers inscrits, vous recevrez 6 mois Premium offerts.',
+          message:   'Merci de votre inscription à la liste d\'attente Nexiwork ! Vous serez parmi les premiers informés du lancement officiel. Si vous faites partie des 50 premiers inscrits, vous recevrez 6 mois Premium offerts.',
           link:      'https://nexiwork.ch'
         });
       } catch(e) { console.warn('EmailJS waitlist confirmation:', e); }
@@ -2205,9 +2274,9 @@ async function doRegister() {
   const color    = randomColor();
   const tags     = [sector.split(' ')[0]];
 
-  // Vérifie si l'entreprise est parmi les 50 fondateurs
-  const { count: totalCount } = await sb.from('profiles').select('*', { count: 'exact', head: true });
-  const isFounder = (totalCount || 0) < 10;
+  // Vérifie si l'entreprise est parmi les 50 fondateurs (hors profils de démo)
+  const { count: totalCount } = await sb.from('profiles').select('*', { count: 'exact', head: true }).eq('is_demo', false);
+  const isFounder = (totalCount || 0) < 50;
   const founderSince = isFounder ? new Date().toISOString() : null;
   const founderPremiumUntil = isFounder ? new Date(Date.now() + 6 * 30 * 24 * 60 * 60 * 1000).toISOString() : null;
 
@@ -2217,7 +2286,8 @@ async function doRegister() {
       founding_member: isFounder,
       founding_member_since: founderSince,
       founding_member_premium_until: founderPremiumUntil,
-      premium: isFounder
+      premium: isFounder,
+      is_demo: false
     } }
   });
 
@@ -3500,7 +3570,7 @@ function founderBannerHtml(profile) {
       <div class="founder-banner-icon">🏅</div>
       <div class="founder-banner-text">
         <h3>Vous êtes Membre Fondateur Nexiwork !</h3>
-        <p>Merci d'avoir fait partie des 10 premiers. Votre Premium est offert en remerciement de votre confiance.</p>
+        <p>Merci d'avoir fait partie des 50 premiers. Votre Premium est offert en remerciement de votre confiance.</p>
         <div class="founder-expiry">⏳ Premium offert encore ${monthsLeft} mois (jusqu'au ${until.toLocaleDateString('fr-CH')})</div>
       </div>
     </div>`;
@@ -3942,8 +4012,8 @@ async function adminTogglePremium(id, setPremium) {
 
 async function loadFounderOfferBanner() {
   if (!sb) return;
-  const { count } = await sb.from('profiles').select('*', { count: 'exact', head: true });
-  const remaining = Math.max(0, 10 - (count || 0));
+  const { count } = await sb.from('profiles').select('*', { count: 'exact', head: true }).eq('is_demo', false);
+  const remaining = Math.max(0, 50 - (count || 0));
   const banner = document.getElementById('founder-offer-banner');
   const spotsEl = document.getElementById('founder-spots-left');
   if (banner && remaining > 0) {
