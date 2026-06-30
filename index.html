@@ -724,25 +724,11 @@ input,textarea,select{font-family:'Inter',sans-serif}
 </head>
 <body>
 
-<!-- BANNER PRÉPARATION -->
-<div id="dev-banner" style="background:#f59e0b;color:#1c1917;text-align:center;padding:10px 16px;font-size:13px;font-weight:600;position:relative;z-index:9999;line-height:1.5">
-  🚧 <strong>Site en cours de préparation</strong> — Les profils, entreprises et informations affichés sont fictifs et servent uniquement à des fins de démonstration. Le lancement officiel est prévu prochainement.
-  <button onclick="document.getElementById('dev-banner').style.display='none'" style="margin-left:16px;background:rgba(0,0,0,0.15);border:none;border-radius:6px;padding:3px 10px;cursor:pointer;font-size:12px;font-weight:700;color:#1c1917">✕ Fermer</button>
-</div>
-
-<!-- TICKER PUBLICITAIRE -->
-<div class="company-ticker" id="company-ticker">
-  <div class="ticker-label">Membres</div>
-  <div class="ticker-track-wrap">
-    <div class="ticker-track" id="ticker-track">
-      <!-- Rempli dynamiquement par JS -->
-    </div>
-  </div>
-</div>
-
 <!-- BANNER EN PRÉPARATION -->
 <div class="prep-banner">
   <span class="prep-dot"></span>
+  Site <strong>en préparation</strong> — Lancement officiel en <strong>Q4 2026</strong>. Les profils affichés sont fictifs (démonstration). Inscrivez-vous dès maintenant pour bénéficier de <strong>30 jours gratuits</strong>.
+</div>
   Site <strong>en préparation</strong> — Lancement officiel en <strong>Q4 2026</strong>. Inscrivez-vous dès maintenant et bénéficiez de <strong>30 jours gratuits</strong>.
 </div>
 
@@ -2168,11 +2154,13 @@ async function loadCurrentProfile() {
 
 async function initAuth() {
   if (!sb) return;
-  const { data: { session } } = await sb.auth.getSession();
-  if (session) {
-    currentUser = session.user;
-    await loadCurrentProfile();
-  }
+  try {
+    const { data: { session } } = await sb.auth.getSession();
+    if (session) {
+      currentUser = session.user;
+      await loadCurrentProfile();
+    }
+  } catch(e) { console.warn('initAuth error:', e); }
   updateNav();
 }
 
@@ -2260,20 +2248,26 @@ window.addEventListener('popstate', (e) => {
 // ══════════════════════════════════════════════════════════
 async function renderHome() {
   if (!sb) { document.getElementById('home-profiles').innerHTML = '<div class="empty"><div class="empty-icon"><i class="ti ti-database-off"></i></div><h3>Base de données non configurée</h3><p>Configure tes clés Supabase pour voir les profils.</p></div>'; return; }
-  const [{ count: cCount }, { count: rCount }, { data: profiles }] = await Promise.all([
-    sb.from('profiles').select('*', { count: 'exact', head: true }),
-    sb.from('reviews').select('*', { count: 'exact', head: true }),
-    sb.from('profiles').select('*').order('created_at', { ascending: false }).limit(6)
-  ]);
-  const compEl = document.getElementById('stat-companies');
-  const revEl  = document.getElementById('stat-reviews');
-  if (compEl) { compEl.setAttribute('data-target', cCount ?? 0); compEl.textContent = '0'; }
-  if (revEl)  { revEl.setAttribute('data-target', rCount ?? 0);  revEl.textContent = '0'; }
-  setTimeout(animateCounters, 200);
-  allProfiles = profiles || [];
-  document.getElementById('home-profiles').innerHTML = allProfiles.length
-    ? allProfiles.map((c,i) => companyCard(c,i)).join('')
-    : '<div class="empty" style="grid-column:1/-1"><div class="empty-icon"><i class="ti ti-building-store"></i></div><h3>Soyez le premier !</h3><p>Aucun profil encore. Créez le vôtre maintenant.</p></div>';
+  try {
+    const [{ count: cCount }, { count: rCount }, { data: profiles }] = await Promise.all([
+      sb.from('profiles').select('*', { count: 'exact', head: true }),
+      sb.from('reviews').select('*', { count: 'exact', head: true }),
+      sb.from('profiles').select('*').order('created_at', { ascending: false }).limit(6)
+    ]);
+    const compEl = document.getElementById('stat-companies');
+    const revEl  = document.getElementById('stat-reviews');
+    if (compEl) { compEl.setAttribute('data-target', cCount ?? 0); compEl.textContent = '0'; }
+    if (revEl)  { revEl.setAttribute('data-target', rCount ?? 0);  revEl.textContent = '0'; }
+    setTimeout(animateCounters, 200);
+    allProfiles = profiles || [];
+    document.getElementById('home-profiles').innerHTML = allProfiles.length
+      ? allProfiles.map((c,i) => companyCard(c,i)).join('')
+      : '<div class="empty" style="grid-column:1/-1"><div class="empty-icon"><i class="ti ti-building-store"></i></div><h3>Soyez le premier !</h3><p>Aucun profil encore. Créez le vôtre maintenant.</p></div>';
+  } catch(e) {
+    console.warn('renderHome error:', e);
+    const el = document.getElementById('home-profiles');
+    if (el) el.innerHTML = '<div class="empty" style="grid-column:1/-1"><div class="empty-icon"><i class="ti ti-alert-circle"></i></div><h3>Chargement impossible</h3><p>Réessayez dans quelques instants.</p></div>';
+  }
 }
 
 // ══════════════════════════════════════════════════════════
@@ -3841,9 +3835,9 @@ async function loadFounderOfferBanner() {
 
 // ── INIT ──
 (async () => {
-  await initAuth();
+  try { await initAuth(); } catch(e) { console.warn('initAuth failed:', e); }
   navigate('home');
-  await checkStripeReturn();
+  try { await checkStripeReturn(); } catch(e) { console.warn('checkStripeReturn failed:', e); }
 })();
 </script>
 
