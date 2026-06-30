@@ -3635,28 +3635,28 @@ function inactivityBannerHtml(profile) {
 function renderPricingTable() {
   const tbody = document.getElementById('pricing-comparison-body');
   if (!tbody) return;
-  const ✓ = `<i class="ti ti-check" style="color:var(--teal);font-size:16px"></i>`;
-  const ✗ = `<span style="color:var(--border-2);font-size:18px">–</span>`;
+  const yes = `<i class="ti ti-check" style="color:var(--teal);font-size:16px"></i>`;
+  const no  = `<span style="color:var(--border-2);font-size:18px">–</span>`;
   const hi = `background:linear-gradient(135deg,#EEF2FF,#F5F3FF)`;
   const rows = [
-    ['Profil entreprise complet',         ✓, ✓, ✓, ✓],
-    ['Visible dans l\'annuaire',           ✓, ✓, ✓, ✓],
-    ['Recevoir des devis & messages',      ✓, ✓, ✓, ✓],
+    ['Profil entreprise complet',         yes, yes, yes, yes],
+    ['Visible dans l\'annuaire',           yes, yes, yes, yes],
+    ['Recevoir des devis & messages',      yes, yes, yes, yes],
     ['Messages envoyés / semaine',         '5', '∞', '∞', '∞'],
-    ['Initier des devis',                  ✓, ✓, ✓, ✓],
-    ['Avis & notation',                    ✓, ✓, ✓, ✓],
-    ['Bannière photo du profil',           ✗, ✓, ✓, ✓],
-    ['Portfolio & certifications',         ✗, ✓, ✓, ✓],
-    ['Statistiques de profil',             ✗, ✓, ✓, ✓],
-    ['Badge vérifié',                      ✗, ✗, ✓, ✓],
-    ['Priorité dans les résultats',        ✗, ✗, ✓, ✓],
-    ['Voir les visiteurs de mon profil',   ✗, ✗, ✓, ✓],
-    ['Groupes sectoriels privés',          ✗, ✗, ✓, ✓],
-    ['Placement tête d\'annuaire',         ✗, ✗, ✗, ✓],
-    ['Optimisation SEO Google',            ✗, ✗, ✗, ✓],
-    ['Newsletter & rapport mensuel',       ✗, ✗, ✗, ✓],
-    ['Support prioritaire (<4h)',          ✗, ✗, ✗, ✓],
-    ['Événements networking Nexiwork',     ✗, ✗, ✗, ✓],
+    ['Initier des devis',                  yes, yes, yes, yes],
+    ['Avis & notation',                    yes, yes, yes, yes],
+    ['Bannière photo du profil',           no, yes, yes, yes],
+    ['Portfolio & certifications',         no, yes, yes, yes],
+    ['Statistiques de profil',             no, yes, yes, yes],
+    ['Badge vérifié',                      no, no, yes, yes],
+    ['Priorité dans les résultats',        no, no, yes, yes],
+    ['Voir les visiteurs de mon profil',   no, no, yes, yes],
+    ['Groupes sectoriels privés',          no, no, yes, yes],
+    ['Placement tête d\'annuaire',         no, no, no, yes],
+    ['Optimisation SEO Google',            no, no, no, yes],
+    ['Newsletter & rapport mensuel',       no, no, no, yes],
+    ['Support prioritaire (<4h)',          no, no, no, yes],
+    ['Événements networking Nexiwork',     no, no, no, yes],
   ];
   tbody.innerHTML = rows.map((r, i) => {
     const bg = i % 2 === 0 ? 'var(--bg)' : 'var(--white)';
@@ -3843,4 +3843,3 @@ async function loadFounderOfferBanner() {
 
 </body>
 </html>
-,
